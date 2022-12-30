@@ -1,3 +1,22 @@
+
+const showToast = (props) => {
+    const toastDiv = document.getElementById("toast");
+    const toastText = document.getElementById("toast-text");
+
+    toastDiv.style.borderColor = props.borderColor;
+    toastText.innerHTML = props.msg;
+    toastText.style.color = props.toastColor;
+    toastText.style.fontFamily = "Raleway";
+    toastDiv.style.display = "flex";
+
+    setTimeout(() => {
+        toastDiv.style.display = "none";
+    }, 5000)
+
+}
+
+
+
 window.onload = () => {
   sendCodeAgain();
 
@@ -69,7 +88,7 @@ const sendCodeAgain = async (toastContent, lang) => {
       digit.value = "";
     });
 
-    toast({
+    showToast({
       msg: toastContent[lang]["codeSentSuccessfully!"],
       borderColor: 'green',
       toastColor: 'green',
@@ -86,51 +105,6 @@ const changeEmail = async () => {
   window.location.replace('./');
   window.open('../signup', '_self');
 }
-
-let currentCover;
-let currentAsset;
-
-const pickCover = () => {
-  const cover = document.getElementById('import-cover');
-  const input = document.createElement("input");
-  input.setAttribute("type", "file");
-  input.setAttribute("accept", "image/*");
-  input.onchange = e => {
-    if (e.target.files.length === 0) {
-      return;
-    }
-    cover.innerHTML = "";
-    cover.innerText = "";
-    currentCover = e.target.files[0];
-    cover.style.backgroundImage = `url(${URL.createObjectURL(currentCover)})`;
-
-  }
-
-  input.click();
-
-}
-
-
-const pickAsset = () => {
-  const asset = document.getElementById('import-asset');
-  const input = document.createElement("input");
-  input.setAttribute("type", "file");
-  input.setAttribute("accept", "image/*");
-  input.onchange = e => {
-    if (e.target.files.length === 0) {
-      return;
-    }
-    currentAsset = e.target.files[0];
-    asset.innerHTML = "";
-    asset.innerText = "";
-    asset.style.backgroundImage = `url(${URL.createObjectURL(currentAsset)})`;
-
-  }
-
-  input.click();
-
-}
-
 
 let currentCity;
 
@@ -200,15 +174,17 @@ const chooseGender = (genderText, gender, lang) => {
 
 }
 
-
-const compleProfileSubmit = async (toastContent, lang) => {
+const compleProfileSubmit = async (toastContent, lang, url, email) => {
   const nameField = document.getElementById('name');
-  const bioField = document.getElementById('bio');
+  const phoneField = document.getElementById('phone');
+  const addressOneField = document.getElementById('addressOne');
+  const addressTwoField = document.getElementById('addressTwo');
   const citiesBtn = document.getElementById('cities-dropbtn');
   const gendersBtn = document.getElementById('genders-dropbtn');
+  const birthField = document.getElementById('birth');
 
   if(nameField.value.trim() < 8 || nameField.value.trim() > 32) {
-    toast({
+    showToast({
       msg: toastContent[lang]["notValidName"],
       toastColor: 'red',
       borderColor: 'red',
@@ -222,24 +198,54 @@ const compleProfileSubmit = async (toastContent, lang) => {
   nameField.style.borderColor = '#888';
   nameField.style.color = '#6b469c';
 
-  if(bioField.value.trim() < 8) {
-    toast({
+  if(phoneField.value.trim() < 8) {
+    showToast({
       msg: toastContent[lang]["notValidBio"],
       toastColor: 'red',
       borderColor: 'red',
       lang: lang,
     });
-    bioField.style.borderColor = 'red';
-    bioField.style.color = 'red';
+    phoneField.style.borderColor = 'red';
+    phoneField.style.color = 'red';
     return;
   }
   
-  bioField.style.borderColor = '#888';
-  bioField.style.color = '#6b469c';
+  phoneField.style.borderColor = '#888';
+  phoneField.style.color = '#6b469c';
+
+  if(addressOneField.value.trim() < 8) {
+    showToast({
+      msg: toastContent[lang]["notValidBio"],
+      toastColor: 'red',
+      borderColor: 'red',
+      lang: lang,
+    });
+    addressOneField.style.borderColor = 'red';
+    addressOneField.style.color = 'red';
+    return;
+  }
+  
+  addressOneField.style.borderColor = '#888';
+  addressOneField.style.color = '#6b469c';
+
+  if(birthField.value.trim() < 8) {
+    showToast({
+      msg: toastContent[lang]["notValidBio"],
+      toastColor: 'red',
+      borderColor: 'red',
+      lang: lang,
+    });
+    birthField.style.borderColor = 'red';
+    birthField.style.color = 'red';
+    return;
+  }
+  
+  birthField.style.borderColor = '#888';
+  birthField.style.color = '#6b469c';
 
   if (currentCity === undefined) {
     citiesBtn.style.border = '2px red solid';
-    toast({
+    showToast({
       msg: toastContent[lang]["notValidCity"],
       toastColor: 'red',
       borderColor: 'red',
@@ -251,7 +257,7 @@ const compleProfileSubmit = async (toastContent, lang) => {
 
   if (currentGender === undefined) {
     gendersBtn.style.border = '2px red solid';
-    toast({
+    showToast({
       msg: toastContent[lang]["notValidCity"],
       toastColor: 'red',
       borderColor: 'red',
@@ -264,76 +270,25 @@ const compleProfileSubmit = async (toastContent, lang) => {
 
   const payload = {
     name: nameField.value.trim(),
-    bio: bioField.value.trim(),
-    currentGender: currentGender,
-    currentCity: currentCity,
+    phone: phoneField.value.trim(),
+    birth: birthField.value.trim(),
+    addressLineOne: addressOneField.value.trim(),
+    addressLineTwo: addressTwoField.value.trim(),
+    gender: currentGender,
+    city: currentCity,
   }
 
-  const res = fetch(
+  console.log(payload)
+
+  const res = await fetch(
     '../confirmSignUp/', {
       method: 'post',
       body: JSON.stringify(payload),
       headers: { 'Content-Type': 'application/json' }
-  }).then(response => {
-    if (response.status !== 201) {
-      nameField.style.borderColor = 'red';
-      bioField.style.borderColor = 'red';
-      citiesBtn.style.border = '2px red solid';
-      gendersBtn.style.border = '2px red solid';
-      toast({
-        msg: toastContent[lang]['tryAgainLater'],
-        borderColor: 'red',
-        toastColor: 'red',
-        lang: lang,
-      });
-      return;
-    }
-    return response;
-  }).then(_ => {
-    var coverData = new FormData();
-    coverData.append('cover', currentCover);
-    const coverXhr = new XMLHttpRequest();
-    coverXhr.onload = () => {
-      if (coverXhr.status !== 201) {
-        nameField.style.borderColor = 'red';
-        bioField.style.borderColor = 'red';
-        citiesBtn.style.border = '2px red solid';
-        gendersBtn.style.border = '2px red solid';
-        toast({
-          msg: toastContent[lang]['tryAgainLater'],
-          borderColor: 'red',
-          toastColor: 'red',
-          lang: lang,
-        });
-        return;
-      }
-    }
-
-    coverXhr.open('post', `http://127.0.0.1:5000/users/?mode=covers`)
-    coverXhr.send(coverData);
-
-
-    var assetData = new FormData();
-    assetData.append('asset', currentAsset);
-
-    const assetXhr = new XMLHttpRequest();
-    assetXhr.onload = () => {
-      if (assetXhr.status !== 201) {
-        nameField.style.borderColor = 'red';
-        bioField.style.borderColor = 'red';
-        citiesBtn.style.border = '2px red solid';
-        gendersBtn.style.border = '2px red solid';
-        toast({
-          msg: toastContent[lang]['tryAgainLater'], 
-          borderColor: 'red',
-          toastColor: 'red',
-          lang: lang,
-        });
-        return;
-      }
-      window.open('../', '_self');
-    }
-    assetXhr.open('post', `http://127.0.0.1:5000/users/?mode=assets`)
-    assetXhr.send(assetData);
   });
+
+  if (res.status === 201) {
+    window.open(`${url}/login/?email=${email}`, '_self')
+  }
+
 }

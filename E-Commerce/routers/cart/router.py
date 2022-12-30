@@ -29,18 +29,16 @@ class CartRouter:
 
     def assign_add(self):
         @self.app.route('/cart/add/', methods=["PATCH"])
-        def add():
+        def cart_add():
             try:
                 body= dict(json.loads(request.data))
                 uid= session.get("CURRENT_USER_ID", None)
                 if uid is None:
-                    print('UID is None')
-                    return self.app.response_class(status= 500)
+                    return self.app.response_class(status=405)
 
                 user_data= self.database.users.get_user_by_id(uid)
                 if user_data is None:
-                    print('User Data is None')
-                    return self.app.response_class(status= 500)
+                    return self.app.response_class(status=405)
 
                 for prod in body['products']:
                     for _ in range(prod['count']):
@@ -56,13 +54,13 @@ class CartRouter:
     
     def assign_remove(self):
         @self.app.route('/cart/remove/', methods=["PATCH"])
-        def remove():
+        def cart_remove():
             try:
                 body= dict(json.loads(request.data))
                 uid= session.get("CURRENT_USER_ID", None)
                 if uid is None:
-                    print('UID is None')
-                    return self.app.response_class(status= 500)
+                    return self.app.response_class(status=405)
+
 
                 user_data= self.database.users.get_user_by_id(uid)
                 if user_data is None:
@@ -70,9 +68,15 @@ class CartRouter:
                     return self.app.response_class(status= 500)
 
                 for prod in body['products']:
-                    for _ in range(1, prod['count']):
-                        if prod['id'] in user_data.cart:
-                            user_data.cart.remove(prod['id'])
+                    if prod['count'] != -1:
+                        for _ in range(1, prod['count']):
+                            if prod['id'] in user_data.cart:
+                                user_data.cart.remove(prod['id'])
+                    else:
+                        for _ in range(1, 1000):
+                            if prod['id'] in user_data.cart:
+                                user_data.cart.remove(prod['id'])
+
 
                 self.database.users.update_user_data(uid, user_data)
                 print(self.database.users.get_user_by_id(uid).cart)
@@ -107,6 +111,8 @@ class CartRouter:
     def assign_cart_router(self):
         @self.app.route('/cart/', methods= ["get"])
         def cart_index():
+            params= dict(request.values)
+            fresh_prod= self.database.products.get_product_by_id(params['freshProduct']) if 'freshProduct' in params.keys() else None
             lang = session.get("LANG", "ar")
             uid= session.get("CURRENT_USER_ID", None)
             if lang == 'en':
@@ -120,6 +126,7 @@ class CartRouter:
                 return render_template(
                 	'cart/index.html',
                     cart= self.utils.cart_calculations(user_data.cart, city_code= user_data.city_code),
+                    fresh_prod= fresh_prod,
                     utils= self.utils,
             		uid= uid,
             		user_data= user_data,

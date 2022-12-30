@@ -1,8 +1,9 @@
 class AdBanner:
 	def __init__(
-		self, title: dict, subtitle: dict, pricing: dict, action_link: str, card_action_link: str, action_text: dict, asset: str,
+		self, id: str, title: dict, subtitle: dict, pricing: dict, action_link: str, card_action_link: str, action_text: dict, asset: str,
 		background_color: str, subtitle_color: str, title_color: str, action_background_color: str, action_text_color: str
 	):
+		self.id= id
 		self.title= title
 		self.subtitle= subtitle
 		self.pricing= pricing

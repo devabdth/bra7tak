@@ -316,12 +316,20 @@
 		background-color: rgba(0, 0, 0, 0.15);
 	}
 
-  #add-to-cart-action {
+  .added#add-to-cart-action {
 	background: url(./icons/add-cart.png)
   }
 
-  #add-to-favourites-action {
-	background: url(./icons/add-to-favorites.png)
+  .added#add-to-favourites-action {
+	background: url(./icons/remove-from-favorites.png)
+  }
+
+  .not-added#add-to-cart-action {
+  background: url(./icons/remove-from-cart.png)
+  }
+
+  .not-added#add-to-favourites-action {
+  background: url(./icons/add-to-favorites.png)
   }
 
   #product-content > #content {

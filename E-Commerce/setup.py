@@ -52,3 +52,9 @@ def setup(app: Flask):
 
 	from routers.not_found.router import NotFoundRouter
 	NotFoundRouter(app= app).setup()
+
+	from routers.checkout.router import CheckoutRouter
+	CheckoutRouter(app= app).setup()
+
+	from routers.adminstration.router import AdminstrationRouter
+	AdminstrationRouter(app= app).setup()

@@ -14,16 +14,10 @@
 	<script src="{{url_for('static', filename='global/scripts/main.js')}}"></script>
 </head>
 <body>
-	    <header>
-	    	<div id="title">
-	    		<div id="drawer-icon"></div>
-			    		
-		      <a
-		        href="/"
-		        id="header-title"
-		        style="font-family: '{{primary_font_family}}';"
-		        >{{content.global_[lang]['name']}}</a
-		      >
+	<header>
+	   	<div id="title">
+	    	<div id="drawer-icon"></div>
+		    	<a href="/" id="header-title" style="font-family: '{{primary_font_family}}';" >{{content.global_[lang]['name']}}</a>
 	    	</div>
       <div id="header-search-container">
         <input
@@ -83,6 +77,32 @@
       {% endif %}
       </nav>
     </header>
+    {% if fresh_prod and user_data.cart[-1] == fresh_prod.id %}
+    	<section id="fresh-prod">
+    		<div>
+    			<div id="content">
+    				<p style="font-family: '{{primary_font_family}}';">{{database.categories.get_category_by_id(fresh_prod.category).name[lang]}}</p>
+    				<h3 style="font-family: '{{primary_font_family}}';">{{fresh_prod.name[lang]}}</h3>
+    				<p style="font-family: '{{primary_font_family}}';">{{fresh_prod.bio[lang][:150]}}...</p>
+    				<div id="fresh-prod-specs">
+    					<div class="fresh-prod-specs-entry">
+    						<div class="fresh-prod-specs-icon" id="price"></div>
+    						<p>{{utils.format_price(fresh_prod.pricing['currentPrice'], show_curr= True)}}</p>
+    					</div>
+    					<div class="fresh-prod-specs-entry">
+    						<div class="fresh-prod-specs-icon" id="vat"></div>
+    						<p>{{utils.format_price((fresh_prod.vat * fresh_prod.pricing['currentPrice']), show_curr= True)}}</p>
+    					</div>
+    					<div class="fresh-prod-specs-entry">
+    						<div class="fresh-prod-specs-icon" id="shipping"></div>
+    						<p>{{fresh_prod.avg_del_days}} Day/s</p>
+    					</div>
+    				</div>
+    			</div>
+    			<div id="image" style="background-image: url('{{cfg.url}}/assets/products/name/{{fresh_prod.assets[0]}}');"></div>
+    		</div>
+    	</section>
+    {% endif %}
     <section id="cart-items">
         <div id="items">
             <div id="header">
@@ -96,7 +116,7 @@
                 			<div class="product-row-info">
                 				<div>
                 					<h3 style="font-family: '{{primary_font_family}}';">{{product['PRODUCT_DATA'].name[lang]}}</h3>
-                					<h5 style="font-family: '{{primary_font_family}}';">{{database.categories.get_category_by_id(product['PRODUCT_DATA']).name[lang]}}</h5>
+                					<h5 style="font-family: '{{primary_font_family}}';">{{database.categories.get_category_by_id(product['PRODUCT_DATA']['category']).name[lang]}}</h5>
                 				</div>
                 				<div class="product-row-entry">
                 					<div class="product-row-entry-icon" id="price"></div>
@@ -112,11 +132,11 @@
                 					<div class="product-row-entry-icon" id="count"></div>
                 					<p style="font-family: 'Poppins';">{{product['COUNT']}}</p>
                 				</div>
-                				<div class="product-row-entry remove">
+                				<div class="product-row-entry remove" onclick="removeFromCart('{{cfg.base_url}}', '{{product.id}}', 1);">
                 					<div class="product-row-entry-icon" id="remove-unit"></div>
                 					<p style="font-family: 'Poppins';">{{content.actions[lang]['removeUnit']}}</p>
                 				</div>
-                				<div class="product-row-entry remove">
+                				<div class="product-row-entry remove" onclick="removeFromCart('{{cfg.base_url}}', '{{product.id}}', -1);">
                 					<div class="product-row-entry-icon" id="remove-all"></div>
                 					<p style="font-family: 'Poppins';">{{content.actions[lang]['removeAll']}}</p>
                 				</div>
@@ -134,8 +154,8 @@
             	<p><span style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['shippingFees']}}: </span>{{utils.format_price(cart['TOTAL_SHIPPING_FEE'])}}</p>
             	<p><span style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['totalPrice']}}: </span>{{utils.format_price(cart['TOTAL_PRICE'])}}</p>
             </div>
-        	<button style="font-family: '{{primary_font_family}}';" class="main-button">{{content.actions[lang]['checkout']}}</button>
-        	<button style="font-size: 0.75em; color: var(--secondary-color); font-family: '{{primary_font_family}}';" class="shadow-button">{{content.actions[lang]['emptyCart']}}</button>
+        	<button style="font-family: '{{primary_font_family}}';" class="main-button" onclick="checkout('{{url}}', {{user_data.cart | safe}});">{{content.actions[lang]['checkout']}}</button>
+        	<button style="font-size: 0.75em; color: var(--secondary-color); font-family: '{{primary_font_family}}';" class="shadow-button" onclick="clearCart('{{cfg.base_url}}');">{{content.actions[lang]['emptyCart']}}</button>
         </div>
     </section>
 

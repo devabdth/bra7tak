@@ -180,31 +180,35 @@
       </div>
       <div id="products">
         {% for prod in products %}
-         <a class="product-card" href="{{cfg.base_url}}/products/{{prod.id}}">
-          <div
-            id="product-asset"
-            style="background-image: url('{{cfg.base_url}}/assets/products/name/{{prod.assets[0]}}');"
-          ></div>
-          <div id="product-content">
-            <div id="content">
-            <p style="font-family: '{{primary_font_family}}'">Category</p>
-            <h3 style="font-family: '{{primary_font_family}}'">
-              {{prod.name[lang]}}
-            </h3>
-            <p style="font-family: '{{primary_font_family}}'">{{prod.bio[lang][:25]}}...</p>
-            <h4 style="font-family: 'Poppins'">
-              {{prod.pricing['currentPrice']}} {% if
-              prod.pricing['perviousPrice'] %}
-              <span>{{prod.pricing['perviousPrice']}}</span>
-              {% endif %}
-            </h4>
-            </div>
-            <div id="actions">
-              <div id="add-to-cart-action" class="added"></div>
-              <div id="add-to-favourites-action" class="added"></div>
-            </div>
-          </div>
-          </a>
+         <a class="product-card">
+                <div
+                  id="product-asset"
+                  style="background-image: url('{{cfg.base_url}}/assets/products/name/{{prod.assets[0]}}');"
+                ></div>
+                <div id="product-content">
+                  <div id="content">
+                  <p style="font-family: '{{primary_font_family}}'">Category</p>
+                  <h3 style="font-family: '{{primary_font_family}}'">
+                    {{prod.name[lang]}}
+                  </h3>
+                  <p style="font-family: '{{primary_font_family}}'">{{prod.bio[lang][:25]}}...</p>
+                  <h4 style="font-family: 'Poppins'">
+                    {{prod.pricing['currentPrice']}} {% if
+                    prod.pricing['perviousPrice'] %}
+                    <span>{{prod.pricing['perviousPrice']}}</span>
+                    {% endif %}
+                  </h4>
+                  </div>
+                  <div style="z-index: 10;" id="actions">
+                    <div id="add-to-cart-action" class="not-added"></div>
+                    {% if user_data %}
+                      <div id="add-to-favourites-action" class="not-added" onclick="addToFavourites('{{cfg.base_url}}', '{{prod.id}}', {{content.toast_content | safe}}, '{{lang}}');"></div>
+                    {% else %}
+                      <div id="add-to-favourites-action" class="added" onclick="removeFromFavourites('{{cfg.base_url}}', '{{prod.id}}', {{content.toast_content | safe}}, '{{lang}}');"></div>
+                    {% endif %}
+                  </div>
+                </div>
+                </a>
         {% endfor %}
       </div>
     </section>

@@ -57,16 +57,80 @@ const addToCart= async (url, productId, count)=> {
         );
 
         if(res.status == 200) {
-            window.open(`${url}/cart/`, '_self');
+            window.open(`${url}/cart/?freshProduct=${productId}`, '_self');
+        }
+
+        if(res.status == 405) {
+            window.open(`${url}/login/`, '_self');
         }
     } catch (e) {
         console.log(e);
     }
 }
 
-const addToFavourites= (productId)=> {}
+const addToFavourites= async (url, productId, toastContent, lang)=> {
+    try {
+        const res = await fetch(
+            `${url}/favourites/add/`,
+            {
+                method: 'patch',
+                body: JSON.stringify({
+                    products: [
+                        {
+                            id: productId,
+                        }
+                    ]
+                }),
+                headers: { "Content-Type": "application/json" },
 
-const removeFromCart= async (productId)=> {
+            }
+        );
+
+        if(res.status == 200) {
+            window.open('.', '_self')
+        }
+
+        if(res.status == 405) {
+            window.open(`${url}/login/`, '_self');
+        }
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+const removeFromFavourites= async (url, productId, toastContent, lang)=> {
+    try {
+        const res = await fetch(
+            `${url}/favourites/remove/`,
+            {
+                method: 'patch',
+                body: JSON.stringify({
+                    products: [
+                        {
+                            id: productId,
+                            count: count
+                        }
+                    ]
+                }),
+                headers: { "Content-Type": "application/json" },
+
+            }
+        );
+
+        if(res.status == 200) {
+            window.open('.', '_self');
+        }
+
+        if(res.status == 405) {
+            window.open(`${url}/login/`, '_self');
+        }
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+
+const removeFromCart= async (url, productId, count)=> {
     try {
         const res = await fetch(
             `${url}/cart/remove/`,
@@ -109,4 +173,10 @@ const clearCart= async (url) => {
     } catch (e) {
         console.log(e);
     }
+}
+
+const checkout= (url, prods)=> {
+    let prodsIds= prods.toString()
+    prodsIds= prodsIds.replaceAll(',', '|');
+    window.open(`${url}/checkout/?prods=${prodsIds}`, '_self')
 }

@@ -291,5 +291,103 @@
     grid-row-gap: 2.5vh;
   }
 
+  section#fresh-prod {
+  	width: 100%;
+  	max-height: 40vh;
+  	min-height: 25vh;
+  	display: flex;
+  	padding: 0 10%;
+  	margin-top: 15vh;
+  }
+
+  section#fresh-prod > div {
+  	width: 100%;
+  	height: 100%;
+  	border-radius: 12px;
+  	background-color: var(--bg-color);
+  	padding: 8px 16px;
+  	display: flex;
+  	align-items: center;
+  	justify-content: space-between;
+  	flex-direction: row;
+  }
+
+  section#fresh-prod > div > #content {
+  	width: 60%;
+  	height: 100%;
+  	display: flex;
+  	align-items: start;
+  	justify-content: center;
+  	flex-direction: column;
+  }
+
+  section#fresh-prod > div > #content > h3 {
+  	font-size: 2em;
+  	color: var(--main-color);
+  	font-weight: 700;
+  }
+
+  section#fresh-prod > div > #content > p {
+  	font-size: 1em;
+  	color: var(--secondary-color);
+  	font-weight: 500;
+  	margin: 8px 0;
+  }
+
+  section#fresh-prod > div > #content > #fresh-prod-specs {
+  	width: 100%;
+  	height: 64px;
+  	display: flex;
+  	flex-direction: row;
+  	align-items: center;
+  	justify-content: space-between;
+  }
+
+  .fresh-prod-specs-entry {
+  	flex-direction: row;
+  	display: flex;
+  	gap: 8px;
+  	align-items: center;
+  	justify-content: center;
+  }
+
+  .fresh-prod-specs-entry > p {
+  	font-size: 1.1em;
+  	font-weight: 500;
+  	font-family: 'Poppins';
+
+  }
+
+  .fresh-prod-specs-icon {
+  	width: 48px;
+  	height: 48px;
+  	background-repeat: no-repeat;
+  	background-position: center;
+  	background-size: contain;
+  }
+
+  .fresh-prod-specs-icon#vat {
+  	background-image: url(./icons/vat.png);
+  }
+
+  .fresh-prod-specs-icon#price {
+  	background-image: url(./icons/price.png);
+  }
+
+  .fresh-prod-specs-icon#shipping {
+  	background-image: url(./icons/shipping.png);
+  }
+
+  section#fresh-prod > div > #image {
+  	width: 30%;
+  	min-height: 25vh;
+  	max-height: 40vh;
+  	display: flex;
+  	background-position: center;
+  	background-repeat: no-repeat;
+  	background-size: contain;
+  	padding: 8px 16px;
+  }
+
 
 }

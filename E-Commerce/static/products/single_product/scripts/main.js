@@ -50,4 +50,6 @@ const addToCartListener= ()=> {
     addToCart(url, productId, amount);
 }
 
-const orderNowListener= ()=> {}
+const orderNowListener= (url, productId)=> {
+    checkout(url, [productId]);
+}

@@ -1,0 +1,92 @@
+{
+	"mainBanner": {
+		"subtitle": {
+			"en": "72% Off on all new Nike Collection Products"
+        },
+		"title":{
+			"en": "Winter Nike is here from json"
+		},
+        "pricing": null,
+        "actionText": {
+            "en": "Check it Now!"
+        },
+        "actionLink": "{}/collections/0",
+        "cardActionLlink": "{}/collections/0",
+        "asset": "nike-shoes.png",
+        "backgroundColor": "#010a67",
+        "subtitleColor": "#999999",
+        "titleColor": "#ffffff",
+        "actionBackgroundColor": "#010a61",
+        "actionTextColor":"#ffffff",
+        "id": "mainBanner"
+	},
+	"subBannerOne": {
+		"subtitle": {
+            "en": "For the real gamers only!"
+        },
+		"title": {
+			"en": "RTX 4000! is here! from json"
+		},
+        "pricing": null,
+        "actionText": {
+			"en": "Check it Now!"
+        },
+        "actionLink": null,
+        "cardActionLlink": null,
+        "asset": "asus-gpu.png",
+        "backgroundColor": "green",
+        "subtitleColor": "#999999",
+        "titleColor": "#ffffff",
+        "actionBackgroundColor": null,
+        "actionTextColor":null,
+        "id": "subBannerOne"
+	},
+	"subBannerTwo": {
+		"subtitle": {
+			"en": "25% off on the photography monster!"
+        },
+		"title": {
+			"en": "Winter Nike is here from json"
+		},
+        "pricing": {
+            "currentPrice": "15000",
+            "perviousPrice": "20000"
+        },
+        "actionText": {
+			"en": "Check it Now!"
+        },
+        "actionLink": null,
+        "cardActionLlink": null,
+        "asset": "nikon-camera.png",
+        "backgroundColor": "orange",
+        "subtitleColor": "#999999",
+        "titleColor": "#ffffff",
+        "actionBackgroundColor": null,
+        "actionTextColor":null,
+        "id": "subBannerTwo"
+	},
+	"sdfsdf": {
+		"subtitle": {
+			"en": "25% off on the photography monster!"
+        },
+		"title": {
+			"en": "Winter Nike is here from json"
+		},
+        "pricing": {
+            "currentPrice": "15000",
+            "perviousPrice": "20000"
+        },
+        "actionText": {
+			"en": "Check it Now!"
+        },
+        "actionLink": null,
+        "cardActionLlink": null,
+        "asset": "nikon-camera.png",
+        "backgroundColor": "orange",
+        "subtitleColor": "#999999",
+        "titleColor": "#ffffff",
+        "actionBackgroundColor": null,
+        "actionTextColor":null,
+        "id": "sdfsdf"
+	}
+}

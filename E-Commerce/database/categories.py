@@ -1,6 +1,9 @@
 import sys
 sys.path.insert(0, '../')
 
+import os
+import json
+
 from layout.ad_banners import AdBanner
 from layout.layout import Layout
 class Category:
@@ -24,166 +27,30 @@ class Category:
 
 class Categories:
     def __init__(self):
+        self.layout: Layout= Layout()
 
+        with open(os.path.join(os.path.dirname(__file__), '../jsons/categories.json'), 'r') as f:
+            self.categories_file_data = dict(json.load(f))
         self.all_categories: list = [
-             Category(
-                ad_banner= Layout().main_banner,
-                name= {
-                    "en": "Clothes",
-                },
-                id= x,
-                bio= {
-                    "en": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vitae mauris in tortor ornare mollis ac nec nisi. Donec in felis dui. Sed velit tellus, convallis nec congue et, vulputate sit amet sem. Aliquam lorem tellus, faucibus at eros in, facilisis tristique ipsum. Vestibulum a pretium quam. Suspendisse tristique purus ac arcu maximus, vel malesuada sapien dictum. Sed a convallis lectus."
-                },
-                products= [
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                ],
+            Category(
+                id= x['id'],
+                name= x['name'],
+                bio= x['bio'],
+                products= x['products'],
+                ad_banner= self.layout.get_banner_by_id(x['adBannerId']),
                 subcats= [
                     Category(
-                        ad_banner= None,
-                        name= {
-                            "en": "Men",
-                        },
-                        id= 0,
-                        bio= {
-                            "en": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vitae mauris in tortor ornare mollis ac nec nisi. Donec in felis dui. Sed velit tellus, convallis nec congue et, vulputate sit amet sem. Aliquam lorem tellus, faucibus at eros in, facilisis tristique ipsum. Vestibulum a pretium quam. Suspendisse tristique purus ac arcu maximus, vel malesuada sapien dictum. Sed a convallis lectus."
-                        },
-                        products= [
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                        ],
-                        subcats= None
-                    ),
-                    Category(
-                        ad_banner= None,
-                        name= {
-                            "en": "Women",
-                        },
-                        id= 1,
-                        bio= {
-                            "en": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vitae mauris in tortor ornare mollis ac nec nisi. Donec in felis dui. Sed velit tellus, convallis nec congue et, vulputate sit amet sem. Aliquam lorem tellus, faucibus at eros in, facilisis tristique ipsum. Vestibulum a pretium quam. Suspendisse tristique purus ac arcu maximus, vel malesuada sapien dictum. Sed a convallis lectus."
-                        },
-                        products= [
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                        ],
-                        subcats= None
-                    ),
-                    Category(
-                        ad_banner= None,
-                        name= {
-                            "en": "Children",
-                        },
-                        id= 2,
-                        bio= {
-                            "en": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vitae mauris in tortor ornare mollis ac nec nisi. Donec in felis dui. Sed velit tellus, convallis nec congue et, vulputate sit amet sem. Aliquam lorem tellus, faucibus at eros in, facilisis tristique ipsum. Vestibulum a pretium quam. Suspendisse tristique purus ac arcu maximus, vel malesuada sapien dictum. Sed a convallis lectus."
-                        },
-                        products= [
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                        ],
-                        subcats= None
-                    ),
-                    Category(
-                        ad_banner= None,
-                        name= {
-                            "en": "Sports Wear",
-                        },
-                        id= 3,
-                        bio= {
-                            "en": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vitae mauris in tortor ornare mollis ac nec nisi. Donec in felis dui. Sed velit tellus, convallis nec congue et, vulputate sit amet sem. Aliquam lorem tellus, faucibus at eros in, facilisis tristique ipsum. Vestibulum a pretium quam. Suspendisse tristique purus ac arcu maximus, vel malesuada sapien dictum. Sed a convallis lectus."
-                        },
-                        products= [
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                        ],
-                        subcats= None
-                    ),
-                    Category(
-                        ad_banner= None,
-                        name= {
-                            "en": "Shoes",
-                        },
-                        id= 4,
-                        bio= {
-                            "en": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vitae mauris in tortor ornare mollis ac nec nisi. Donec in felis dui. Sed velit tellus, convallis nec congue et, vulputate sit amet sem. Aliquam lorem tellus, faucibus at eros in, facilisis tristique ipsum. Vestibulum a pretium quam. Suspendisse tristique purus ac arcu maximus, vel malesuada sapien dictum. Sed a convallis lectus."
-                        },
-                        products= [
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                        ],
-                        subcats= None
+                        name= y['name'],
+                        id= y['id'],
+                        products= y['products'],
+                        bio= y['bio'],
+                        subcats= None,
+                        ad_banner= None
                     )
+                    for y in x['subcats']
                 ]
-            ) for x in range(20)
-            
+            ) 
+            for x in self.categories_file_data.values()
         ]
 
         self.all_categories_dicts: list = []
@@ -198,6 +65,9 @@ class Categories:
             self.all_categories_dicts.append(cat.to_dict())
 
     def get_category_by_id(self, id):
-        return self.all_categories[0]
+        for cat in self.all_categories:
+            if str(id) == str(cat.id):
+                print(cat)
+                return cat
 
 

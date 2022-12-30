@@ -86,12 +86,16 @@
 
 	<section id="entry">
 		<div id="side-bar">
-			{% for cat in database.categories.all_categories[:8] %}
+			{% for cat in database.categories.all_categories[:7] %}
 				<div class="category-card" onclick="window.open('{{cfg.base_url}}/categories/{{cat.id}}');">
 					<div class="category-icon" style="background-image: url('{{cfg.base_url}}/assets/categories/icons/{{cat["id"]}}');"></div>
 					<h3 style="font-family: '{{primary_font_family}}';">{{cat['name'][lang]}}<br><span>{{len(cat['products'])}} Products</span></h3>
 				</div>
 			{% endfor %}
+			<div class="category-card" onclick="window.open('{{cfg.base_url}}/categories/');">
+					<div class="category-icon"></div>
+					<h3 style="font-family: '{{primary_font_family}}';">{{content.actions[lang]['seeAll']}}</h3>
+				</div>
 		</div>
 		<div id="content">
 			<div id="entry-banner" style="background: linear-gradient(135deg, var(--secondary-color) 10%, {{layout.main_banner.background_color}} 100%);cursor: pointer;" onclick="window.open('{{layout.main_banner.card_action_link}}');">

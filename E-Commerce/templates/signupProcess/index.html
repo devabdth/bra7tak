@@ -50,16 +50,9 @@
     <div style="height: 15vh; display: flex;"></div>
     <section id="confirm-email">
       <div id ="form">
-          {% if lang == "ar" %}
-            <h3 style="font-family: 'Cairo">{{content.auth[lang]["confirmEmail"]}}</h3>
-            <p style="font-family: 'Cairo">{{content.auth[lang]["confirmEmailMsg"]}}</p>
-            <button id="change-email" onclick="changeEmail({{content.toast_content}}, '{{lang}}');" style="font-family: 'Cairo';">{{content.auth[lang]["changeEmail"]}} ({{current_user_email}})</button>
-
-          {% else %}
-            <h3 style="font-family: 'Raleway';">{{content.auth[lang]["confirmEmail"]}}</h3>
-            <p style="font-family: 'Poppins';">{{content.auth[lang]["confirmEmailMsg"]}}</p>
-            <button id="change-email" onclick="changeEmail({{content.toast_content}}, '{{lang}}');" style="font-family: 'Poppins';">{{content.auth[lang]["changeEmail"]}} ({{current_user_email}})</button>
-          {% endif %}
+            <h3 style="font-family: '{{primary_font_family}}">{{content.auth[lang]["confirmEmail"]}}</h3>
+            <p style="font-family: '{{primary_font_family}}">{{content.auth[lang]["confirmEmailMsg"]}}</p>
+            <button id="change-email" onclick="changeEmail({{content.toast_content}}, '{{lang}}');" style="font-family: '{{primary_font_family}}';">{{content.auth[lang]["changeEmail"]}} ({{email}})</button>
           <div id="inputs">
             <input name='code' id="digit-one" class='code-input'/>
             <input name='code' id="digit-two" class='code-input'/>
@@ -72,8 +65,10 @@
     </section>
     <section id="complete-profile">
       <input type="name" name="Name" placeholder="{{content.global_[lang]['userName']}}" id="name" class="single-line-field">
-      <input type="tel" name="Phone" placeholder="{{content.global_[lang]['phoneNumber']}}" id="name" class="single-line-field">
-      <input type="address" name="Address" placeholder="{{content.global_[lang]['address']}}" id="name" class="single-line-field">
+      <input type="tel" name="Phone" placeholder="{{content.global_[lang]['phoneNumber']}}" id="phone" class="single-line-field">
+      <input type="address" name="Address" placeholder="{{content.global_[lang]['addressOne']}}" id="addressOne" class="single-line-field">
+      <input type="address" name="Address" placeholder="{{content.global_[lang]['addressTwo']}}" id="addressTwo" class="single-line-field">
+      <input type="date" name="Address" placeholder="{{content.global_[lang]['bithDate']}}" max="2004-12-31" min="1979-01-01" id="birth" class="single-line-field">
       <button onclick="toggleCitiesDropdown()" id="cities-dropbtn" class="cities-dropbtn">{{content.actions[lang]["pickCity"]}}</button>
       <div id="cities-dropdown" class="cities-dropdown-content">
         <input type="text" placeholder="{{content.global_[lang]['search']}}..." id="city-search" onkeyup="filter()">
@@ -88,7 +83,7 @@
           <button style="font-family: '{{primary_font_family}}';" onclick="chooseGender('{{content.genders[lang][gender]}}', '{{gender}}', '{{lang}}');">{{content.genders[lang][gender]}}</button>
         {% endfor %}
       </div>
-      <button class="main-button" style="font-family: '{{primary_font_family}}';" onclick="compleProfileSubmit({{content.toast_content}}, '{{lang}}');">{{content.actions[lang]["submit"]}}</button>
+      <button class="main-button" style="font-family: '{{primary_font_family}}';" onclick="compleProfileSubmit({{content.toast_content}}, '{{lang}}', '{{cfg.base_url}}', '{{email}}');">{{content.actions[lang]["submit"]}}</button>
     </section>
 
     <div id="toast">

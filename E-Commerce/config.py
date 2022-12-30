@@ -3,10 +3,10 @@ from os import environ
 
 class Config:
 	def __init__(self):
-		self.port = environ.get('PORT') or 5000
+		self.port = environ.get('PORT') or 3030
 		self.debug = (environ.get('MODE') or 0) == 0
 		self.auth_key = environ.get('AUTH_KEY') or '1234567890'
-		self.base_url = environ.get('BASE_URL') or 'http://127.0.0.1:3000'
+		self.base_url = environ.get('BASE_URL') or 'http://127.0.0.1:{}'.format(self.port)
 
 		self.facebook = environ.get('FACEBOOK') or "None"
 		self.instagram= environ.get('INSTAGRAM') or "None"

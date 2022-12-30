@@ -31,20 +31,20 @@ class SignUpProcessRouter:
         @self.app.route('/confirmSignUp/', methods=["POST"])
         def confirm_sign_up():
             try:
-                email = session.get('currentUserEmail', None)
-                phone = session.get('currentUserPhoneNumber', None)
-                password = session.get('currentUserPassword', None)
+                email = session.get('CURRENT_USER_EMAIL', None)
+                password = session.get('CURRENT_USER_PASSWORD', None)
                 
                 body = dict(json.loads(request.data))
                 body['email'] = email
                 body['password'] = password
-                body['phone'] = phone
+                print(session)
+
+                print(body)
 
                 res = self.database.users.create_user(body)
                 if not res is None:
-                    session.pop('currentUserPassword')
-                    session.pop('currentUserPhoneNumber')
-                    session['currentUserId'] = str(res)
+                    session.pop('CURRENT_USER_PASSWORD')
+                    session['CURRENT_USER_ID'] = str(res)
                     return self.app.response_class(status=201)
                 else:
                     return self.app.response_class(status=500)
@@ -56,8 +56,8 @@ class SignUpProcessRouter:
     def assign_change_email(self):
         @self.app.route('/changeEmail/', methods=["GET"])
         def website_change_email():
-            if "currentUserEmail" in session:
-                session.pop('currentUserEmail')
+            if "CURRENT_USER_EMAIL" in session:
+                session.pop('CURRENT_USER_EMAIL')
             return redirect('{}/signup/'.format(self.cfg.base_url))
 
     def assign_send_code_again(self):
@@ -100,9 +100,8 @@ class SignUpProcessRouter:
         def website_signupprocess_index():
             params = dict(request.values)
             lang = session.get("LANG", "ar")
-            current_user_email = session.get('currentUserEmail', None)
-            current_user_phoneNumber = session.get('currentUserPhoneNumber', None)
-            current_user_password = session.get('currentUserPassword', None)
+            current_user_email = session.get('CURRENT_USER_EMAIL', None)
+            current_user_password = session.get('CURRENT_USER_PASSWORD', None)
             current_user_id = session.get('currentUserId', None)
 
             if lang == 'en':
@@ -112,11 +111,11 @@ class SignUpProcessRouter:
                 primary_font_family= 'Cairo'
                 second_font_family= 'Cairo'
 
-            # if not current_user_id is None:
-            #     return redirect('{}/'.format(self.cfg.base_url))
-
-            # if current_user_email is None or current_user_password is None or current_user_phoneNumber is None:
-            #     return redirect('{}/signup'.format(self.cfg.base_url))
+            if not current_user_id is None:
+                return redirect('{}/'.format(self.cfg.base_url))
+            
+            if current_user_email is None or current_user_password is None:
+                return redirect('{}/signup/'.format(self.cfg.base_url))
 
             return render_template(
                 'signupProcess/index.html',
@@ -126,6 +125,7 @@ class SignUpProcessRouter:
                 primary_font_family=primary_font_family,
                 second_font_family=second_font_family,
                 database=self.database,
-                layout=self.layout
+                layout=self.layout,
+                email= current_user_email,
             )
             

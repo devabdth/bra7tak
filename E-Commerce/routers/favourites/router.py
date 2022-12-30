@@ -2,13 +2,15 @@ import sys
 sys.path.insert(0, '../')
 
 
-from flask import Flask, render_template, session, url_for, redirect
+from flask import Flask, render_template, session, url_for, redirect, request
 
 from config import Config
 from database.database import Database
 from layout.layout import Layout
 from content import Content
 from utils import Utils
+
+import json
 
 class FavouritesRouter:
 	def __init__(self, app: Flask):
@@ -22,6 +24,66 @@ class FavouritesRouter:
 
 	def setup(self):
 		self.assign_favourites_router()
+		self.assign_add()
+		self.assign_remove()
+
+	def assign_add(self):
+		@self.app.route('/favourites/add/', methods=["PATCH"])
+		def favourites_add():
+			try:
+				body= dict(json.loads(request.data))
+				uid= session.get("CURRENT_USER_ID", None)
+				if uid is None:
+					return self.app.response_class(status=405)
+
+				user_data= self.database.users.get_user_by_id(uid)
+				if user_data is None:
+					return self.app.response_class(status=405)
+
+				for prod in body['products']:
+					user_data.favourites.append(prod['id'])
+
+				self.database.users.update_user_data(uid, user_data)
+				print(self.database.users.get_user_by_id(uid).favourites)
+
+				return self.app.response_class(status= 200)
+			except Exception as e:
+				print(e)
+				return self.app.response_class(status= 500)
+	
+	def assign_remove(self):
+		@self.app.route('/favourites/remove/', methods=["PATCH"])
+		def favourites_remove():
+			try:
+				body= dict(json.loads(request.data))
+				uid= session.get("CURRENT_USER_ID", None)
+				if uid is None:
+					return self.app.response_class(status=405)
+
+				user_data= self.database.users.get_user_by_id(uid)
+				if user_data is None:
+					print('User Data is None')
+					return self.app.response_class(status= 500)
+
+				for prod in body['products']:
+					if prod['count'] != -1:
+						for _ in range(1, prod['count']):
+							if prod['id'] in user_data.favourites:
+								user_data.favourites.remove(prod['id'])
+					else:
+						for _ in range(1, 1000):
+							if prod['id'] in user_data.favourites:
+								user_data.favourites.remove(prod['id'])
+
+
+				self.database.users.update_user_data(uid, user_data)
+				print(self.database.users.get_user_by_id(uid).favourites)
+
+				return self.app.response_class(status= 200)
+			except Exception as e:
+				print(e)
+				return self.app.response_class(status= 500)
+
 
 	def assign_favourites_router(self):
 		@self.app.route('/favourites/')

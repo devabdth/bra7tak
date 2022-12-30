@@ -1,0 +1,115 @@
+{
+	"0": {
+		"adBannerId": "sdfsdf",
+		"name": {
+			"en": "Clothes",
+			"ar": "ملابس"
+		},
+		"id": "0",
+		"bio": {
+			"en": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vitae mauris in tortor ornare mollis ac nec nisi. Donec in felis dui. Sed velit tellus, convallis nec congue et, vulputate sit amet sem. Aliquam lorem tellus, faucibus at eros in, facilisis tristique ipsum. Vestibulum a pretium quam. Suspendisse tristique purus ac arcu maximus, vel malesuada sapien dictum. Sed a convallis lectus.",
+			"ar": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vitae mauris in tortor ornare mollis ac nec nisi. Donec in felis dui. Sed velit tellus, convallis nec congue et, vulputate sit amet sem. Aliquam lorem tellus, faucibus at eros in, facilisis tristique ipsum. Vestibulum a pretium quam. Suspendisse tristique purus ac arcu maximus, vel malesuada sapien dictum. Sed a convallis lectus."
+		},
+		"products": [
+			"ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG"
+		],
+		"subcats": [
+			{
+				"adBannerId": null,
+				"name": {
+					"en": "Men",
+					"ar": "رجالي"
+				},
+				"bio": null,
+				"id": "0",
+				"products": [
+					"ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG"
+				],
+				"subcats": null
+			},
+			{
+				"adBannerId": null,
+				"name": {
+					"en": "Women",
+					"ar": "ريمي"
+				},
+				"bio": null,
+				"id": "1",
+				"products": [
+					"ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG"
+				],
+				"subcats": null
+			},
+			{
+				"adBannerId": null,
+				"name": {
+					"en": "Children",
+					"ar": "أطفالي"
+				},
+				"bio": null,
+				"id": "2",
+				"products": [
+					"ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG"
+				],
+				"subcats": null
+			}
+
+		]
+	},
+	"1": {
+		"adBannerId": "sdfsdf",
+		"name": {
+			"en": "Travel",
+			"ar": "معدات السفر"
+		},
+		"id": "1",
+		"bio": {
+			"en": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vitae mauris in tortor ornare mollis ac nec nisi. Donec in felis dui. Sed velit tellus, convallis nec congue et, vulputate sit amet sem. Aliquam lorem tellus, faucibus at eros in, facilisis tristique ipsum. Vestibulum a pretium quam. Suspendisse tristique purus ac arcu maximus, vel malesuada sapien dictum. Sed a convallis lectus.",
+			"ar": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vitae mauris in tortor ornare mollis ac nec nisi. Donec in felis dui. Sed velit tellus, convallis nec congue et, vulputate sit amet sem. Aliquam lorem tellus, faucibus at eros in, facilisis tristique ipsum. Vestibulum a pretium quam. Suspendisse tristique purus ac arcu maximus, vel malesuada sapien dictum. Sed a convallis lectus."
+		},
+		"products": [
+			"ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG"
+		],
+		"subcats": [
+			{
+				"adBannerId": null,
+				"name": {
+					"en": "Travel Bags",
+					"ar": "حقائب السفر"
+				},
+				"bio": null,
+				"id": "0",
+				"products": [
+					"ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG"
+				],
+				"subcats": null
+			},
+			{
+				"adBannerId": null,
+				"name": {
+					"en": "Travel Supplies",
+					"ar": "كماليات السفر"
+				},
+				"bio": null,
+				"id": "1",
+				"products": [
+					"ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG"
+				],
+				"subcats": null
+			},
+			{
+				"adBannerId": null,
+				"name": {
+					"en": "Food Packages",
+					"ar": "تغليف الأطعمة"
+				},
+				"bio": null,
+				"id": "2",
+				"products": [
+					"ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG", "ssdfDSG"
+				],
+				"subcats": null
+			}
+		]
+	}
+}

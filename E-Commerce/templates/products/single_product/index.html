@@ -142,13 +142,7 @@
         </div>
         <button
           class="main-button"
-          style="
-            background-color: var(--secondary-color);
-            width: 100%;
-            color: var(--bg-color);
-          "
-        >
-          {{content.actions[lang]['orderNow']}}
+          style=" background-color: var(--secondary-color); width: 100%; color: var(--bg-color);" onclick="orderNowListener('{{cfg.base_url}}', '{{product.id}}')">{{content.actions[lang]['orderNow']}}
         </button>
       </div>
       <div id="product-slide-show">

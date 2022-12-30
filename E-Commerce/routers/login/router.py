@@ -35,6 +35,8 @@ class LoginRouter:
             else:
                 custom_recall= None
 
+            custom_email= params['email'] if 'email' in params.keys() else ''
+
             lang = session.get("LANG", "ar")
             if lang == 'en':
                 primary_font_family = 'Raleway'
@@ -57,4 +59,5 @@ class LoginRouter:
                 layout=self.layout,
                 len= len,
                 custom_recall= custom_recall,
+                custom_email= custom_email
             )

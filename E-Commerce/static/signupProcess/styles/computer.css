@@ -101,7 +101,7 @@
     width: 100%;
     min-height: 60vh;
     max-height: 600vh;
-    display: flex;
+    display: none;
     justify-content: start;
     align-items: center;
     flex-direction: column;
@@ -210,11 +210,11 @@
   z-index: 1;
   box-shadow: 0 0 30px 1px #999;
   border-radius: 4px;
-  bottom: -80%;
+  bottom: 0;
 }
 
 .genders-dropdown-content {
-  bottom: -75%;
+  bottom: 0;
 }
 
 .genders-dropdown-content button, .cities-dropdown-content button {
