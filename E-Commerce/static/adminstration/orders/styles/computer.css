@@ -1,0 +1,10 @@
+@media screen and (min-width: 999px) {
+	#orders {
+		width: 100%;
+		min-height: 100vh;
+		display: flex;
+		align-items: start;
+		justify-content: start;
+		flex-direction: column;
+	}
+}

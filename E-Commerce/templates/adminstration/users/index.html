@@ -42,11 +42,11 @@
 		<div id="header">
 			<h3><span style="font-family: 'Poppins';">{{users | length}} </span>Users</h3>
 			<div id="search-options">
-				<div class="field-container">
-					<input type="name" name="name" id="name-field" placeholder="Name">
+				<div class="field-container" id="name-field-container">
+					<input type="name" name="name" id="name-field" placeholder="Name" value="{{search_params['name']}}">
 				</div>
-				<div class="field-container">
-					<input type="email" name="email" id="email-field" placeholder="Email">
+				<div class="field-container" id="email-field-container">
+					<input type="email" name="email" id="email-field" placeholder="Email" value="{{search_params['email']}}">
 				</div>
 			</div>
 			<div id="options">
@@ -70,15 +70,28 @@
 						<td>{{user.name}}</td>
 						<td>{{user.email}}</td>
 						<td>{{content.cities['en'][user.city_code]}}</td>
-						<td>{{user.orders | length}}</td>
+						<td style="font-family:'Poppins';">{{user.orders | length}}</td>
 						<td>
-							<div class="shadow-button" style="color: red">Delete</div>
+							<div class="shadow-button" style="color: red" onclick="openDeleteDialog({{user.to_dict() | safe}}, '{{cfg.base_url}}')">Delete</div>
 						</td>
 					</tr>
 				{% endfor %}
 			</table>
 		</div>
 	</section>
+	<div id="overlay"></div>
+	<div id="delete-dialog">
+		<div id="header">
+			<h3>Delete Confirmation</h3>
+			<div onclick="closeDeleteDialog();">x</div>
+		</div>
+		<p id="delete-dialog-confirmation-msg"></p>
+		<div id="options">
+			<button id="delete-cancelation" class="shadow-button" onclick="closeDeleteDialog();">Cancel</button>
+			<button id="delete-confirmation" class="main-button"  style="border: none; color: white; background-color: red;">Delete</button>
+			<p id="delete-dialog-status-msg"></p>
+		</div>
+	</div>
 	
 </body>
 </html>

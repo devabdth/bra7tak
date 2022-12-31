@@ -1,3 +1,5 @@
+from datetime import datetime
+
 class Order:
 	def __init__(
 		self, id: str, address: str, city_code: str, products: list,
@@ -35,6 +37,58 @@ class Orders:
 			uid="dsfdsfsdf",
 			placed_in= str(datetime.now())
 		) for x in range(4)]
+
+	def get_all_orders(self, params):
+		return {
+			"CANCELED": [Order(
+				id="xsasd{}".format(x),
+				address= "User Address",
+				city_code= 0,
+				products= [],
+				vat= 0.14,
+				price= x+1 * 100 + x+1 / 100,
+				shipping_fees= x * 10,
+				status= -1,
+				uid="dsfdsfsdf",
+				placed_in= str(datetime.now())
+			) for x in range(10)],
+			"STOCKED": [Order(
+				id="xsasd{}".format(x),
+				address= "User Address",
+				city_code= 0,
+				products= [],
+				vat= 0.14,
+				price= x+1 * 100 + x+1 / 100,
+				shipping_fees= x * 10,
+				status= -1,
+				uid="dsfdsfsdf",
+				placed_in= str(datetime.now())
+			) for x in range(10)],
+			"IN_DELIVERY": [Order(
+				id="xsasd{}".format(x),
+				address= "User Address",
+				city_code= 0,
+				products= [],
+				vat= 0.14,
+				price= x+1 * 100 + x+1 / 100,
+				shipping_fees= x * 10,
+				status= -1,
+				uid="dsfdsfsdf",
+				placed_in= str(datetime.now())
+			) for x in range(10)],
+			"DELIVERED": [Order(
+				id="xsasd{}".format(x),
+				address= "User Address",
+				city_code= 0,
+				products= [],
+				vat= 0.14,
+				price= x+1 * 100 + x+1 / 100,
+				shipping_fees= x * 10,
+				status= -1,
+				uid="dsfdsfsdf",
+				placed_in= str(datetime.now())
+			) for x in range(10)],
+		}
 
 
 	def get_order_by_id(self, order_id):

@@ -36,12 +36,20 @@
 		gap: 2.5vw;
 	}
 
+	#options > * {
+		cursor: pointer;
+	}
+
 	#options {
 		width: 100%;
 		display: flex;
 		align-items: center;
 		justify-content: end;
 		flex-direction: row;
+	}
+
+	#header > #options{
+		z-index: 2;
 	}
 
 	#options > * {
@@ -80,5 +88,56 @@
 	#users tr:nth-child(even){background-color: #f2f2f2;}
 
 	#users tr:hover {background-color: #ddd;}
+
+	#overlay {
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.5);
+		cursor: pointer;
+		display: none;
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 1000;
+	}
+
+	#delete-dialog {
+		width: 40%;
+		height: 40%;
+		background-color: var(--body-bg-color);
+		display: none;
+		align-items: start;
+		justify-content: space-between;
+		position: fixed;
+		top: 30%;
+		left: 30%;
+		z-index: 1001;
+		flex-direction: column;
+		padding: 8px 16px;
+		border-radius: 12px;
+		font-family: 'Raleway';
+	}
+
+	#delete-dialog > #header {
+		font-family: 'Raleway';
+		font-size: 1em;
+		font-weight: 300;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+		display: flex;
+		width: 100%;
+	}
+
+	#delete-dialog > #header > div {
+		cursor: pointer;
+	}
+
+	#delete-dialog-status-msg {
+		font-weight: 500;
+		font-family: 'Raleway';
+		font-size: 1em;
+		margin-left: 8px;
+	}
 
 }

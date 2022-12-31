@@ -57,7 +57,7 @@ class Users:
 			address_line_two= "User Address 2",
 			gender= 0,
 			city_code= 0,
-			orders= [],
+			orders= ["{}".format(x) for x in range(0, 30)],
 			joined_in= str(datetime.date.today())
 		)
 
@@ -86,7 +86,7 @@ class Users:
 			print(e)
 			return None
 
-	def get_all_users(self):
+	def get_all_users(self, search_params):
 		return [self.user for _ in range (0, 30)]
 		
 
@@ -101,3 +101,6 @@ class Users:
 
 	def update_user_data(self, uid: str, user_data: User):
 		self.user= user_data
+
+	def delete_user(self, uid: str):
+		return True

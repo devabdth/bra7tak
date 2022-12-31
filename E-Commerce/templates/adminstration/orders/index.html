@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Bra7tak Admin - Overview</title>
+
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='adminstration/global/styles/computer.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='adminstration/orders/styles/computer.css')}}">
+
+	<script type="text/javascript" src="{{url_for('static', filename='adminstration/orders/scripts/main.js')}}"></script>
+</head>
+<body>
+	<header>
+		<h3>Bra7tak Admin</h3>
+		<nav>
+			{% if "0" in admin_data["accesses"] %}
+			<a href="{{cfg.base_url}}/webapp/adminstration/products/">Products</a>
+			{% endif %}
+			{% if "1" in admin_data["accesses"] %}
+			<a href="{{cfg.base_url}}/webapp/adminstration/orders/" class="active-tab">Orders</a>
+			{% endif %}
+			{% if "2" in admin_data["accesses"] %}
+			<a href="{{cfg.base_url}}/webapp/adminstration/inventory/">Inventory</a>
+			{% endif %}
+			{% if "3" in admin_data["accesses"] %}
+			<a href="{{cfg.base_url}}/webapp/adminstration/categories/">Categories</a>
+			{% endif %}
+			{% if "4" in admin_data["accesses"] %}
+			<a href="{{cfg.base_url}}/webapp/adminstration/collections/">Collections</a>
+			{% endif %}
+			{% if "5" in admin_data["accesses"] %}
+			<a href="{{cfg.base_url}}/webapp/adminstration/banners/">Banners</a>
+			{% endif %}
+			{% if "6" in admin_data["accesses"] %}
+			<a href="{{cfg.base_url}}/webapp/adminstration/users/">Users</a>
+			{% endif %}
+			<a href="{{cfg.base_url}}/webapp/adminstration/settings/">Settings</a>
+		</nav>
+	</header>
+	<section id="orders">
+		<div id="header">
+			<h3><span style="font-family: 'Poppins';">{{(orders["CANCELED"] | length) + (orders["STOCKED"] | length) + (orders["IN_DELIVERY"] | length) + (orders["DELIVERED"] | length)}}</span></h3>
+			<div id="search-options">
+				<div class="field-container">
+					<input type="date" name="Start Date" id="start-date-field" id="start-date-field" placeholder="2023-01-01" min="2023-01-01">
+				</div>
+				<div class="field-container">
+					<input type="date" name="Start Date" id="end-date-field" id="start-date-field" placeholder="2023-01-01" min="2023-01-01">
+				</div>
+				<div class="field-container">
+					<input type="email" name="email" id="email-field" placeholder="User Email">
+				</div>
+				<div class="field-container">
+					<input type="name" name="id" id="id-field" placeholder="User Id">
+				</div>
+			</div>
+			<div id="options">
+				<div class="shadow-button">Cancel</div>
+				<div class="main-button">Filter</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>

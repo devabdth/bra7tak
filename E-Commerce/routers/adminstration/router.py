@@ -11,6 +11,7 @@ from layout.layout import Layout
 
 from .sub_routers.products import ProductsSubRouter
 from .sub_routers.users import UsersSubRouter
+from .sub_routers.orders import OrdersSubRouter
 
 
 class AdminstrationRouter:
@@ -25,7 +26,7 @@ class AdminstrationRouter:
 	def setup(self):
 		ProductsSubRouter(app= self.app).setup()
 		UsersSubRouter(app= self.app).setup()
-		# OrdersSubRouter(app= app).setup()
+		OrdersSubRouter(app= self.app).setup()
 		# InventorySubRouter(app= app).setup()
 		# LoginSubRouter(app= app).setup()
 		# CategoriesSubRouter(app= app).setup()

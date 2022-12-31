@@ -11,7 +11,7 @@ from utils import Utils
 from content import Content
 
 import json
-class UsersSubRouter:
+class OrdersSubRouter:
 	def __init__(self, app: Flask):
 		self.app: Flask= app
 		self.cfg: Config= Config()
@@ -21,27 +21,12 @@ class UsersSubRouter:
 
 
 	def setup(self):
-		self.assign_users_index()
-		self.assign_user_delete()
+		self.assign_orders_index()
 
 
-	def assign_user_delete(self):
-		@self.app.route('/webapp/adminstration/users/', methods=["delete"])
-		def user_delete_index():
-			params= dict(request.values)
-			if 'uid' not in params.keys():
-				return self.app.response_class(status= 500)
-
-			res: bool= self.database.users.delete_user(uid= params['uid'])
-			if res:
-				return self.app.response_class(status= 200)
-
-			return self.app.response_class(status= 500)
-
-
-	def assign_users_index(self):
-		@self.app.route('/webapp/adminstration/users/', methods=["GET"])
-		def users_index():
+	def assign_orders_index(self):
+		@self.app.route('/webapp/adminstration/orders/', methods=["GET"])
+		def orders_index():
 			params= dict(request.values)
 
 			aid= session.get("CURRENT_ADMIN_ID", "sdsdcsdf")
@@ -49,11 +34,11 @@ class UsersSubRouter:
 				return redirect('{}/webapp/adminstration/login/'.format(self.cfg.base_url))
 
 			admin_data= self.database.admins.get_admin_by_id(aid)
-			users= self.database.users.get_all_users(params)
+			orders= self.database.orders.get_all_orders(params)
 			return render_template(
-				'adminstration/users/index.html',
+				'adminstration/orders/index.html',
 				cfg= self.cfg,
-				users= users,
+				orders= orders,
 				database= self.database,
 				content= self.content,
 				admin_data= admin_data,
