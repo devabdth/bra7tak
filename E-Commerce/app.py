@@ -3,6 +3,7 @@ from flask import Flask
 from config import Config
 from setup import setup
 
+import os
 
 cfg: Config = Config()
 app: Flask = Flask(
