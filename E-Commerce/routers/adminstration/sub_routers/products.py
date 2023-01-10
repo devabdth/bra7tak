@@ -32,16 +32,18 @@ class ProductsSubRouter:
 		def products_index():
 			params= dict(request.values)
 
-			aid= session.get("CURRENT_ADMIN_ID", "sdsdcsdf")
+			aid= session.get("CURRENT_ADMIN_ID", None)
 			if aid is None:
 				return redirect('{}/webapp/adminstration/login/'.format(self.cfg.base_url))
 
 			admin_data= self.database.admins.get_admin_by_id(aid)
-			products= self.database.products.get_all_products()
+			products= self.database.products.get_products_by_filterization(params)
+			categories= self.database.categories.all_categories
 			return render_template(
 				'adminstration/products/index.html',
 				cfg= self.cfg,
 				products= products,
+				categories= categories,
 				database= self.database,
 				content= self.content,
 				admin_data= admin_data,

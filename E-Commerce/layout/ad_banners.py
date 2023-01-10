@@ -16,3 +16,20 @@ class AdBanner:
 		self.action_background_color= action_background_color
 		self.action_text_color= action_text_color
 		self.card_action_link= card_action_link
+
+	def to_dict(self):
+		return {
+		"id": self.id,
+		"title": self.title,
+		"subtitle": self.subtitle,
+		"pricing": self.pricing or "",
+		"action_text": self.action_text or "",
+		"action_link": self.action_link or "",
+		"asset": self.asset or "",
+		"background_color": self.background_color or "",
+		"subtitle_color": self.subtitle_color or "",
+		"title_color": self.title_color or "",
+		"action_background_color": self.action_background_color or "",
+		"action_text_color": self.action_text_color or "",
+		"card_action_link": self.card_action_link or "",
+		}

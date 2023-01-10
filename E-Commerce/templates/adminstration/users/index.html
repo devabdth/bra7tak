@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Bra7tak Admin - Overview</title>
+	<title>Bra7tak Admin - Users</title>
 
 	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='adminstration/global/styles/computer.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='adminstration/users/styles/computer.css')}}">
@@ -21,18 +21,12 @@
 			<a href="{{cfg.base_url}}/webapp/adminstration/orders/">Orders</a>
 			{% endif %}
 			{% if "2" in admin_data["accesses"] %}
-			<a href="{{cfg.base_url}}/webapp/adminstration/inventory/">Inventory</a>
-			{% endif %}
-			{% if "3" in admin_data["accesses"] %}
 			<a href="{{cfg.base_url}}/webapp/adminstration/categories/">Categories</a>
 			{% endif %}
 			{% if "4" in admin_data["accesses"] %}
-			<a href="{{cfg.base_url}}/webapp/adminstration/collections/">Collections</a>
-			{% endif %}
-			{% if "5" in admin_data["accesses"] %}
 			<a href="{{cfg.base_url}}/webapp/adminstration/banners/">Banners</a>
 			{% endif %}
-			{% if "6" in admin_data["accesses"] %}
+			{% if "5" in admin_data["accesses"] %}
 			<a href="{{cfg.base_url}}/webapp/adminstration/users/" class="active-tab">Users</a>
 			{% endif %}
 			<a href="{{cfg.base_url}}/webapp/adminstration/settings/">Settings</a>

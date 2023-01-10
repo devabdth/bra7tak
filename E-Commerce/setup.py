@@ -1,12 +1,15 @@
 from flask import Flask
 from flask_session import Session
-
+from flask_qrcode import QRcode
 
 def setup(app: Flask):
+
+	app.config.update(SESSION_COOKIE_SAMESITE="None", SESSION_COOKIE_SECURE=True)
 
 	app.config["SESSION_PERMANENT"] = False
 	app.config["SESSION_TYPE"] = "filesystem"
 	Session(app)
+	QRcode(app)
 
 	from routers.home.router import HomeRouter
 	HomeRouter(app= app).setup()

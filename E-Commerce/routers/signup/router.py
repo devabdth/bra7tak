@@ -10,41 +10,41 @@ sys.path.insert(0, '../')
 
 
 class SignUpRouter:
-    def __init__(self, app: Flask):
-        self.app: Flask = app
-        self.content: Content = Content()
-        self.database: Database = Database()
-        self.layout: Layout = Layout()
-        self.cfg: Config = Config()
+	def __init__(self, app: Flask):
+		self.app: Flask = app
+		self.content: Content = Content()
+		self.database: Database = Database()
+		self.layout: Layout = Layout()
+		self.cfg: Config = Config()
 
-    def setup(self):
-        self.assign_signup_index()
+	def setup(self):
+		self.assign_signup_index()
 
-    def assign_signup_index(self):
-        @self.app.route('/signup/', methods=["GET"])
-        @self.app.route('/signUp/', methods=["GET"])
-        @self.app.route('/joinUs/', methods=["GET"])
-        @self.app.route('/join/', methods=["GET"])
-        @self.app.route('/enroll/', methods=["GET"])
-        @self.app.route('/newUser/', methods=["GET"])
-        def signup_index():
-            lang = session.get("LANG", "ar")
-            if lang == 'en':
-                primary_font_family = 'Raleway'
-                second_font_family = 'Poppins'
-            elif lang == 'ar':
-                primary_font_family = 'Cairo'
-                second_font_family = 'Cairo'
+	def assign_signup_index(self):
+		@self.app.route('/signup/', methods=["GET"])
+		@self.app.route('/signUp/', methods=["GET"])
+		@self.app.route('/joinUs/', methods=["GET"])
+		@self.app.route('/join/', methods=["GET"])
+		@self.app.route('/enroll/', methods=["GET"])
+		@self.app.route('/newUser/', methods=["GET"])
+		def signup_index():
+			lang = session.get("LANG", "ar")
+			if lang == 'en':
+				primary_font_family = 'Raleway'
+				second_font_family = 'Poppins'
+			elif lang == 'ar':
+				primary_font_family = 'Cairo'
+				second_font_family = 'Cairo'
 
-            return render_template(
-                'signup/index.html',
-                lang=lang,
-                cfg=self.cfg,
-                content=self.content,
-                primary_font_family=primary_font_family,
-                second_font_family=second_font_family,
-                database=self.database,
-                layout=self.layout,
-                len=len
+			return render_template(
+				'signup/index.html',
+				lang=lang,
+				cfg=self.cfg,
+				content=self.content,
+				primary_font_family=primary_font_family,
+				second_font_family=second_font_family,
+				database=self.database,
+				layout=self.layout,
+				len=len
 
-            )
+			)

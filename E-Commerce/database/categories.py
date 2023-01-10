@@ -7,29 +7,30 @@ import json
 from layout.ad_banners import AdBanner
 from layout.layout import Layout
 class Category:
-    def __init__(self, name: dict, bio: dict, id: str, products: list, subcats: list, ad_banner: AdBanner):
+    def __init__(self, name: dict, bio: dict, id: str, products: list, subcats: list):
         self.name= name
         self.bio= bio
         self.id= id
         self.products= products
         self.subcats= subcats
-        self.ad_banner= ad_banner
 
     def to_dict(self) -> dict:
         return {
             "name": self.name,
-            "bio": self.bio,
+            "bio": self.bio or {},
             "id": self.id,
-            "products": self.products,
-            "subcats": self.subcats,
+            "products": self.products or [],
+            "subcats": self.subcats or [],
         }
 
 
 class Categories:
     def __init__(self):
         self.layout: Layout= Layout()
+        self.load()
 
-        with open(os.path.join(os.path.dirname(__file__), '../jsons/categories.json'), 'r') as f:
+    def load(self):
+        with open(os.path.join(os.path.dirname(__file__), '../jsons/categories.json'), 'r', encoding="cp866") as f:
             self.categories_file_data = dict(json.load(f))
         self.all_categories: list = [
             Category(
@@ -37,7 +38,6 @@ class Categories:
                 name= x['name'],
                 bio= x['bio'],
                 products= x['products'],
-                ad_banner= self.layout.get_banner_by_id(x['adBannerId']),
                 subcats= [
                     Category(
                         name= y['name'],
@@ -45,7 +45,6 @@ class Categories:
                         products= y['products'],
                         bio= y['bio'],
                         subcats= None,
-                        ad_banner= None
                     )
                     for y in x['subcats']
                 ]
@@ -67,7 +66,92 @@ class Categories:
     def get_category_by_id(self, id):
         for cat in self.all_categories:
             if str(id) == str(cat.id):
-                print(cat)
                 return cat
 
 
+
+    def get_sub_category_by_id(self, cid, scid):
+        for cat in self.all_categories:
+            if str(cid) == str(cat.id):
+                for scat in cat.subcats:
+                    if str(scid) == str(scat["id"]):
+                        return scat
+
+
+    def update_category(self, category: dict, icon, cover)-> bool:
+        try:
+            for cat_dict in self.all_categories_dicts:
+                if cat_dict['id'] == category['id']:
+                    cat_dict['name']= category['name']
+                    cat_dict['bio']= category['bio']
+                    cat_dict['subcats']= [
+                        {
+                            "name": {
+                                "en": subcat['name']['en'],
+                                "ar": subcat['name']['ar'],
+                            },
+                            "bio": None,
+                            "id": "{}".format(category['subcats'].index(subcat)),
+                            "products": [],
+                            "subcats": None
+                        } for subcat in category['subcats']
+                    ]
+
+                    del self.all_categories_dicts[self.all_categories_dicts.index(cat_dict)]
+                    self.all_categories_dicts.append(cat_dict)
+            with open(os.path.join(os.path.dirname(__file__), '../jsons/categories.json'), 'w') as f:
+                dict_= {cat['id']: cat for cat in self.all_categories_dicts}
+                json.dump(dict_, f)
+                f.close()
+
+            if icon != None:
+                if not os.path.exists(os.path.abspath(os.path.join(os.path.dirname(__file__),'../routers/assets/categories/icons/'))):
+                    os.mkdir(os.path.abspath(os.path.join(os.path.dirname(__file__),'../routers/assets/categories/icons/')))
+                icon.save(os.path.abspath(os.path.join(os.path.dirname(__file__),'../routers/assets/categories/icons/'+category['id'] +'.'+ icon.filename.split('.')[-1])))
+            if cover != None:
+                if not os.path.exists(os.path.abspath(os.path.join(os.path.dirname(__file__),'../routers/assets/categories/covers/'))):
+                    os.mkdir(os.path.abspath(os.path.join(os.path.dirname(__file__),'../routers/assets/categories/covers/')))
+                cover.save(os.path.abspath(os.path.join(os.path.dirname(__file__),'../routers/assets/categories/covers/'+category['id'] +'.'+ cover.filename.split('.')[-1])))
+
+            return True
+        except Exception as e:
+            print(e)
+            return False
+
+
+    def create_category(self, category: dict, icon, cover)-> bool:
+        try:
+            category['id']= str(len(self.all_categories_dicts))
+            category['products']= []
+            category['subcats']= [
+                {
+                    "name": {
+                        "en": subcat['name']['en'],
+                        "ar": subcat['name']['ar'],
+                    },
+                    "bio": None,
+                    "id": "{}".format(category['subcats'].index(subcat)),
+                    "products": [],
+                    "subcats": None
+                } for subcat in category['subcats']
+            ]
+
+            self.all_categories_dicts.append(category)
+            with open(os.path.join(os.path.dirname(__file__), '../jsons/categories.json'), 'w') as f:
+                dict_= {cat['id']: cat for cat in self.all_categories_dicts}
+                json.dump(dict_, f)
+                f.close()
+
+            if icon != None:
+                if not os.path.exists(os.path.abspath(os.path.join(os.path.dirname(__file__),'../routers/assets/categories/icons/'))):
+                    os.mkdir(os.path.abspath(os.path.join(os.path.dirname(__file__),'../routers/assets/categories/icons/')))
+                icon.save(os.path.abspath(os.path.join(os.path.dirname(__file__),'../routers/assets/categories/icons/'+category['id'] +'.'+ icon.filename.split('.')[-1])))
+            if cover != None:
+                if not os.path.exists(os.path.abspath(os.path.join(os.path.dirname(__file__),'../routers/assets/categories/covers/'))):
+                    os.mkdir(os.path.abspath(os.path.join(os.path.dirname(__file__),'../routers/assets/categories/covers/')))
+                cover.save(os.path.abspath(os.path.join(os.path.dirname(__file__),'../routers/assets/categories/covers/'+category['id'] +'.'+ cover.filename.split('.')[-1])))
+
+            return True
+        except Exception as e:
+            print(e)
+            return False

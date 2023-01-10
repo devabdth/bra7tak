@@ -9,3 +9,11 @@ const pickRandomGradient = ()=> {
 
 
 }
+
+const logout= async (url)=> {
+	const res= await fetch(
+		`${url}/webapp/adminstration/logout/`
+	);
+
+	window.open(`${url}/webapp/adminstration/login/`, '_self');
+}

@@ -27,8 +27,9 @@ class ProfileRouter:
 	def assign_profile_router(self):
 		@self.app.route('/profile/', methods=["GET"])
 		def profile_index():
-			uid: str= session.get('CURRENT_URER_ID', None)
+			uid: str= session.get('CURRENT_USER_ID', None)
 			user_data= self.database.users.get_user_by_id(uid)
+			print(user_data.to_dict())
 			user_orders= self.database.orders.get_orders_by_uid(uid)
 			lang = session.get("LANG", "ar")
 			if lang == 'en':

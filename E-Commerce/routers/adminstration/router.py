@@ -12,6 +12,10 @@ from layout.layout import Layout
 from .sub_routers.products import ProductsSubRouter
 from .sub_routers.users import UsersSubRouter
 from .sub_routers.orders import OrdersSubRouter
+from .sub_routers.settings import SettingsSubRouter
+from .sub_routers.banners import BannersSubRouter
+from .sub_routers.categories import CategoriesSubRouter
+from .sub_routers.auth import AuthSubRouter
 
 
 class AdminstrationRouter:
@@ -27,10 +31,8 @@ class AdminstrationRouter:
 		ProductsSubRouter(app= self.app).setup()
 		UsersSubRouter(app= self.app).setup()
 		OrdersSubRouter(app= self.app).setup()
-		# InventorySubRouter(app= app).setup()
-		# LoginSubRouter(app= app).setup()
-		# CategoriesSubRouter(app= app).setup()
-		# ColellectionsSubRouter(app= app).setup()
-		# BannersSubRouter(app= app).setup()
-		# BulksSubRouter(app= app).setup()
-		pass
+		SettingsSubRouter(app= self.app).setup()
+		BannersSubRouter(app= self.app).setup()
+		CategoriesSubRouter(app= self.app).setup()
+		AuthSubRouter(app= self.app).setup()
+		

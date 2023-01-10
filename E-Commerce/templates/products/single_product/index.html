@@ -200,7 +200,7 @@
           </div>
           <div id="content">
             <div style="flex-direction: column;">
-              {% for spec in product.specs[lang] %}
+              {% for spec in (product.specs[lang]).split('\n') %}
               <p style="font-family: '{{primary_font_family}}'">- {{spec}}<br></p>
               {% endfor %}
             </div>
@@ -214,7 +214,16 @@
             <p style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['delivery']}}</p>
           </div>
           <div id="content">
-            <p style="font-family: '{{primary_font_family}}'">{{product.avg_del_days}} {{content.global_[lang]['avg_del_days']}}</p>
+            {% if user_data %}
+              {% if product.avg_del_days[user_data.city_code] != 0 %}
+                <p style="font-family: '{{primary_font_family}}'">{{product.avg_del_days[user_data.city_code | string]}} {{content.global_[lang]['avg_del_days']}}</p>
+              {% else %}
+                <p style="font-family: '{{primary_font_family}}'">{{product.avg_del_days[5 | string]}} {{content.global_[lang]['avg_del_days']}}</p>
+              {% endif %}
+            {% else %}
+                <p style="font-family: '{{primary_font_family}}'">{{product.avg_del_days[5 | string]}} {{content.global_[lang]['avg_del_days']}}</p>
+            {% endif %}
+      
           </div>
         </div>
       </div>

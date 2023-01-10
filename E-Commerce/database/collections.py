@@ -17,7 +17,7 @@ class Collections:
 	def __init__(self):
 		self.products: Products = Products()
 
-		with open(os.path.join(os.path.dirname(__file__), '../jsons/collections.json'), "r") as f:
+		with open(os.path.join(os.path.dirname(__file__), '../jsons/collections.json'), "r", encoding="cp866") as f:
 			self.collections_file_data= dict(json.loads(f.read()))
 		self.flash_sell: Collection= Collection(
 			name= self.collections_file_data["0"]["name"],

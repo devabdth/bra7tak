@@ -3,10 +3,11 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Bra7tak Admin - Overview</title>
+	<title>Bra7tak Admin - Orders</title>
 
 	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='adminstration/global/styles/computer.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='adminstration/orders/styles/computer.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='checkout/styles/computer.css')}}">
 
 	<script type="text/javascript" src="{{url_for('static', filename='adminstration/orders/scripts/main.js')}}"></script>
 </head>
@@ -21,18 +22,12 @@
 			<a href="{{cfg.base_url}}/webapp/adminstration/orders/" class="active-tab">Orders</a>
 			{% endif %}
 			{% if "2" in admin_data["accesses"] %}
-			<a href="{{cfg.base_url}}/webapp/adminstration/inventory/">Inventory</a>
-			{% endif %}
-			{% if "3" in admin_data["accesses"] %}
 			<a href="{{cfg.base_url}}/webapp/adminstration/categories/">Categories</a>
 			{% endif %}
 			{% if "4" in admin_data["accesses"] %}
-			<a href="{{cfg.base_url}}/webapp/adminstration/collections/">Collections</a>
-			{% endif %}
-			{% if "5" in admin_data["accesses"] %}
 			<a href="{{cfg.base_url}}/webapp/adminstration/banners/">Banners</a>
 			{% endif %}
-			{% if "6" in admin_data["accesses"] %}
+			{% if "5" in admin_data["accesses"] %}
 			<a href="{{cfg.base_url}}/webapp/adminstration/users/">Users</a>
 			{% endif %}
 			<a href="{{cfg.base_url}}/webapp/adminstration/settings/">Settings</a>
@@ -40,26 +35,251 @@
 	</header>
 	<section id="orders">
 		<div id="header">
-			<h3><span style="font-family: 'Poppins';">{{(orders["CANCELED"] | length) + (orders["STOCKED"] | length) + (orders["IN_DELIVERY"] | length) + (orders["DELIVERED"] | length)}}</span></h3>
+			<div id="title">
+				<h3><span style="font-family: 'Poppins';">{{(orders["CANCELED"] | length) + (orders["STOCKED"] | length) + (orders["IN_DELIVERY"] | length) + (orders["DELIVERED"] | length)}}</span> Orders</h3>
+				<button class="main-button" id="place-order" onclick="openPlaceOrderDialog();">Place Order</button>
+			</div>
 			<div id="search-options">
-				<div class="field-container">
-					<input type="date" name="Start Date" id="start-date-field" id="start-date-field" placeholder="2023-01-01" min="2023-01-01">
+				<label>Start Date</label>
+				<label>End Date</label>
+				<div class="field-container" id="start-date-field-container">
+					<input value="{{search_params['start']}}" type="date" name="Start Date" id="start-date-field" placeholder="2023-01-01" min="2023-01-01">
 				</div>
-				<div class="field-container">
-					<input type="date" name="Start Date" id="end-date-field" id="start-date-field" placeholder="2023-01-01" min="2023-01-01">
+				<div class="field-container" id="end-date-field-container">
+					<input value="{{search_params['end']}}" type="date" name="Start Date" id="end-date-field" placeholder="2023-01-01" min="2023-01-01">
 				</div>
-				<div class="field-container">
-					<input type="email" name="email" id="email-field" placeholder="User Email">
+				<div class="field-container" id="email-field-container">
+					<input value="{{search_params['email']}}" type="email" name="email" id="email-field" placeholder="User Email">
 				</div>
-				<div class="field-container">
-					<input type="name" name="id" id="id-field" placeholder="User Id">
+				<div class="field-container" id="id-field-container">
+					<input value="{{search_params['id']}}" type="name" name="id" id="id-field" placeholder="User Id">
 				</div>
 			</div>
 			<div id="options">
-				<div class="shadow-button">Cancel</div>
-				<div class="main-button">Filter</div>
+				<div class="shadow-button" onclick="ordersFiltrationClear();">Clear</div>
+				<div class="main-button" onclick="ordersFiltrationSubmit();">Filter</div>
 			</div>
 		</div>
+		<div id="fragments-controllers">
+			<div class="fragment-controller active-fragment-controller" id="canceled-fragment-controller" onclick="fragmentsSwitch(0);">Canceled Orders</div>
+			<div class="fragment-controller" id="stocked-fragment-controller" onclick="fragmentsSwitch(1);">Stocked Orders</div>
+			<div class="fragment-controller" id="in-delivery-fragment-controller" onclick="fragmentsSwitch(2);">In Delivery Orders</div>
+			<div class="fragment-controller" id="delivered-fragment-controller" onclick="fragmentsSwitch(3);">Delivered Orders</div>
+		</div>
+		<div class="fragment active-fragment" id="canceled-fragment">
+			<table class="orders">
+				<tr>
+					<th>Order ID</th>
+					<th>UID/ Email</th>
+					<th>products</th>
+					<th>Total Price</th>
+					<th>City</th>
+					<th>Options</th>
+				</tr>
+				{% for order in orders["CANCELED"] %}
+					<tr>
+						<td>{{order.id}}</td>
+						<td>{{order.uid}}</td>
+						<td>{{order.products | length}}</td>
+						<td>{{order.price}}</td>
+						<td>{{content.cities['en'][order.city_code]}}</td>
+						<td><button class="shadow-button" style="text-decoration: underline;" onclick="openOrderDialog({{order.to_dict() | safe}}, '{{content.cities[lang][order.city_code]}}');">View</button></td>
+					</tr>
+				{% endfor %}
+				
+			</table>
+		</div>
+		<div class="fragment" id="stocked-fragment">
+			<table class="orders">
+				<tr>
+					<th>Order ID</th>
+					<th>UID/ Email</th>
+					<th>products</th>
+					<th>Total Price</th>
+					<th>City</th>
+					<th>Options</th>
+				</tr>
+				{% for order in orders["STOCKED"] %}
+					<tr>
+						<td>{{order.id}}</td>
+						<td>{{order.uid}}</td>
+						<td>{{order.products | length}}</td>
+						<td>{{order.price}}</td>
+						<td>{{content.cities['en'][order.city_code]}}</td>
+						<td><button class="shadow-button" style="text-decoration: underline;" onclick="openOrderDialog({{order.to_dict() | safe}}, '{{content.cities[lang][order.city_code]}}');">View</button></td>
+					</tr>
+				{% endfor %}
+				
+			</table>
+			
+		</div>
+		<div class="fragment" id="in-delivery-fragment">
+			<table class="orders">
+				<tr>
+					<th>Order ID</th>
+					<th>UID/ Email</th>
+					<th>products</th>
+					<th>Total Price</th>
+					<th>City</th>
+					<th>Options</th>
+				</tr>
+				{% for order in orders["IN_DELIVERY"] %}
+					<tr>
+						<td>{{order.id}}</td>
+						<td>{{order.uid}}</td>
+						<td>{{order.products | length}}</td>
+						<td>{{order.price}}</td>
+						<td>{{content.cities['en'][order.city_code]}}</td>
+						<td><button class="shadow-button" style="text-decoration: underline;" onclick="openOrderDialog({{order.to_dict() | safe}}, '{{content.cities[lang][order.city_code]}}');">View</button></td>
+					</tr>
+				{% endfor %}
+				
+			</table>
+			
+		</div>
+		<div class="fragment" id="delivered-fragment">
+			<table class="orders">
+				<tr>
+					<th>Order ID</th>
+					<th>UID/ Email</th>
+					<th>products</th>
+					<th>Total Price</th>
+					<th>City</th>
+					<th>Options</th>
+				</tr>
+				{% for order in orders["DELIVERED"] %}
+					<tr>
+						<td>{{order.id}}</td>
+						<td>{{order.uid}}</td>
+						<td>{{order.products | length}}</td>
+						<td>{{order.price}}</td>
+						<td>{{content.cities['en'][order.city_code]}}</td>
+						<td><button class="shadow-button" style="text-decoration: underline;" onclick="openOrderDialog({{order.to_dict() | safe}}, '{{content.cities[lang][order.city_code]}}');">View</button></td>
+					</tr>
+				{% endfor %}
+				
+			</table>
+
+		</div>
 	</section>
+
+	<div class="overlay" id="overlay">
+		<div id="order-dialog" style="z-index: 1001;">
+			<div id="header">
+				<h3>Order Details</h3>
+				<div id="close-order-dialog" onclick="closeOrderDialog();">x</div>
+			</div>
+			<div id="content">
+				<div id="info">
+					<label>Order ID</label>
+					<p id="order-id"></p>
+					<label>User ID / Email</label>
+					<p id="order-user-id"></p>
+					<label>Address</label>
+					<p id="order-user-address"></p>
+					<label>City</label>
+					<p id="order-user-city"></p>
+					<label>Price & VAT</label>
+					<p id="order-price"></p>
+					<label>Time</label>
+					<p id="order-time"></p>
+					<label>Status</label>
+					<p id="order-status"></p>
+				</div>
+				<div id="qr"></div>
+			</div>
+			<button onclick="toggleStatusDropdown()" id="status-dropbtn" class="status-dropbtn">Status</button>
+	      	<div id="status-dropdown" class="status-dropdown-content">
+	        	<input type="text" placeholder="{{content.global_[lang]['search']}}..." id="city-search" onkeyup="filter()">
+	        	{% set statuses= ['Canceled', 'Stocked', 'In Delivery', 'Delivered'] %}
+	        	{% for status in statuses %}
+	          		<button onclick="chooseStatus('{{status}}', {{statuses.index(status)}}, '{{lang}}');">{{status}}</button>
+	        	{% endfor %}
+	      	</div>
+	      	<div id="options">
+	      		<div class="shadow-button" onclick="closeOrderDialog();">Close</div>
+	      		<div class="main-button" id="downlowd-recipet">Download Reciept</div>
+	      		<div class="main-button" id="update">Update</div>
+	      	</div>
+		</div>
+	</div>
+
+	<div class="overlay" id="place-order-dialog-overlay" onclick="closePlaceOrderDialog();"></div>
+	<div id="place-order-dialog">
+		<div id="header">
+			<h3>Place Order</h3>
+			<div onclick="closePlaceOrderDialog();">x</div>
+		</div>
+		<div id="content">
+			<h4>Personal Information</h4>
+			<div class="field-container" id="name-field-container">
+				<input type="name" name="name" id="name-field" placeholder="Customer Name">
+			</div>
+			<div class="field-container" id="dialog-email-field-container">
+				<input type="email" name="email" id="dialog-email-field" placeholder="Email">
+			</div>
+			<div class="field-container" id="dialog-phone-field-container">
+				<input type="tel" name="phone" id="dialog-phone-field" placeholder="Phone">
+			</div>
+        	<button onclick="toggleGendersDropdown()" id="genders-dropbtn" class="genders-dropbtn">{{content.actions[lang]["pickGender"]}}</button>
+      		<div id="genders-dropdown" class="genders-dropdown-content">
+		        <input type="text" placeholder="{{content.global_[lang]['search']}}..." id="gender-search" onkeyup="gendersFilter()">
+		        {% for gender in content.genders[lang].keys() %}
+		          <button style="font-family: 'Raleway';" onclick="chooseGender('{{content.genders[lang][gender]}}', '{{gender}}', '{{lang}}');">{{content.genders[lang][gender]}}</button>
+		        {% endfor %}
+      		</div>
+      		<div class="divider"></div>
+			<h4>Shipping Information</h4>
+			<div class="field-container" id="address-line-one-field-container">
+				<input type="address" name="addressOne" placeholder="Adress Line One" id="address-line-one-field">
+			</div>
+			<div class="field-container" id="address-line-two-field-container">
+				<input type="address" name="addressTwo" placeholder="Adress Line Two" id="address-line-two-field">
+			</div>
+			<button onclick="toggleCitiesDropdown()" id="cities-dropbtn" class="cities-dropbtn">Pick City</button>
+        	<div id="cities-dropdown" class="cities-dropdown-content">
+          		<input type="text" placeholder="{{content.global_[lang]['search']}}..." id="city-search" onkeyup="citiesFilter()">
+	          {% for city in content.cities[lang].keys() %}
+	            <button style="font-family: 'Raleway';" onclick="chooseCity('{{content.cities[lang][city]}}', '{{city}}', '{{lang}}');">{{content.cities[lang][city]}}</button>
+	          {% endfor %}
+	        </div>
+      		<div class="divider"></div>
+			<h4>Products Information</h4>
+		    <div id="cart">
+		        <h4 id="products-length">0 Products</h4>
+		        <div id="specs">
+		          <div>
+		            <p id="price">Price<br><span style="font-family: 'Poppins'">0</span> L.E.</p>
+		          </div>
+		          <div>
+		          	<br>
+		            <p id="vat">Vat<br><span style="font-family: 'Poppins'">0</span> L.E.</p>
+		          </div>
+		          <div>
+		            <p id="shipping-fees">Shipping Fees<br><span style="font-family: 'Poppins'">0</span> L.E.</p>
+		          </div>
+		        </div>
+	      	</div>
+	      	<div id="picked-products"></div>
+			<button onclick="toggleProductsDropdown()" id="products-dropbtn" class="products-dropbtn">Pick Product</button>
+        	<div id="products-dropdown" class="products-dropdown-content">
+          		<input type="text" placeholder="{{content.global_[lang]['search']}}..." id="product-search" onkeyup="productsFilter()">
+	          {% for product in products %}
+	            <button style="font-family: 'Raleway';" onclick="chooseProduct(`{{product.name['en']}}`, '{{product.id}}', '{{lang}}');">{{product.name['en']}}</button>
+	          {% endfor %}
+	        </div>
+			<div class="divider"></div>
+			<div style="display: flex; align-items: center; justify-content: end; width: 100%; flex-direction: row; min-height: 15vh;">
+				<button class="shadow-button" onclick="closePlaceOrderDialog();">Cancel</button>
+				<button class="main-button" id="place-order-confirmation" onclick="placeOrderConfirmation();">Place</button>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		let productsList= [];
+		{% for product in products %}
+			productsList.push({{product.to_dict() | safe}});
+		{%endfor%}
+	</script>
 </body>
 </html>

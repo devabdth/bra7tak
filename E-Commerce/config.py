@@ -7,7 +7,10 @@ class Config:
 		self.debug = (environ.get('MODE') or 0) == 0
 		self.auth_key = environ.get('AUTH_KEY') or '1234567890'
 		self.base_url = environ.get('BASE_URL') or 'http://127.0.0.1:{}'.format(self.port)
-
+		self.meta_key= environ.get('META_KEY') or "lsdkfjsldcmsslf;a;ldskfjjweporwpfs;dlfjw;mcwe"
+        
+		#self.db_url= environ.get('DB_URL') or "mongodb://localhost/bra7tak"
+		self.db_url= environ.get('DB_URL') or "mongodb+srv://website:dXqqOKLEjWc0bTQT@cluster0.hr5uyvd.mongodb.net/?retryWrites=true&w=majority"
 		self.facebook = environ.get('FACEBOOK') or "None"
 		self.instagram= environ.get('INSTAGRAM') or "None"
 		self.linkedin = environ.get('LINKEDIN') or "None"

@@ -89,7 +89,7 @@
 			{% for cat in database.categories.all_categories[:7] %}
 				<div class="category-card" onclick="window.open('{{cfg.base_url}}/categories/{{cat.id}}');">
 					<div class="category-icon" style="background-image: url('{{cfg.base_url}}/assets/categories/icons/{{cat["id"]}}');"></div>
-					<h3 style="font-family: '{{primary_font_family}}';">{{cat['name'][lang]}}<br><span>{{len(cat['products'])}} Products</span></h3>
+					<h3 style="font-family: '{{primary_font_family}}';">{{cat['name'][lang]}}<br></h3>
 				</div>
 			{% endfor %}
 			<div class="category-card" onclick="window.open('{{cfg.base_url}}/categories/');">
@@ -108,7 +108,7 @@
 						<button class="main-button" onclick="window.open('{{layout.main_banner.card_action_link}}');" style="border: none; font-family: '{{primary_font_family}}'; color: {{layout.main_banner.action_text_color}}; background-color: {{layout.main_banner.action_background_color}}">{{layout.main_banner.action_text[lang]}}</button>
 					{% endif %}
 				</div>
-				<div id="asset" style="background-image: url('{{cfg.base_url}}/assets/products/name/{{layout.main_banner.asset}}');"></div>
+				<div id="asset" style="background-image: url('{{cfg.base_url}}/assets/banners/assets/{{layout.main_banner.id}}');"></div>
 			</div>
 			<div id="banners">
 				<div id="entry-sup-banner" style="background: linear-gradient(135deg, var(--secondary-color) 10%, {{layout.sup_banner_one.background_color}} 100%);cursor: pointer;" onclick="window.open('{{layout.sup_banner_one.card_action_link}}');">
@@ -129,7 +129,7 @@
 							<a class="main-button" style="font-family: '{{primary_font_family}}'; color: {{layout.sup_banner_one.action_text_color}}; background-color: {{layout.sup_banner_one.action_background_color}}">{{layout.sup_banner_one.action_text[lang]}}</a>
 						{% endif %}
 					</div>
-					<div id="asset" style="background-image: url('{{cfg.base_url}}/assets/products/name/{{layout.sup_banner_one.asset}}');"></div>
+					<div id="asset" style="background-image: url('{{cfg.base_url}}/assets/banners/assets/{{layout.sup_banner_one.id}}');"></div>
 				</div>
 				<div id="entry-sup-banner" style="background: linear-gradient(135deg, var(--secondary-color) 10%, {{layout.sup_banner_two.background_color}} 100%);cursor: pointer;" onclick="window.open('{{layout.sup_banner_two.card_action_link}}');">
 					<div id="content">
@@ -149,7 +149,7 @@
 							<a class="main-button" style="font-family: '{{primary_font_family}}'; color: {{layout.sup_banner_two.action_text_color}}; background-color: {{layout.sup_banner_two.action_background_color}}">{{layout.sup_banner_two.action_text[lang]}}</a>
 						{% endif %}
 					</div>
-					<div id="asset" style="background-image: url('{{cfg.base_url}}/assets/products/name/{{layout.sup_banner_two.asset}}');"></div>
+					<div id="asset" style="background-image: url('{{cfg.base_url}}/assets/banners/assets/{{layout.sup_banner_two.id}}');"></div>
 				</div>
 			</div>
 		</div>
@@ -198,28 +198,6 @@
 			          </a>
 					{% endfor%}
 				</div>
-				{% if layout.flash_sell.side_ad %}
-					<div class="side-ad" style="background: linear-gradient(135deg, var(--secondary-color) 10%, {{layout.flash_sell.side_ad.background_color}} 100%); cursor: pointer;" onclick="window.open('{{layout.flash_sell.side_ad.card_action_link}}');">
-						<div id="content">
-							{% if layout.flash_sell.side_ad.subtitle[lang] %}
-							<p style="font-family:'{{primary_font_family}}'; color: {{layout.flash_sell.side_ad.subtitle_color}}">{{layout.flash_sell.side_ad.subtitle[lang]}}</p>
-							{% endif %}
-							<h2 style="font-family: '{{primary_font_family}}'; color: {{layout.flash_sell.side_ad.title_color}}">{{layout.flash_sell.side_ad.title[lang]}}</h2>
-							{% if layout.flash_sell.side_ad.pricing %}
-							<h4 style="font-family: 'Poppins';">
-								{{layout.flash_sell.side_ad.pricing['currentPrice']}}
-								{% if layout.flash_sell.side_ad.pricing['perviousPrice'] %}
-								<span>{{layout.flash_sell.side_ad.pricing['perviousPrice']}}</span>
-								{% endif %}
-							</h4>
-							{% endif %}
-							{% if layout.flash_sell.side_ad.action_link %}
-							<a class="main-button" style="font-family: '{{primary_font_family}}'; color: {{layout.flash_sell.side_ad.action_text_color}}; background-color: {{layout.flash_sell.side_ad.action_background_color}}">{{layout.flash_sell.side_ad.action_text[lang]}}</a>
-							{% endif %}	
-						</div>
-						<div id="asset" style="background-image: url('{{cfg.base_url}}/assets/products/name/{{layout.flash_sell.side_ad.asset}}');"></div>
-					</div>
-				{% endif %}
 			</div>
 		</section>
 	{% endif %}
@@ -231,20 +209,6 @@
 				<h3 style="font-family: '{{primary_font_family}}'">{{cat.name[lang]}}</h3>
 				<a style="font-family: '{{primary_font_family}}';" href="{{cfg.base_url}}/categories//{{cat.id}}" class="main-button">{{content.actions[lang]["seeAll"]}}</a>
 			</div>
-			{% if cat.ad_banner %}
-				<div id="banner" style="background: linear-gradient(135deg, var(--secondary-color) 10%, {{layout.main_banner.background_color}} 100%);cursor: pointer;" onclick="window.open('{{layout.main_banner.card_action_link}}');">
-					<div id="content">
-						{% if cat.ad_banner.subtitle[lang] %}
-						<p style="font-family:'{{primary_font_family}}'; color: {{cat.ad_banner.subtitle_color}}">{{cat.ad_banner.subtitle[lang]}}</p>
-						{% endif %}
-						<h2 style="font-family: '{{primary_font_family}}'; color: {{cat.ad_banner.title_color}}">{{cat.ad_banner.title[lang]}}</h2>
-						{% if cat.ad_banner.action_link %}
-						<a class="main-button" href="'{{cat.ad_banner.card_action_link}}'" style="border: none; font-family: '{{primary_font_family}}'; color: {{cat.ad_banner.action_text_color}}; background-color: {{cat.ad_banner.action_background_color}}">{{cat.ad_banner.action_text[lang]}}</a>
-						{% endif %}
-					</div>
-					<div id="asset" style="background-image: url('{{cfg.base_url}}/assets/products/name/{{layout.main_banner.asset}}');"></div>
-				</div>
-			{% endif %}
 			<div id="products">
 				{% for prod in database.products.get_all_products_by_category(cat.id)[:8] %}
 				 <a class="product-card" href="{{cfg.base_url}}/products/{{prod.id}}">

@@ -28,6 +28,8 @@ class CategoriesRouter:
 	def assign_all_categories(self):
 		@self.app.route('/categories/', methods=["GET"])
 		def all_categories():
+			self.database.categories.load()
+			
 			lang = session.get("LANG", "ar")
 			uid= session.get("CURRENT_USER_ID", None)
 			if lang == 'en':

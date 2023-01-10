@@ -93,6 +93,8 @@ class FavouritesRouter:
 		@self.app.route('/wishlist/')
 		@self.app.route('/savedForLater/')
 		def favourites_index():
+			self.database.categories.load()
+			
 			lang = session.get("LANG", "ar")
 			uid= session.get("CURRENT_USER_ID", None)
 			if lang == 'en':

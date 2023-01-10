@@ -32,6 +32,8 @@ class HomeRouter:
 		@self.app.route('/landing%20page/', methods=['GET'])
 
 		def home_index():
+			self.database.categories.load()
+			
 			lang = session.get("LANG", "ar")
 			uid= session.get("CURRENT_USER_ID", None)
 			if lang == 'en':
@@ -40,6 +42,7 @@ class HomeRouter:
 			elif lang == 'ar':
 				primary_font_family= 'Cairo'
 				second_font_family= 'Cairo'
+			self.layout.load()
 			if not uid is None:
 				user_data= self.database.users.get_user_by_id(uid)
 				return render_template(

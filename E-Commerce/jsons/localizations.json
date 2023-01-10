@@ -63,7 +63,8 @@
             "points": "Points",
             "vouchers": "Vouchers",
             "comingSoon": "Coming Soon!",
-            "orderCompletedSuccessfullyMsg": "Your order is under review right now! An Agent from Bra7tak will contact you soon!"
+            "orderCompletedSuccessfullyMsg": "Your order is under review right now! An Agent from Bra7tak will contact you soon!",
+            "avg_del_days": "Average Delivery Days"
         },
         "ar": {
             "name": "براحتـــــك",

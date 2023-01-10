@@ -93,7 +93,7 @@
     <div id="progress">
       <div id="progress-bar"></div>
       <div id="icons">
-        <div class="progress-icon" id="personal-information-icon">
+        <div class="progress-icon active" id="personal-information-icon">
           <div class="icon"></div>
           <h6 style="font-family: '{{primary_font_family}}'">{{content.global_[lang]['personalInformation']}}</h6>
         </div>
@@ -168,9 +168,9 @@
       </div>
       <div id="methods">
           {% for pm in cfg.supported_checkout_methods.keys() %}
-            <div>
+            <div id="methods-cards">
               {%if cfg.supported_checkout_methods[pm]['supported'] %}
-                <label style="font-family: '{{primary_font_family}}'" class="pm-checkbox" >{{content.global_[lang][cfg.supported_checkout_methods[pm]['title']]}} <input type="checkbox" id="{{pm}}-checkbox" />  <div class="pm-icon" id="pm-icon-{{pm}}"></div> <span class="checkmark"></span>
+                <label style="font-family: '{{primary_font_family}}'" class="pm-checkbox" >{{content.global_[lang][cfg.supported_checkout_methods[pm]['title']]}} <input type="checkbox" id="{{pm}}-checkbox" class="supported-checkout-method" />  <div class="pm-icon" id="pm-icon-{{pm}}"></div> <span class="checkmark"></span>
               {% else %}
                 <div class="pm-icon" id="pm-icon-{{pm}}"></div>
                 <p style="font-family: '{{primary_font_family}}'" class="pm-unsupported" >{{content.global_[lang][cfg.supported_checkout_methods[pm]['title']]}} <span>({{content.global_[lang]['comingSoon']}})</span></p>
@@ -178,7 +178,7 @@
             </div>
           {% endfor %}
         </div>
-      <button class="main-button" onclick="paymentInformationConfirmation();" style="font-family: '{{primary_font_family}}';">{{content.actions[lang]['submit']}}</button>
+      <button class="main-button" id="order-confirmation" onclick="paymentInformationConfirmation('{{lang}}');" style="font-family: '{{primary_font_family}}';">{{content.actions[lang]['submit']}}</button>
     </section>
     <section class="form-section" id="complete-order">
       <div id="icon"></div>

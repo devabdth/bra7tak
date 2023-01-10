@@ -31,6 +31,7 @@ class SearchRouter:
 		def search_index():
 			params= dict(request.values)
 			products: list= self.database.products.get_products_by_filterization(params)
+			self.database.categories.load()
 			lang = session.get("LANG", "ar")
 			uid= session.get("CURRENT_USER_ID", None)
 			if lang == 'en':

@@ -44,7 +44,7 @@ class UsersSubRouter:
 		def users_index():
 			params= dict(request.values)
 
-			aid= session.get("CURRENT_ADMIN_ID", "sdsdcsdf")
+			aid= session.get("CURRENT_ADMIN_ID", None)
 			if aid is None:
 				return redirect('{}/webapp/adminstration/login/'.format(self.cfg.base_url))
 

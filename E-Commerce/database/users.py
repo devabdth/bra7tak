@@ -1,5 +1,13 @@
+import pymongo
+import time
 import datetime
+from bson.objectid import ObjectId
 
+
+import sys
+sys.path.insert(0, '../')
+
+from config import Config
 class User:
 	def __init__(
 		self, name: str, phone: str, email: str, password: str, id: str, favourites: list, cart: list,
@@ -24,7 +32,7 @@ class User:
 
 	def to_dict(self):
 		return {
-			"id": self.id,
+			"id": str(self.id),
 			"name": self.name,
 			"phone": self.phone,
 			"email": self.email,
@@ -44,63 +52,82 @@ class User:
 
 class Users:
 	def __init__(self):
-		self.user= User(
-			id="dsfsdfsdfs",
-			name="User Name",
-			email="info@cubersio.com",
-			phone="+20 109 300 8313",
-			password="1234567890",
-			favourites= [],
-			fav_categories= [],
-			cart= [],
-			address_line_one= "User Address",
-			address_line_two= "User Address 2",
-			gender= 0,
-			city_code= 0,
-			orders= ["{}".format(x) for x in range(0, 30)],
-			joined_in= str(datetime.date.today())
-		)
+		self.cfg: Config= Config()
+		self.client = pymongo.MongoClient(self.cfg.db_url)
+		self.database = self.client["bra7tak"]
+		self.users_collection = self.database["users"]
 
 	def create_user(self, payload) -> str:
 		try:
 			user_= User(
-				id="ssdfsd",
+				id= "",
 				name=payload["name"],
 				email=payload["email"],
 				password=payload["password"],
 				phone=payload["phone"],
 				address_line_one=payload["addressLineOne"],
 				address_line_two=payload["addressLineTwo"],
-				gender=payload["gender"],
-				city_code=payload["city"],
+				gender= int(payload["gender"]),
+				city_code= int(payload["city"]),
 				favourites= [],
 				fav_categories= [],
 				cart= [],
 				orders= [],
 				joined_in= str(datetime.date.today())
 			)
-			print(user_.to_dict())
+			user_ = self.users_collection.insert_one(user_.to_dict())
 
-			return user_.id
+			return str(user_.inserted_id)
 		except Exception as e:
 			print(e)
 			return None
 
 	def get_all_users(self, search_params):
-		return [self.user for _ in range (0, 30)]
+		return list(self.users_collection.find())
 		
 
 	def get_user_by_id(self, uid: str):
-		return self.user
+		users = self.users_collection.find({'_id': ObjectId(uid)})
+		return self.create_user_from_dict(dict(list(users)[0]))
 
-	def get_user_by_username(self, username: str):
-		return self.user
+	def get_user_by_username(self, email: str):
+		users = self.users_collection.find({'email': email})
+		return self.create_user_from_dict(dict(list(users)[0]))
+
 
 	def check_email_uniquness(self, email):
-		return email == self.user.email
+		users= self.users_collection.find({'email': email})
+		return len(list(users)) == 0
 
 	def update_user_data(self, uid: str, user_data: User):
-		self.user= user_data
+		try:
+			result = self.users_collection.find_one_and_update({'_id': ObjectId(uid)}, {'$set': user_data.to_dict()})
+			print(self.get_user_by_id(uid))
+			return True
+		except Exception as e:
+			print(e)
+			return False
+
 
 	def delete_user(self, uid: str):
 		return True
+
+
+	def create_user_from_dict(self, dict_: dict):
+		return User(
+			id= dict_['_id'],
+			name= dict_['name'],
+			phone= dict_['phone'],
+			email= dict_['email'],
+			password= dict_['password'],
+			favourites= dict_['favourites'],
+			fav_categories= dict_['favCategories'],
+			cart= dict_['cart'],
+			address_line_one= dict_['addressLineOne'],
+			address_line_two= dict_['addressLineTwo'],
+			gender= int(dict_['gender']),
+			city_code= int(dict_['cityCode']),
+			orders= dict_['orders'],
+			joined_in= dict_['joined_in'],
+		)
+

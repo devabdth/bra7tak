@@ -214,13 +214,15 @@ const openProductEdit= (product, mode, url)=> {
 				product['bio']['ar'] = arBioField.value.trim();
 				product['specs']['en'] = enSpecsField.value.trim();
 				product['specs']['ar'] = arSpecsField.value.trim();
-				product["pricing"]["currentPrice"] = peicePriceField.value.trim();
-				product["pricing"]["twoPiecesPrice"] = twoPeicesPriceField.value.trim();
-				product["pricing"]["fourPiecesPrice"] = fourPeicesPriceField.value.trim();
-				product["pricing"]["sixPiecesPrice"] = sixPeicesPriceField.value.trim();
-				product["pricing"]["dozinPiecesPrice"] = dozinPeicesPriceField.value.trim();
-				product["vat"] = vatField.value.trim();
+				product["pricing"]["currentPrice"] = Number.parseInt(peicePriceField.value.trim());
+				product["pricing"]["twoPiecesPrice"] = Number.parseInt(twoPeicesPriceField.value.trim());
+				product["pricing"]["fourPiecesPrice"] = Number.parseInt(fourPeicesPriceField.value.trim());
+				product["pricing"]["sixPiecesPrice"] = Number.parseInt(sixPeicesPriceField.value.trim());
+				product["pricing"]["dozinPiecesPrice"] = Number.parseInt(dozinPeicesPriceField.value.trim());
+				product["vat"] = Number.parseInt(vatField.value.trim());
 				product["assets"] = newAssets;
+				product["category"]= currentCategory;
+				product["subCategory"]= currentSubCategory;
 
 				for (let cityCode in product["avgDelDays"]) {
 					 product["avgDelDays"][cityCode]= Number.parseInt(document.getElementById(`${cityCode}-del-days`).value);
@@ -293,17 +295,19 @@ const openProductEdit= (product, mode, url)=> {
 				product['bio']['ar'] = arBioField.value.trim();
 				product['specs']['en'] = enSpecsField.value.trim();
 				product['specs']['ar'] = arSpecsField.value.trim();
-				product["pricing"]["currentPrice"] = peicePriceField.value.trim();
-				product["pricing"]["twoPiecesPrice"] = twoPeicesPriceField.value.trim();
-				product["pricing"]["fourPiecesPrice"] = fourPeicesPriceField.value.trim();
-				product["pricing"]["sixPiecesPrice"] = sixPeicesPriceField.value.trim();
-				product["pricing"]["dozinPiecesPrice"] = dozinPeicesPriceField.value.trim();
-				product["vat"] = vatField.value.trim();
+				product["pricing"]["currentPrice"] = Number.parseInt(peicePriceField.value.trim());
+				product["pricing"]["twoPiecesPrice"] = Number.parseInt(twoPeicesPriceField.value.trim());
+				product["pricing"]["fourPiecesPrice"] = Number.parseInt(fourPeicesPriceField.value.trim());
+				product["pricing"]["sixPiecesPrice"] = Number.parseInt(sixPeicesPriceField.value.trim());
+				product["pricing"]["dozinPiecesPrice"] = Number.parseInt(dozinPeicesPriceField.value.trim());
+				product["vat"] = Number.parseInt(vatField.value.trim());
 				product["assets"] = newAssets;
+				product["category"]= currentCategory
+				product["subCategory"]= currentSubCategory
 
 				for (let cityCode= 0; cityCode != 27; cityCode++) {
-					 product["avgDelDays"][cityCode]= Number.parseInt(document.getElementById(`${cityCode}-del-days`).value);
-					 product["shippingFees"][cityCode]= Number.parseInt(document.getElementById(`${cityCode}-shipping-fees`).value);
+					 product["avgDelDays"][cityCode]= Number.parseInt(document.getElementById(`${cityCode}-del-days`).value || '0');
+					 product["shippingFees"][cityCode]= Number.parseInt(document.getElementById(`${cityCode}-shipping-fees`).value || '0');
 				}
 
 				submitProductCreate(product, url, newAssetsFiles, (status)=> {
@@ -382,6 +386,7 @@ const formFieldValidation = (assetsList)=> {
 	const arBioField = document.getElementById("ar-bio");
 	const enSpecsField = document.getElementById("en-specs");
 	const arSpecsField = document.getElementById("ar-specs");
+  	const categoryBtn = document.getElementById(`categories-dropbtn`);
 	const peicePriceField = document.getElementById("peice-price");
 	const twoPeicesPriceField = document.getElementById("2-peices-price");
 	const fourPeicesPriceField = document.getElementById("4-peices-price");
@@ -439,6 +444,13 @@ const formFieldValidation = (assetsList)=> {
 		return false;
 	}
 	arSpecsField.style.color= "var(--secondary-color);";
+
+	if (currentCategory === undefined || currentSubCategory === undefined) {
+		categoryBtn.style.border= "1px red solid";
+		return false;
+	}
+	categoryBtn.style.border= "none";
+
 
 	if (peicePriceField.value.length === 0 || Number.parseInt(peicePriceField.value.trim()) === 0) {
 		peicePriceField.value= "0";
@@ -582,3 +594,39 @@ const clearForm= ()=> {
 
 
 }
+
+
+let currentCategory, currentSubCategory;
+
+const toggleCategoriesDropdown = () => {
+  document.getElementById(`categories-dropdown`).classList.toggle("show");
+}
+
+const categoriesFilter = () => {
+  var input, filter, ul, li, a, i;
+  input = document.getElementById("category-search");
+  filter = input.value.toUpperCase();
+  div = document.getElementById("categories-dropdown");
+  button = div.getElementsByTagName("button");
+  for (i = 0; i < button.length; i++) {
+    txtValue = button[i].textContent || button[i].innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      button[i].style.display = "";
+    } else {
+      button[i].style.display = "none";
+    }
+  }
+}
+
+
+const chooseCategory = (text_, category, subcategory, lang, wtoggle) => {
+  const btn = document.getElementById(`categories-dropbtn`);
+  currentCategory = category;
+  currentSubCategory = subcategory;
+  btn.innerHTML = text_;
+  btn.innerText = text_;
+  btn.textContent = text_;
+
+  if(wtoggle ?? true) toggleCategoriesDropdown();
+}
+

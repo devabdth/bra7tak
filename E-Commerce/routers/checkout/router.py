@@ -18,10 +18,54 @@ class CheckoutRouter:
 
 
 	def setup(self):
-		self.assing_checkout_form_router()
+		self.assign_checkout_form_router()
+		self.assign_place_order()
+
+	def assign_place_order(self):
+		@self.app.route('/checkout/', methods=["POST"])
+		def place_order():
+			import json
+
+			params= dict(request.values)
+			if not 'prods' in params.keys():
+				print('Products not Found!')
+				return self.app.response_class(status= 500)
+
+			products_ids= [prod_id for prod_id in params['prods'].split('|')]
+
+			body= dict(json.loads(request.data))
+			print(body)
+			if not 'order' in body.keys():
+				print('Order not Found!')
+				return self.app.response_class(status= 500)
+
+			order= body['order']
+			cart_calc= self.utils.cart_calculations(products_ids)
+			order_: Order= self.database.orders.order_form(
+				id= "",
+				aid= None,
+				username= order['username'],
+				user_email= order['email'],
+				user_phone= order['phone'],
+				address= order['addressLineOne'],
+				address_two= order['addressLineTwo'],
+				city_code= order['city'],
+				products= products_ids,
+				vat= cart_calc['TOTAL_VAT'],
+				price= cart_calc['TOTAL_PRICE'],
+				shipping_fees= cart_calc['TOTAL_SHIPPING_FEE'],
+				status= 0,
+				uid= order['uid'],
+				placed_in= ""
+			)
+			print(order_.to_dict())
+
+			return self.app.response_class(status= 500)
 
 
-	def assing_checkout_form_router(self):
+
+
+	def assign_checkout_form_router(self):
 		@self.app.route('/checkout/', methods=["GET"])
 		def checkout_form():
 			cart= (dict(request.values)['prods']).split('|')

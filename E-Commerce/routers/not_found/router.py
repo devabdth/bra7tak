@@ -34,6 +34,9 @@ class NotFoundRouter:
 			elif lang == 'ar':
 				primary_font_family= 'Cairo'
 				second_font_family= 'Cairo'
+			
+			self.database.categories.load()
+
 			if not uid is None:
 				user_data= self.database.users.get_user_by_id(uid)
 				return render_template(
