@@ -1,1 +1,7 @@
 Draft/
+*.pem
+venv
+*/venv
+.env
+.flaskenv
+*/flask_session
