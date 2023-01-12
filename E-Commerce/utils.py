@@ -57,7 +57,8 @@ class Utils:
 		for prod in cart_['PRODUCTS']:
 			products_price+= (prod['COUNT'] * prod['PRODUCT_DATA'].pricing['currentPrice'])
 			total_vat+= (prod['COUNT'] * prod['PRODUCT_DATA'].pricing['currentPrice']) * prod['PRODUCT_DATA'].vat
-			total_shipping_fee+= prod['COUNT'] * prod['PRODUCT_DATA'].shipping_fees[str(city_code)]
+			# total_shipping_fee+= prod['COUNT'] * prod['PRODUCT_DATA'].shipping_fees[str(city_code)]
+			total_shipping_fee+= prod['COUNT'] * prod['PRODUCT_DATA'].shipping_fees[5]
 
 		cart_['PRODUCTS_PRICE']= products_price
 		cart_['TOTAL_VAT']= total_vat

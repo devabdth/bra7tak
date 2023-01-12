@@ -56,10 +56,10 @@ class Order:
 
 
 class Orders:
-	def __init__(self):
+	def __init__(self, client: pymongo.MongoClient):
 		self.order_form= Order
 		self.cfg: Config= Config()
-		self.client = pymongo.MongoClient(self.cfg.db_url)
+		self.client: pymongo.MongoClient =client
 		self.database = self.client["bra7tak"]
 		self.orders_collection = self.database["users"]
 

@@ -30,7 +30,8 @@ class ProfileRouter:
 			uid: str= session.get('CURRENT_USER_ID', None)
 			user_data= self.database.users.get_user_by_id(uid)
 			print(user_data.to_dict())
-			user_orders= self.database.orders.get_orders_by_uid(uid)
+			#user_orders= self.database.orders.get_orders_by_uid(uid)
+			user_orders= []
 			lang = session.get("LANG", "ar")
 			if lang == 'en':
 				primary_font_family= 'Raleway'

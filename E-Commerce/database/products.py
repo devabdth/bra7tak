@@ -42,10 +42,11 @@ class Product:
 		}
 
 
+
 class Products:
-	def __init__(self):
+	def __init__(self, client: pymongo.MongoClient):
 		self.cfg: Config= Config()
-		self.client = pymongo.MongoClient(self.cfg.db_url)
+		self.client: pymongo.MongoClient =client
 		self.database = self.client["bra7tak"]
 		self.products_collection = self.database["products"]
 		self.all_products= []

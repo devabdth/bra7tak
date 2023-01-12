@@ -1,5 +1,6 @@
 from .products import Products
 
+import pymongo as pymongo
 import os
 import json
 
@@ -14,8 +15,8 @@ class Collection:
 
 
 class Collections:
-	def __init__(self):
-		self.products: Products = Products()
+	def __init__(self, client: pymongo.MongoClient):
+		self.products: Products = Products(client)
 
 		with open(os.path.join(os.path.dirname(__file__), '../jsons/collections.json'), "r", encoding="cp866") as f:
 			self.collections_file_data= dict(json.loads(f.read()))
