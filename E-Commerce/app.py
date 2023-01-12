@@ -13,8 +13,7 @@ app: Flask = Flask(
 )
 setup(app)
 
-
-app.run(
-	port= cfg.port,
-	debug= cfg.debug
-)
+if __name__ == "__main__":
+    app.run(
+        debug= True
+    )
