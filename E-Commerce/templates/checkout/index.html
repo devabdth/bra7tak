@@ -113,7 +113,7 @@
     </div>
     <section class="form-section" id="personal-information">
         <h3 style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['personalInformation']}}</h3>
-        <input type="name" name="name" id="username" placeholder="{{content.auth[lang]['username']}}" class="single-line-field">
+        <input type="name" name="name" id="username" placeholder="{{content.global_[lang]['fullName']}}" class="single-line-field">
         <input type="email" name="email" id="email" placeholder="{{content.auth[lang]['email']}}" class="single-line-field">
         <input type="tel" name="phone" id="phone" placeholder="{{content.auth[lang]['phone']}}" class="single-line-field">
         <button onclick="toggleGendersDropdown()" id="genders-dropbtn" class="genders-dropbtn">{{content.actions[lang]["pickGender"]}}</button>
@@ -128,7 +128,7 @@
     <section class="form-section" id="shipping-information">
         <h3 style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['ShippingInformation']}}</h3>
         <input type="address" name="address" id="address-line-one" placeholder="{{content.global_[lang]['addressOne']}}" class="single-line-field">
-        <input type="address" name="address" id="address-line-two" placeholder="{{content.global_[lang]['addressTwo']}}" class="single-line-field">
+        <input type="address" name="address" id="address-line-two" placeholder="{{content.global_[lang]['addressTwo']}} ({{content.global_[lang]['optional']}})" class="single-line-field">
         <button onclick="toggleCitiesDropdown()" id="cities-dropbtn" class="cities-dropbtn">{{content.actions[lang]["pickCity"]}}</button>
         <div id="cities-dropdown" class="cities-dropdown-content">
           <input type="text" placeholder="{{content.global_[lang]['search']}}..." id="city-search" onkeyup="filter()">

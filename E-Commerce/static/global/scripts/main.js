@@ -37,7 +37,7 @@ const closeDrawer= ()=> {
 }
 
 
-const addToCart= async (url, productId, count)=> {
+const addToCart= async (url, productId, count, size, color)=> {
     try {
         const res = await fetch(
             `${url}/cart/add/`,
@@ -47,7 +47,9 @@ const addToCart= async (url, productId, count)=> {
                     products: [
                         {
                             id: productId,
-                            count: count
+                            count: count,
+                            size: size,
+                            color: color
                         }
                     ]
                 }),
@@ -176,7 +178,5 @@ const clearCart= async (url) => {
 }
 
 const checkout= (url, prods)=> {
-    let prodsIds= prods.toString()
-    prodsIds= prodsIds.replaceAll(',', '|');
-    window.open(`${url}/checkout/?prods=${prodsIds}`, '_self')
+    window.open(`${url}/checkout/`, '_self');
 }

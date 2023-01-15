@@ -85,7 +85,7 @@
 		background-color: var(--main-color);
 	}
 
-	#canceled-fragment-controller.active-fragment-controller {
+	#canceled-fragment-controller.active-fragment-controller, #returned-fragment-controller.active-fragment-controller {
 		background-color: red;
 	}
 
@@ -152,7 +152,6 @@
 		align-items: center;
 		justify-content: start;
 		padding: 8px 16px;
-		overflow-y: scroll;
 	}
 
 	#order-dialog * {
@@ -185,6 +184,7 @@
 		align-items: center;
 		justify-content: space-between;
 		flex-direction: row;
+		overflow-y: scroll;
 	}
 
 	#order-dialog > #content > #info {
@@ -266,8 +266,8 @@
 	  font-family: 'Raleway';
 	}
 
-	.products-dropdown-content {
-		bottom: -150%;
+	.products-dropdown-content, .genders-dropdown-content, .cities-dropdown-content{
+		top: -5% !important;
 	}
 
 	.status-dropdown-content button,
@@ -330,7 +330,6 @@
 		z-index: 1001;
 		background-color: var(--body-bg-color);
 		flex-direction: column;
-		overflow-y: scroll;
 	}
 
 	#place-order-dialog * {
@@ -365,6 +364,8 @@
 		align-items: start;
 		justify-content: start;
 		flex-direction: column;
+		overflow-y: scroll;
+		overflow-x: hidden;
 	}
 
 	#place-order-dialog .field-container {

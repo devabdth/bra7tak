@@ -11,7 +11,11 @@ sys.path.insert(0, '../')
 from config import Config
 
 class Product:
-	def __init__(self, id: str, name: dict, bio: dict, pricing: float, assets: list, category: int, sub_category: int, avg_del_days: dict, code: str, specs: dict, vat: float= 0.14, shipping_fees: dict= {}):
+	def __init__(
+		self, id: str, name: dict, bio: dict, pricing: float, assets: list,
+		category: int, sub_category: int, avg_del_days: dict,
+		code: str, specs: dict, vat: float= 0.14, shipping_fees: dict= {}, colors: list= [], sizes: list= []
+	):
 		self.id = id
 		self.name = name
 		self.bio = bio
@@ -24,6 +28,8 @@ class Product:
 		self.specs= specs
 		self.vat= vat
 		self.shipping_fees= shipping_fees
+		self.colors= colors
+		self.sizes= sizes
 
 	def to_dict(self) -> dict:
 		return {
@@ -39,6 +45,8 @@ class Product:
 			"specs": self.specs,
 			"vat": self.vat,
 			"shippingFees": self.shipping_fees,
+			"colors": self.colors or "",
+			"sizes": self.sizes or "",
 		}
 
 
@@ -66,6 +74,8 @@ class Products:
 			specs= dict_['specs'],
 			vat= dict_['vat'],
 			shipping_fees= dict_['shippingFees'],
+			colors= dict_['colors'],
+			sizes= dict_['sizes']
 		)
 
 	def refresh_all_products(self):
@@ -147,6 +157,8 @@ class Products:
 			product.shipping_fees= product_["shippingFees"]
 			product.category= int(product_["category"])
 			product.sub_category= int(product_["subCategory"])
+			product.colors= product_['colors']
+			product.sizes= product_['sizes']
 			self.products_collection.find_one_and_update({'_id': ObjectId(product.id)}, {'$set': product.to_dict()})
 			self.refresh_all_products()
 
@@ -176,6 +188,8 @@ class Products:
 				shipping_fees= product_["shippingFees"],
 				category= int(product_["category"]),
 				sub_category= int(product_["subCategory"]),
+				colors= product_['colors'],
+				sizes= product_['sizes']
 			)
 			product= self.products_collection.insert_one(product.to_dict())
 			self.refresh_all_products()
@@ -188,7 +202,9 @@ class Products:
 	def delete_product(self, prodId):
 		try:
 			self.products_collection.delete_one({'_id': ObjectId(prodId)})
+			return True
 		except Exception as e:
 			print(e)
+			return False
 			raise e
 

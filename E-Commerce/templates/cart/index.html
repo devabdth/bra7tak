@@ -120,7 +120,17 @@
                 				</div>
                 				<div class="product-row-entry">
                 					<div class="product-row-entry-icon" id="price"></div>
-                					<p style="font-family: 'Poppins';">{{utils.format_price(product['COUNT'] * (product['PRODUCT_DATA'].pricing['currentPrice']))}}</p>
+                					{% if product['COUNT']<2%}
+                						<p style="font-family: 'Poppins';">{{utils.format_price(product['COUNT'] * (product['PRODUCT_DATA'].pricing['currentPrice']))}}</p>
+                					{% elif product['COUNT']>=2 and product['COUNT']<4%}
+                						<p style="font-family: 'Poppins';">{{utils.format_price(product['COUNT'] * (product['PRODUCT_DATA'].pricing['twoPiecesPrice']))}}</p>
+                					{% elif product['COUNT']>=4 and product['COUNT']<6%}
+                						<p style="font-family: 'Poppins';">{{utils.format_price(product['COUNT'] * (product['PRODUCT_DATA'].pricing['fourPiecesPrice']))}}</p>
+                					{% elif product['COUNT']>=6 and product['COUNT']<12%}
+                						<p style="font-family: 'Poppins';">{{utils.format_price(product['COUNT'] * (product['PRODUCT_DATA'].pricing['sixPiecesPrice']))}}</p>
+                					{% elif product['COUNT']>=12%}
+                						<p style="font-family: 'Poppins';">{{utils.format_price(product['COUNT'] * (product['PRODUCT_DATA'].pricing['dozinPiecesPrice']))}}</p>
+                					{%endif%}
                 				</div>
                 				<div class="product-row-entry">
                 					<div class="product-row-entry-icon" id="vat"></div>
@@ -154,7 +164,7 @@
             	<p><span style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['shippingFees']}}: </span>{{utils.format_price(cart['TOTAL_SHIPPING_FEE'])}}</p>
             	<p><span style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['totalPrice']}}: </span>{{utils.format_price(cart['TOTAL_PRICE'])}}</p>
             </div>
-        	<button style="font-family: '{{primary_font_family}}';" class="main-button" onclick="checkout('{{url}}', {{user_data.cart | safe}});">{{content.actions[lang]['checkout']}}</button>
+        	<button style="font-family: '{{primary_font_family}}';" class="main-button" onclick="checkout('{{url}}');">{{content.actions[lang]['checkout']}}</button>
         	<button style="font-size: 0.75em; color: var(--secondary-color); font-family: '{{primary_font_family}}';" class="shadow-button" onclick="clearCart('{{cfg.base_url}}');">{{content.actions[lang]['emptyCart']}}</button>
         </div>
     </section>

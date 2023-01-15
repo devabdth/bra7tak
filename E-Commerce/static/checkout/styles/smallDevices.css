@@ -3,23 +3,24 @@
     height: 10vh;
   }
 
-	#progress {
-		margin: 15vh 0;
+  #progress {
+    margin: 15vh 0;
     position: relative;
     width: 100%;
     min-height: 15vh;
     max-height: 25vh;
-    padding: 0 16px;
-	}	
+    padding: 0 10%;
+  } 
 
   #progress-bar {
     width: 80%;
-    height: 1.25vh;
+    height: 2.5vh;
     border-radius: 12px;
     position: absolute;
     left: 10%;
-    top: 45%;
-    background: linear-gradient(90deg, var(--main-color) 50%, var(--bg-color) 50%);
+    top:  40%;
+    background: linear-gradient(90deg, var(--main-color) 25%, var(--bg-color) 25%);
+    transition: 500ms ease;
   }
 
   #progress > #icons {
@@ -34,8 +35,8 @@
   }
 
   .progress-icon {
-    width: 72px;
-    height: 72px;
+    width: 64px;
+    height: 64px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -44,22 +45,44 @@
     padding: 4px 8px;
     border: 2px var(--main-color) solid;
     background-color: var(--bg-color);
+    transition: 500ms ease;
+  }
+
+  .active.progress-icon {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    border-radius: 50%;
+    padding: 4px 8px;
+    border: 2px var(--main-color) solid;
+    background-color: var(--main-color);
   }
 
   .progress-icon > .icon {
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
     display: flex;
     margin: 4px;
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
+    transition: 500ms ease;
   }
 
   .progress-icon > h6 {
     text-align: center;
     font-weight: 500;
-    font-size: 0.5em;
+    font-size: 0.45em;
+  }
+
+  .active.progress-icon > h6 {
+    text-align: center;
+    font-weight: 500;
+    font-size: 0.45em;
+    color: var(--bg-color);
   }
 
     #personal-information-icon > .icon{
@@ -75,6 +98,18 @@
       background-image: url(./icons/complete-order.png);
     }
 
+    .active#personal-information-icon > .icon{
+      background-image: url(./icons/personal-information-white.png);
+    }
+    .active#shipping-information-icon > .icon{
+      background-image: url(./icons/shipping-information-white.png);
+    }
+    .active#payment-information-icon > .icon{
+      background-image: url(./icons/payment-information-white.png);
+    }
+    .active#complete-order-icon > .icon{
+      background-image: url(./icons/complete-order-white.png);
+    }
 
 
     .cities-dropbtn, .genders-dropbtn {

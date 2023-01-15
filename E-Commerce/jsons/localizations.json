@@ -64,7 +64,9 @@
             "vouchers": "Vouchers",
             "comingSoon": "Coming Soon!",
             "orderCompletedSuccessfullyMsg": "Your order is under review right now! An Agent from Bra7tak will contact you soon!",
-            "avg_del_days": "Average Delivery Days"
+            "avg_del_days": "Average Delivery Days",
+            "optional": "Optional",
+            "fullName": "Full Name"
         },
         "ar": {
             "name": "براحتـــــك",
@@ -110,7 +112,9 @@
             "emptyCart": "Empty Cart",
             "seeAll": "see All",
             "logout": "Logout",
-            "completeShopping": "Complete Shopping"
+            "completeShopping": "Complete Shopping",
+            "buy": "Buy",
+            "save": "Save"
         },
         "ar": {}
     },

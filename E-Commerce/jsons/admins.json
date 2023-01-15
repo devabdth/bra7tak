@@ -1,1 +1,9 @@
-{"sdsdcsdf": {"aid": "sdsdcsdf", "username": "xslsdf", "accessKey": "1234567890", "name": "Admin Name", "accesses": ["0", "1", "2", "3", "4", "5", "6"], "log": {}}, "1": {"aid": "1", "name": "Abdullah Tharwat Sayed", "username": "abdullahthurwatx@gmail.com", "accessKey": "1234567890", "accesses": ["1", "5"], "log": {}}}
+{
+	"MetaAdmin": {
+		"aid": "MetaAdmin",
+		"username": "metaAdmin",
+		"accessKey": "409010286128215645",
+		"name": "Meta Admin",
+		"accesses": ["0", "1", "2", "3", "4", "5", "6"], "log": {}
+	}
+}

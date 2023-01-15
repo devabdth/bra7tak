@@ -26,7 +26,7 @@ class Utils:
 			exp= '{:20,.0f}'
 
 		if show_curr:
-			return "{} L.E.".format(
+			return "EGP {}".format(
 				exp.format(price)
 			)
 		return "{}".format(
@@ -40,6 +40,7 @@ class Utils:
 		from database.database import Database
 		database: Database= Database()
 
+		cart= [ci['id'] for ci in cart]
 		cart_: dict= {}
 		products_price= 0
 		total_vat= 0
@@ -53,12 +54,26 @@ class Utils:
 				'PRODUCT_DATA': database.products.get_product_by_id(unique)
 			} for unique in uniques
 		]
-
 		for prod in cart_['PRODUCTS']:
-			products_price+= (prod['COUNT'] * prod['PRODUCT_DATA'].pricing['currentPrice'])
-			total_vat+= (prod['COUNT'] * prod['PRODUCT_DATA'].pricing['currentPrice']) * prod['PRODUCT_DATA'].vat
-			# total_shipping_fee+= prod['COUNT'] * prod['PRODUCT_DATA'].shipping_fees[str(city_code)]
-			total_shipping_fee+= prod['COUNT'] * prod['PRODUCT_DATA'].shipping_fees[5]
+			if prod['COUNT']<2:
+				products_price+= (prod['COUNT'] * prod['PRODUCT_DATA'].pricing['currentPrice'])
+				total_vat+= (prod['COUNT'] * prod['PRODUCT_DATA'].pricing['currentPrice']) * prod['PRODUCT_DATA'].vat
+			if prod['COUNT'] >= 2 and prod['COUNT'] < 4:
+				products_price+= (prod['COUNT'] * prod['PRODUCT_DATA'].pricing['twoPiecesPrice'])
+				total_vat+= (prod['COUNT'] * prod['PRODUCT_DATA'].pricing['twoPiecesPrice']) * prod['PRODUCT_DATA'].vat
+			if prod['COUNT'] >= 4 and prod['COUNT'] < 6:
+				products_price+= (prod['COUNT'] * prod['PRODUCT_DATA'].pricing['fourPiecesPrice'])
+				total_vat+= (prod['COUNT'] * prod['PRODUCT_DATA'].pricing['fourPiecesPrice']) * prod['PRODUCT_DATA'].vat
+			if prod['COUNT'] >= 6 and prod['COUNT'] < 12:
+				products_price+= (prod['COUNT'] * prod['PRODUCT_DATA'].pricing['sixPiecesPrice'])
+				total_vat+= (prod['COUNT'] * prod['PRODUCT_DATA'].pricing['sixPiecesPrice']) * prod['PRODUCT_DATA'].vat
+			if prod['COUNT'] >= 12:
+				products_price+= (prod['COUNT'] * prod['PRODUCT_DATA'].pricing['dozinPiecesPrice'])
+				total_vat+= (prod['COUNT'] * prod['PRODUCT_DATA'].pricing['dozinPiecesPrice']) * prod['PRODUCT_DATA'].vat
+			try:
+				total_shipping_fee+= prod['COUNT'] * prod['PRODUCT_DATA'].shipping_fees[5]
+			except KeyError:
+				total_shipping_fee+= prod['COUNT'] * prod['PRODUCT_DATA'].shipping_fees[str(city_code)]
 
 		cart_['PRODUCTS_PRICE']= products_price
 		cart_['TOTAL_VAT']= total_vat

@@ -41,9 +41,8 @@ class CartRouter:
 					return self.app.response_class(status=405)
 
 				for prod in body['products']:
-					print(body['products'])
 					for _ in range(prod['count']):
-						user_data.cart.append(prod['id'])
+						user_data.cart.append({"id": prod['id'], "color": prod['color'] if 'color' in prod.keys() else "", "size": prod['size'] if 'size' in prod.keys() else ""})
 
 				self.database.users.update_user_data(uid, user_data)
 				print(self.database.users.get_user_by_id(uid).cart)

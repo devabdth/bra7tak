@@ -61,7 +61,7 @@ class Orders:
 		self.cfg: Config= Config()
 		self.client: pymongo.MongoClient =client
 		self.database = self.client["bra7tak"]
-		self.orders_collection = self.database["users"]
+		self.orders_collection = self.database["orders"]
 
 
 	def create_order_from_dict(self, dict_: dict)-> Order:
@@ -89,6 +89,7 @@ class Orders:
 
 	def get_all_orders(self, params):
 		return {
+			"RETURNED": [self.create_order_from_dict(dict(order)) for order in list(self.orders_collection.find({'status': -2}))],
 			"CANCELED": [self.create_order_from_dict(dict(order)) for order in list(self.orders_collection.find({'status': -1}))],
 			"STOCKED": [self.create_order_from_dict(dict(order)) for order in list(self.orders_collection.find({'status': 0}))],
 			"IN_DELIVERY": [self.create_order_from_dict(dict(order)) for order in list(self.orders_collection.find({'status': 1}))],
@@ -108,7 +109,10 @@ class Orders:
 
 
 	def create_order(self, order: Order) -> str:
-		from datetime import datetime
-		order.placed_in= str(datetime.now())
-		self.orders_collection.insert_one(order.to_dict())
-		return order.inserted_id
+		try:
+			from datetime import datetime
+			order["placed_in"]= str(datetime.now())
+			order= self.orders_collection.insert_one(order)
+			return order.inserted_id
+		except Exception as e:
+			print(e)

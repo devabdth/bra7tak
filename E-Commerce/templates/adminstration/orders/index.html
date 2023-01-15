@@ -61,10 +61,34 @@
 			</div>
 		</div>
 		<div id="fragments-controllers">
-			<div class="fragment-controller active-fragment-controller" id="canceled-fragment-controller" onclick="fragmentsSwitch(0);">Canceled Orders</div>
-			<div class="fragment-controller" id="stocked-fragment-controller" onclick="fragmentsSwitch(1);">Stocked Orders</div>
-			<div class="fragment-controller" id="in-delivery-fragment-controller" onclick="fragmentsSwitch(2);">In Delivery Orders</div>
-			<div class="fragment-controller" id="delivered-fragment-controller" onclick="fragmentsSwitch(3);">Delivered Orders</div>
+			<div class="fragment-controller" id="returned-fragment-controller" onclick="fragmentsSwitch(-2);">Returned Orders</div>
+			<div class="fragment-controller" id="canceled-fragment-controller" onclick="fragmentsSwitch(-1);">Canceled Orders</div>
+			<div class="fragment-controller active-fragment-controller" id="stocked-fragment-controller" onclick="fragmentsSwitch(0);">Stocked Orders</div>
+			<div class="fragment-controller" id="in-delivery-fragment-controller" onclick="fragmentsSwitch(1);">In Delivery Orders</div>
+			<div class="fragment-controller" id="delivered-fragment-controller" onclick="fragmentsSwitch(2);">Delivered Orders</div>
+		</div>
+		<div class="fragment active-fragment" id="returned-fragment">
+			<table class="orders">
+				<tr>
+					<th>Order ID</th>
+					<th>UID/ Email</th>
+					<th>products</th>
+					<th>Total Price</th>
+					<th>City</th>
+					<th>Options</th>
+				</tr>
+				{% for order in orders["RETURNED"] %}
+					<tr>
+						<td>{{order.id}}</td>
+						<td>{{order.uid}}</td>
+						<td>{{order.products | length}}</td>
+						<td>{{order.price}}</td>
+						<td>{{content.cities['en'][order.city_code]}}</td>
+						<td><button class="shadow-button" style="text-decoration: underline;" onclick="openOrderDialog({{order.to_dict() | safe}}, '{{content.cities[lang][order.city_code]}}');">View</button></td>
+					</tr>
+				{% endfor %}
+				
+			</table>
 		</div>
 		<div class="fragment active-fragment" id="canceled-fragment">
 			<table class="orders">
@@ -265,14 +289,14 @@
         	<div id="products-dropdown" class="products-dropdown-content">
           		<input type="text" placeholder="{{content.global_[lang]['search']}}..." id="product-search" onkeyup="productsFilter()">
 	          {% for product in products %}
-	            <button style="font-family: 'Raleway';" onclick="chooseProduct(`{{product.name['en']}}`, '{{product.id}}', '{{lang}}');">{{product.name['en']}}</button>
+	            <button style="font-family: 'Raleway';" onclick="chooseProduct(`{{product.name['en']}}`, {{product.to_dict() | safe}}, '{{lang}}');">{{product.name['en']}}</button>
 	          {% endfor %}
 	        </div>
 			<div class="divider"></div>
-			<div style="display: flex; align-items: center; justify-content: end; width: 100%; flex-direction: row; min-height: 15vh;">
-				<button class="shadow-button" onclick="closePlaceOrderDialog();">Cancel</button>
-				<button class="main-button" id="place-order-confirmation" onclick="placeOrderConfirmation();">Place</button>
-			</div>
+		</div>
+		<div style="display: flex; align-items: center; justify-content: end; width: 100%; flex-direction: row; min-height: 8vh;">
+			<button class="shadow-button" onclick="closePlaceOrderDialog();">Cancel</button>
+			<button class="main-button" id="place-order-confirmation" onclick="placeOrderConfirmation();">Place</button>
 		</div>
 	</div>
 	<script type="text/javascript">

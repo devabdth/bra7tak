@@ -65,6 +65,9 @@ const ordersFiltrationSubmit= ()=> {
 
 
 const fragmentsSwitch= (mode)=> {
+	const returnedFragmentController = document.getElementById('returned-fragment-controller');
+	const returnedFragment = document.getElementById('returned-fragment');
+	
 	const canceledFragmentController = document.getElementById('canceled-fragment-controller');
 	const canceledFragment = document.getElementById('canceled-fragment');
 	
@@ -77,7 +80,27 @@ const fragmentsSwitch= (mode)=> {
 	const deliveredFragmentController = document.getElementById('delivered-fragment-controller');
 	const deliveredFragment = document.getElementById('delivered-fragment');
 	switch (mode) {
-		case 0:
+		case -2:
+			returnedFragment.classList.add('active-fragment');
+			returnedFragmentController.classList.add('active-fragment-controller');
+
+			canceledFragment.classList.remove('active-fragment');
+			canceledFragmentController.classList.remove('active-fragment-controller');
+			
+			stockedFragment.classList.remove('active-fragment');
+			stockedFragmentController.classList.remove('active-fragment-controller');
+			
+			inDeliveryFragment.classList.remove('active-fragment');
+			inDeliveryFragmentController.classList.remove('active-fragment-controller');
+			
+			deliveredFragment.classList.remove('active-fragment');
+			deliveredFragmentController.classList.remove('active-fragment-controller');
+			break;
+
+		case -1:
+			returnedFragment.classList.remove('active-fragment');
+			returnedFragmentController.classList.remove('active-fragment-controller');
+
 			canceledFragment.classList.add('active-fragment');
 			canceledFragmentController.classList.add('active-fragment-controller');
 
@@ -91,8 +114,14 @@ const fragmentsSwitch= (mode)=> {
 			deliveredFragmentController.classList.remove('active-fragment-controller');
 			break;
 
-		case 1:
+		case 0:
+			returnedFragment.classList.remove('active-fragment');
+			returnedFragmentController.classList.remove('active-fragment-controller');
+			
 			canceledFragment.classList.remove('active-fragment');
+			returnedFragment.classList.remove('active-fragment');
+
+			returnedFragmentController.classList.remove('active-fragment-controller');
 			canceledFragmentController.classList.remove('active-fragment-controller');
 
 			stockedFragment.classList.add('active-fragment');
@@ -104,7 +133,10 @@ const fragmentsSwitch= (mode)=> {
 			deliveredFragment.classList.remove('active-fragment');
 			deliveredFragmentController.classList.remove('active-fragment-controller');
 			break;
-		case 2:
+		case 1:
+			returnedFragment.classList.remove('active-fragment');
+			returnedFragmentController.classList.remove('active-fragment-controller');
+
 			canceledFragment.classList.remove('active-fragment');
 			canceledFragmentController.classList.remove('active-fragment-controller');
 
@@ -117,7 +149,10 @@ const fragmentsSwitch= (mode)=> {
 			deliveredFragment.classList.remove('active-fragment');
 			deliveredFragmentController.classList.remove('active-fragment-controller');
 			break;
-		case 3:
+		case 2:
+			returnedFragment.classList.remove('active-fragment');
+			returnedFragmentController.classList.remove('active-fragment-controller');
+
 			canceledFragment.classList.remove('active-fragment');
 			canceledFragmentController.classList.remove('active-fragment-controller');
 
@@ -362,10 +397,11 @@ const updateCart= (product)=> {
 			document.getElementById('picked-products').removeChild(element);
 			updateCart();
 		}
+		console.log(product)
 		closeElement.style.cursor= "pointer";
 		element.classList.add('picked-product-row');
 		element.innerHTML= `
-			<p>${productsList[product]['name']['en']}</p>`;
+			<p>${product['name']['en']}</p>`;
 		element.appendChild(closeElement);
 		document.getElementById('picked-products').appendChild(element);
 	}
@@ -383,53 +419,70 @@ const updateCart= (product)=> {
 
 const cartCalculation= ()=> {
 	let totalPrice= 0, totalVat= 0, shippingFees= 0;
+	const cart_= {
+		totalPrice: {},
+		totalVat: {},
+		shippingFees: {},
+		productsLength: cart.length,
+	}
 
 	let uniqueProducts = new Set(cart);
 	const count= {}
 	cart.forEach(e => {
-		count[e]= (count[e] || 0) + 1
+		count[e.id]= (count[e.id] || 0) + 1
 	});
+
 
 	uniqueProducts.forEach(prod => {
 		const product= productsList.filter(prod_ => { 
-			if((prod_.id).toString() == prod.toString()) return prod_
+			if((prod_["id"]).toString() == prod["id"].toString()) return prod_
 		})[0];
 		let price_;
-		switch(count[prod]) {
+		switch(count[product["id"]]) {
 			case 2:
-				price_= (product['pricing']['twoPiecesPrice'] * count[prod]) || (product['pricing']['currentPrice'] * count[prod]);
-				totalPrice += price_
-				totalVat += product['vat'] * price_
-				if (currentCity === undefined) {
-				}
+			case 3:
+				cart_.totalPrice[product["id"]]= (product['pricing']['twoPiecesPrice'] * count[product["id"]]);
 				break;
 			case 4:
-				price_= (product['pricing']['fourPiecesPrice'] * count[prod]) || (product['pricing']['currentPrice'] * count[prod]);
-				totalPrice += price_
-				totalVat += product['vat'] * price_
+			case 5:
+				cart_.totalPrice[product["id"]]= (product['pricing']['fourPiecesPrice'] * count[product["id"]]) || (product['pricing']['currentPrice'] * count[product["id"]]);
 				break;
 			case 6:
-				price_= (product['pricing']['sixPiecesPrice'] * count[prod]) || (product['pricing']['currentPrice'] * count[prod]);
-				totalPrice += price_
-				totalVat += product['vat'] * price_
+			case 7:
+			case 8:
+			case 9:
+			case 10:
+			case 11:
+				cart_.totalPrice[product["id"]]= (product['pricing']['sixPiecesPrice'] * count[product["id"]]) || (product['pricing']['currentPrice'] * count[product["id"]]);
 				break;
 			case 12:
-				price_= (product['pricing']['dozinPiecesPrice'] * count[prod]) || (product['pricing']['currentPrice'] * count[prod]);
-				totalPrice += price_
+			case 13:
+			case 14:
+			case 15:
+				cart_.totalPrice[product["id"]]= (product['pricing']['dozinPiecesPrice'] * count[product["id"]]) || (product['pricing']['currentPrice'] * count[product["id"]]);
 				totalVat += product['vat'] * price_
 				break;
-			default:
-				price_= (product['pricing']['currentPrice'] * count[prod]);
-				totalPrice += price_
-				totalVat += product['vat'] * price_
+			case 1:
+				cart_.totalPrice[product["id"]]= (product['pricing']['currentPrice'] * count[product["id"]]);
 				break;
 		}
+		console.log((product['vat'] || 0) * cart_.totalPrice[product["id"]])
+		cart_.totalVat[product["id"]] = (product['vat'] || 0) * cart_.totalPrice[product["id"]]
+		console.log(cart_.totalVat[product["id"]])
+		totalPrice= 0;
 		if(currentCity !== undefined){
 			shippingFees += (product['shippingFees'][`${currentCity}`] * count[prod]) || (product['shippingFees'][`5`] * count[prod])
 		} else {
 			shippingFees += (product['shippingFees'][`5`] * count[prod])
 		}
 	});
+		for (let i in cart_.totalPrice) {
+			totalPrice += cart_.totalPrice[i];
+		}
+		console.log(cart_.totalVat)
+		for (let i in cart_.totalVat) {
+			totalVat += cart_.totalVat[i];
+		}
 
 	return {
 		totalPrice: totalPrice,
@@ -465,11 +518,6 @@ const placeOrderConfirmation= async()=> {
   }
   nameFieldContainer.style.border= "none";
 	
-  if(!emailField.value) {
-  	emailFieldContainer.style.border= "1px red solid";
-  	return;
-  }
-  emailFieldContainer.style.border= "none";
 	
   if(!phoneField.value) {
   	phoneFieldContainer.style.border= "1px red solid";

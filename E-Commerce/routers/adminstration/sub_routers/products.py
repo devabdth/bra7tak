@@ -77,7 +77,7 @@ class ProductsSubRouter:
 				
 				return self.app.response_class(status= 500)
 			except Exception as e:
-
+				print(e)
 				return self.app.response_class(status= 200)
 
 

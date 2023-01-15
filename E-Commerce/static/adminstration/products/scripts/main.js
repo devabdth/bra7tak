@@ -1,3 +1,7 @@
+const colors= ['white', 'black', 'green', 'blue', 'skyblue', 'orange', 'brown', 'marron', 'ivory'];
+const sizes= ['s', 'm', 'l', 'xl', 'xxl', 'xxxl', 'xxxxl'];
+		          "sizes-{{size}}-checkbox"
+
 let cats= [];
 const initCategoriesCheckboxes= (catIds)=> {
 	cats = catIds.map((catId)=> {
@@ -83,11 +87,31 @@ const filterClear= ()=> {
 }
 
 const closeProductEdit= ()=> {
-
 	document.getElementById('product-edit-dialog').style.display= "none";
 	document.getElementById('overlay').style.display= "none";
+	for (let color in colors) {
+			document.getElementById(`${colors[color]}-color-btn`).classList.add('active');
+		}
+
+	for (let size in sizes) {
+		document.getElementById(`sizes-${sizes[size]}-checkbox`).checked= false;
+	}
+
 	clearForm();
 
+}
+
+const initializedColors= ()=> {
+	const colorsDiv= document.getElementById('colors');
+	for (let color in colors) {
+		const div= document.createElement('div');
+		div.id= `${colors[color]}-color-btn`;
+		div.style.background= colors[color];
+		div.onclick= ()=> {
+			div.classList.toggle('active');
+		}
+		colorsDiv.appendChild(div);
+	}
 }
 
 const openProductEdit= (product, mode, url)=> {
@@ -108,6 +132,7 @@ const openProductEdit= (product, mode, url)=> {
 	const sixPeicesPriceField = document.getElementById("6-peices-price");
 	const dozinPeicesPriceField = document.getElementById("dozin-peices-price");
 	const vatField = document.getElementById("vat");
+	initializedColors();
 
 	if(mode === 0) {
 
@@ -150,6 +175,13 @@ const openProductEdit= (product, mode, url)=> {
 		dozinPeicesPriceField.value= product["pricing"]["dozinPiecesPrice"];
 		vatField.value= product["vat"];
 		newAssets= product["assets"];
+		for (let color in product["colors"]) {
+			document.getElementById(`${product["colors"][color]}-color-btn`).classList.add('active');
+		}
+
+		for (let size in product["sizes"]) {
+			document.getElementById(`sizes-${product["sizes"][size]}-checkbox`).checked= true;
+		}
 
 		for (let cityCode in product["avgDelDays"]) {
 			document.getElementById(`${cityCode}-del-days`).value= product["avgDelDays"][cityCode];
@@ -188,6 +220,9 @@ const openProductEdit= (product, mode, url)=> {
 					assetDiv.id= file_.name;
 					assetDiv.setAttribute('src', reader.result);
 					assetDiv.style.objectFit= "contain";
+					assetDiv.ondblclick= ()=> {
+						document.getElementById('assets').removeChild(assetDiv);
+					}
 					newAssets.push(file_.name);
 					newAssetsFiles.push(file_)
 					document.getElementById('assets').appendChild(assetDiv);
@@ -231,6 +266,28 @@ const openProductEdit= (product, mode, url)=> {
 				for (let cityCode in product["shippingFees"]) {
 					 product["shippingFees"][cityCode]= Number.parseInt(document.getElementById(`${cityCode}-shipping-fees`).value);
 				}
+
+
+				let colors= [];
+				const colorsDiv= document.getElementById('colors');
+				for (child=0; child < colorsDiv.childNodes.length; child++) {
+					console.log(colorsDiv.childNodes[child].classList.contains('active'));
+					if (colorsDiv.childNodes[child].classList.contains('active')) {
+						colors.push(colorsDiv.childNodes[child].id.split('-')[0]);
+					}
+				}
+				product["colors"]= colors;
+
+				let sizes_= [];
+				const sizesDiv= document.getElementById('sizes');
+				for (let size in sizes) {
+					if (document.getElementById(`sizes-${sizes[size].toLowerCase()}-checkbox`).checked) {
+						sizes_.push(sizes[size]);
+					}
+				}
+				product["sizes"]= sizes_;
+
+
 				const editRes= submitProductEdit(
 					product, url, newAssetsFiles, 
 					(status)=> {
@@ -250,6 +307,7 @@ const openProductEdit= (product, mode, url)=> {
 		}
 
 	} else if (mode === 1) {
+		document.getElementById('delete-product').style.display= "none";
 
 		const addAssetBtn= document.getElementById('add-asset-btn');
 		addAssetBtn.onclick= ()=> {
@@ -268,6 +326,11 @@ const openProductEdit= (product, mode, url)=> {
 					assetDiv.id= file_.name;
 					assetDiv.setAttribute('src', reader.result);
 					assetDiv.style.objectFit= "contain";
+					assetDiv.ondblclick= ()=> {
+						document.getElementById('assets').removeChild(assetDiv);
+						newAssets.splice(file_.name, 1);
+						newAssetsFiles.splice(file_, 1);
+					}
 					newAssets.push(file_.name);
 					newAssetsFiles.push(file_)
 					document.getElementById('assets').appendChild(assetDiv);
@@ -309,6 +372,27 @@ const openProductEdit= (product, mode, url)=> {
 					 product["avgDelDays"][cityCode]= Number.parseInt(document.getElementById(`${cityCode}-del-days`).value || '0');
 					 product["shippingFees"][cityCode]= Number.parseInt(document.getElementById(`${cityCode}-shipping-fees`).value || '0');
 				}
+
+
+				let colors= [];
+				const colorsDiv= document.getElementById('colors');
+				for (child=0; child < colorsDiv.childNodes.length; child++) {
+					console.log(colorsDiv.childNodes[child].classList.contains('active'));
+					if (colorsDiv.childNodes[child].classList.contains('active')) {
+						colors.push(colorsDiv.childNodes[child].id.split('-')[0]);
+					}
+				}
+				product["colors"]= colors;
+
+				let sizes_= [];
+				const sizesDiv= document.getElementById('sizes');
+				for (let size in sizes) {
+					if (document.getElementById(`sizes-${sizes[size].toLowerCase()}-checkbox`).checked) {
+						sizes_.push(sizes[size]);
+					}
+				}
+				product["sizes"]= sizes_;
+
 
 				submitProductCreate(product, url, newAssetsFiles, (status)=> {
 						if(status === 201) {
@@ -592,6 +676,12 @@ const clearForm= ()=> {
 		document.getElementById(`${cityCode}-shipping-fees`).value= "0";
 	}
 
+	const colorsDiv= document.getElementById('colors');
+	let child= colorsDiv.lastElementChild;
+	while(child) {
+		colorsDiv.removeChild(child);
+		child= colorsDiv.lastElementChild;
+	} 
 
 }
 

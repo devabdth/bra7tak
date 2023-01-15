@@ -6,9 +6,7 @@
 	<title>Bra7tak Admin - Products</title>
 
 	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='adminstration/global/styles/computer.css')}}">
-	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='adminstration/global/styles/smallDevices.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='adminstration/products/styles/computer.css')}}">
-	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='adminstration/products/styles/smallDevices.css')}}">
 
 	<script type="text/javascript" src="{{url_for('static', filename='adminstration/products/scripts/main.js')}}"></script>
 </head>
@@ -103,10 +101,6 @@
 	              {% endif %}
 	            </h4>
 	            </div>
-	            <div id="actions">
-	              <div id="add-to-cart-action" class="added"></div>
-	              <div id="add-to-favourites-action" class="added"></div>
-	            </div>
 	          </div>
 	          </div>
 			{% endfor%}
@@ -152,16 +146,36 @@
 			<div class="multi-line-field-container">
 				<textarea id="ar-specs" placeholder="Arabic Specs"></textarea>
 			</div>
-			<legend>Catgorization</legend>
-			<button onclick="toggleCategoriesDropdown()" id="categories-dropbtn" class="categories-dropbtn">Pick Category</button>
-	  	<div id="categories-dropdown" class="categories-dropdown-content">
-	    		<input type="text" placeholder="{{content.global_[lang]['search']}}..." id="category-search" onkeyup="categoriesFilter()">
-	      {% for category in categories %}
-	      	{% for subcat in category.subcats %}
-	        <button style="font-family: 'Raleway';" onclick="chooseCategory(`{{category.name['en']}} - {{subcat.name['en']}}`, {{category.id}}, {{subcat.id}}, 'en');">{{category.name['en']}} - {{subcat.name['en']}}</button>
-	      	{% endfor %}
-	      {% endfor %}
-	    </div>
+			<legend>
+			<label>Categorization</label>
+				<button onclick="toggleCategoriesDropdown()" id="categories-dropbtn" class="categories-dropbtn">Pick Category</button>
+		  	<div id="categories-dropdown" class="categories-dropdown-content">
+		    		<input type="text" placeholder="{{content.global_[lang]['search']}}..." id="category-search" onkeyup="categoriesFilter()">
+		      {% for category in categories %}
+		      	{% for subcat in category.subcats %}
+		        <button style="font-family: 'Raleway';" onclick="chooseCategory(`{{category.name['en']}} - {{subcat.name['en']}}`, {{category.id}}, {{subcat.id}}, 'en');">{{category.name['en']}} - {{subcat.name['en']}}</button>
+		      	{% endfor %}
+		      {% endfor %}
+		    </div>
+			</legend>
+			<legend>
+				<label>Colors</label>
+				<div id="colors"></div>
+			</legend>
+			<legend>
+				<label>Sizes</label>
+				<div id="sizes">
+					{% set sizes= ['s', 'm', 'l', 'xl', 'xxl', 'xxxl', 'xxxxl']%}
+					{%for size in sizes%}
+						<label class="cat-checkbox" >
+		        	{{size | upper}}
+		          <input type="checkbox" id="sizes-{{size}}-checkbox" />
+		          <span class="checkmark"></span>
+		        </label>
+		       {% endfor %}
+
+				</div>
+			</legend>
 
 			<div style="height: 10vh;"></div>
 			<legend>
@@ -211,18 +225,17 @@
 					<div class="asset-card" id="add-asset-btn">+</div>
 				</div>
 			</legend>
-			<div style="height: 10vh;"></div>
-			<div style="width: 100%; display: flex; align-items: center; justify-content: end;">
-				<div style="color: red;" class="shadow-button" id="delete-product">Delete</div>
-				|
-				<div onclick="clearForm();" class="shadow-button" id="form-cancel">Clear</div>
-				|
-				<div onclick="closeProductEdit();" class="shadow-button" id="form-cancel">Cancel</div>
-				<div class="main-button" id="form-submit">Submit</div>
-				<p id="submit-status" style="margin: 0 8px; font-family: 'Raleway'; font-weight: 500; color: var(--main-color);"></p>
-			</div>
-			
 		</div>
+		<div style="width: 100%; display: flex; align-items: center; justify-content: end;">
+			<div style="color: red;" class="shadow-button" id="delete-product">Delete</div>
+			|
+			<div onclick="clearForm();" class="shadow-button" id="form-cancel">Clear</div>
+			|
+			<div onclick="closeProductEdit();" class="shadow-button" id="form-cancel">Cancel</div>
+			<div class="main-button" id="form-submit">Submit</div>
+			<p id="submit-status" style="margin: 0 8px; font-family: 'Raleway'; font-weight: 500; color: var(--main-color);"></p>
+		</div>
+		
 	</div>
 
 	<script type="text/javascript">

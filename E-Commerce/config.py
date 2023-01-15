@@ -1,9 +1,9 @@
 from os import environ
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 
 class Config:
 	def __init__(self):
-		load_dotenv()
+		#load_dotenv()
 		self.port = environ['PORT'] if 'PORT' in environ else 3030
 		self.debug = (environ['MODE'] if 'MODE' in environ else 0) == 0
 		self.auth_key = environ['AUTH_KEY'] if 'AUTH_KEY' in environ else '1234567890'

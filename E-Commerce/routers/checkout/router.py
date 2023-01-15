@@ -27,20 +27,16 @@ class CheckoutRouter:
 			import json
 
 			params= dict(request.values)
-			if not 'prods' in params.keys():
-				print('Products not Found!')
-				return self.app.response_class(status= 500)
-
-			products_ids= [prod_id for prod_id in params['prods'].split('|')]
+			uid= session.get('CURRENT_USER_ID', None)
+			user_data= self.database.users.get_user_by_id(uid)
 
 			body= dict(json.loads(request.data))
-			print(body)
 			if not 'order' in body.keys():
 				print('Order not Found!')
 				return self.app.response_class(status= 500)
 
 			order= body['order']
-			cart_calc= self.utils.cart_calculations(products_ids)
+			cart_calc= self.utils.cart_calculations(user_data.cart)
 			order_: Order= self.database.orders.order_form(
 				id= "",
 				aid= None,
@@ -50,17 +46,23 @@ class CheckoutRouter:
 				address= order['addressLineOne'],
 				address_two= order['addressLineTwo'],
 				city_code= order['city'],
-				products= products_ids,
+				products= user_data.cart,
 				vat= cart_calc['TOTAL_VAT'],
 				price= cart_calc['TOTAL_PRICE'],
 				shipping_fees= cart_calc['TOTAL_SHIPPING_FEE'],
 				status= 0,
-				uid= order['uid'],
+				uid= uid if uid is not None else "",
 				placed_in= ""
 			)
-			print(order_.to_dict())
 
-			return self.app.response_class(status= 500)
+			try:
+				order_id= self.database.orders.create_order(order)
+				print(order_id)
+				return self.app.response_class(status= 201)
+			except Exception as e:
+				return self.app.response_class(status= 500)
+
+
 
 
 
@@ -68,11 +70,6 @@ class CheckoutRouter:
 	def assign_checkout_form_router(self):
 		@self.app.route('/checkout/', methods=["GET"])
 		def checkout_form():
-			cart= (dict(request.values)['prods']).split('|')
-			for cart_item in cart:
-				if self.database.products.get_product_by_id(cart_item) == None:
-					return "<h1>Some Products Missin</h1>"
-
 			lang = session.get("LANG", "ar")
 			uid= session.get("CURRENT_USER_ID", None)
 			if lang == 'en':
@@ -83,6 +80,7 @@ class CheckoutRouter:
 				second_font_family= 'Cairo'
 			if not uid is None:
 				user_data= self.database.users.get_user_by_id(uid)
+				cart= user_data.cart
 				return render_template(
 					'checkout/index.html',
 					uid= uid,
@@ -97,6 +95,7 @@ class CheckoutRouter:
 					utils= self.utils,
 					cart= cart
 				)
+			cart= []
 			return render_template(
 				'checkout/index.html',
 				lang= lang,
