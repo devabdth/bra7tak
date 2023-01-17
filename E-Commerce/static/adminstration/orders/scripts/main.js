@@ -466,22 +466,22 @@ const cartCalculation= ()=> {
 				cart_.totalPrice[product["id"]]= (product['pricing']['currentPrice'] * count[product["id"]]);
 				break;
 		}
-		console.log((product['vat'] || 0) * cart_.totalPrice[product["id"]])
 		cart_.totalVat[product["id"]] = (product['vat'] || 0) * cart_.totalPrice[product["id"]]
-		console.log(cart_.totalVat[product["id"]])
 		totalPrice= 0;
 		if(currentCity !== undefined){
-			shippingFees += (product['shippingFees'][`${currentCity}`] * count[prod]) || (product['shippingFees'][`5`] * count[prod])
+			cart_.shippingFees[product["id"]] = (product['shippingFees'][currentCity] * count[product["id"]]) || (product['shippingFees'][5] * count[product["id"]])
 		} else {
-			shippingFees += (product['shippingFees'][`5`] * count[prod])
+			cart_.shippingFees[product["id"]] = (product['shippingFees'][5] * count[product["id"]])
 		}
 	});
 		for (let i in cart_.totalPrice) {
 			totalPrice += cart_.totalPrice[i];
 		}
-		console.log(cart_.totalVat)
 		for (let i in cart_.totalVat) {
 			totalVat += cart_.totalVat[i];
+		}
+		for (let i in cart_.shippingFees) {
+			shippingFees += cart_.shippingFees[i];
 		}
 
 	return {

@@ -91,7 +91,7 @@ class Products:
 		return self.all_products
 
 	def get_multiple_products_by_id(self, ids: list):
-		products= self.products_collection.find({'_id': { '$in': [ObjectId(_id) for _id in ids] }})
+		products= self.products_collection.find({'_id': { '$in': [ObjectId(_id) if type(_id) is str else ObjectId(_id['id']) for _id in ids] }})
 		return [self.create_product_from_dict(dict(prod)) for prod in list(products)]
 
 	def get_all_products_by_category(self, cat_id: int):

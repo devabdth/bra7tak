@@ -1,4 +1,4 @@
-@media screen and (max-width: 999px) {
+@media screen and (max-width: 1024px) {
 	:root {
 	    --main-color: #010a67;
 	    --main-variant-color: #010a61;
@@ -340,8 +340,8 @@
 
 
   .product-card {
-    width: 60vw;
-    height: 35vh;
+    width: 256px;
+    height: 288px;
     margin: 0 6px;
     position: relative;
     transition: 500ms ease;
@@ -352,13 +352,11 @@
   }
 
   .product-card > #product-asset {
-    margin-left: 2.5vw;
-    width: 55vw;
-    height: 20vh;
+    width: 224px;
+    height: 128px;
     border-radius: 12px;
     position: absolute;
-    left: 0;
-    right: 0;
+    left: 16px;
     top: 12px;
     z-index: 2;
     box-shadow: 0 0 30px 1px rgba(0, 0, 0, 0.5);

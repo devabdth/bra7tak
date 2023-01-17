@@ -99,9 +99,9 @@ class Users:
 		users= self.users_collection.find({'email': email})
 		return len(list(users)) == 0
 
-	def update_user_data(self, uid: str, user_data: User):
+	def update_user_data(self, uid: str, user_data):
 		try:
-			result = self.users_collection.find_one_and_update({'_id': ObjectId(uid)}, {'$set': user_data.to_dict()})
+			result = self.users_collection.find_one_and_update({'_id': ObjectId(uid)}, {'$set': user_data if type(user_data) is dict else user_data.to_dict()})
 			print(self.get_user_by_id(uid))
 			return True
 		except Exception as e:

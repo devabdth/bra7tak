@@ -3,7 +3,7 @@ from database.database import Database
 from content import Content
 from config import Config
 from utils import Utils
-from flask import Flask, render_template, url_for, session
+from flask import Flask, render_template, url_for, session, redirect
 import sys
 sys.path.insert(0, '../')
 

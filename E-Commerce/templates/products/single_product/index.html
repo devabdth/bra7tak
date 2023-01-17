@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html lang="{{lang}}">
+{%if lang =="ar"%}
+	<html lang="{{lang}}" dir="rtl">
+{%else%}
+	<html lang="{{lang}}" dir="ltr">
+{%endif%}
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -161,7 +165,13 @@
         </div>
         <button
           class="main-button"
-          style=" background-color: var(--secondary-color); width: 100%; color: var(--bg-color);" onclick="orderNowListener('{{cfg.base_url}}', '{{product.id}}')">{{content.actions[lang]['orderNow']}}
+          style=" background-color: var(--secondary-color); width: 100%; color: var(--bg-color);" 
+          {% if user_data %}
+          onclick="orderNowListener('{{user_data.id | string}}', '{{cfg.base_url}}', '{{product.id}}')">
+          {% else %}
+          onclick="orderNowListener(undefined, '{{cfg.base_url}}', '{{product.id}}')">
+          {% endif%}
+          {{content.actions[lang]['orderNow']}}
         </button>
       </div>
       <div id="product-slide-show">

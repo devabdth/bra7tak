@@ -180,3 +180,13 @@ const clearCart= async (url) => {
 const checkout= (url, prods)=> {
     window.open(`${url}/checkout/`, '_self');
 }
+
+const dryCheckout= (url, prods)=> {
+    let params="?prods="
+    for (let prod in prods) {
+        for (let i= 0; i<= prods[prod][1]; i++) {
+            params+= `${prods[prod][0]},${prods[prod][2]},${prods[prod][3]}|`
+        }
+    }
+    window.open(`${url}/checkout/${params}`, '_self');
+}

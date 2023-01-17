@@ -122,9 +122,13 @@ const addToCartListener= ()=> {
     addToCart(url, productId, amount, currentSize, currentColor);
 }
 
-const orderNowListener= (url, productId)=> {
-    addToCart(url, productId, 1, currentSize, currentColor)
-    checkout(url, [productId]);
+const orderNowListener= (uid, url, productId)=> {
+    const amountField= document.getElementById('amount-field');
+    const count= Number.parseInt(amountField.value.trim());
+    if(uid !== undefined) {
+        addToCart(url, productId, count, currentSize, currentColor)
+    }
+    dryCheckout(url, [[productId, count, currentSize, currentColor]]);
 }
 
 

@@ -13,7 +13,8 @@ class Order:
 	def __init__(
 		self, id: str, address: str, address_two: str, city_code: str, products: list,
 		vat: float, price: int, shipping_fees: int, status: int, uid: str,
-		placed_in: str, username: str, user_email: str, user_phone: str, aid: str
+		placed_in: str, username: str, user_email: str, user_phone: str, aid: str,
+		police_number: int
 	):
 
 		self.id= id
@@ -31,6 +32,7 @@ class Order:
 		self.uid= uid
 		self.placed_in= placed_in
 		self.aid= aid or None
+		self.police_number= police_number
 
 	def to_dict(self):
 		return {
@@ -40,16 +42,17 @@ class Order:
 		"userEmail": self.user_email,
 		"userPhone": self.user_phone,
 		"address": self.address,
-		"cityCode": self.city_code,
+		"addressLineTwo": self.address_two,
+		"cityCode": int(self.city_code),
 		"products": self.products,
-		"vat": self.vat,
-		"price": self.price,
-		"shippingFees": self.shipping_fees,
-		"status": self.status,
+		"vat": int(self.vat),
+		"price": int(self.price),
+		"shippingFees": int(self.shipping_fees),
+		"status": int(self.status),
 		"uid": self.uid,
 		"placedIn": self.placed_in,
-		"aid": self.aid
-
+		"aid": self.aid,
+		"policeNumber": self.police_number,
 		}
 
 
@@ -71,6 +74,7 @@ class Orders:
 			user_email= dict_['userEmail'],
 			user_phone= dict_['userPhone'],
 			address= dict_['address'],
+			address_two= dict_['addressLineTwo'],
 			city_code= dict_['cityCode'],
 			products= dict_['products'],
 			vat= dict_['vat'],
@@ -80,6 +84,7 @@ class Orders:
 			uid= dict_['uid'],
 			placed_in= dict_['placedIn'],
 			aid= dict_['aid'],
+			police_number= dict_['policeNumber'],
 		)
 
 
@@ -111,7 +116,17 @@ class Orders:
 	def create_order(self, order: Order) -> str:
 		try:
 			from datetime import datetime
+			if type(order) is not dict:
+				order= order.to_dict()
+
+			order["policeNumber"]= 1000000000 + (self.orders_collection.count_documents({})) + 1
 			order["placed_in"]= str(datetime.now())
+
+			if 'id' in order.keys():
+				del order['id']
+			if '_id' in order.keys():
+				del order['_id']
+
 			order= self.orders_collection.insert_one(order)
 			return order.inserted_id
 		except Exception as e:

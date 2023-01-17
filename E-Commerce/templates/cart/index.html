@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html>
+{%if lang =="ar"%}
+	<html lang="{{lang}}" dir="rtl">
+{%else%}
+	<html lang="{{lang}}" dir="ltr">
+{%endif%}
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -103,6 +107,7 @@
     		</div>
     	</section>
     {% endif %}
+	{% if user_data.cart | length != 0%}
     <section id="cart-items">
         <div id="items">
             <div id="header">
@@ -168,6 +173,13 @@
         	<button style="font-size: 0.75em; color: var(--secondary-color); font-family: '{{primary_font_family}}';" class="shadow-button" onclick="clearCart('{{cfg.base_url}}');">{{content.actions[lang]['emptyCart']}}</button>
         </div>
     </section>
+	{% else %}
+	<section id="empty">
+		<h3 style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['userHasNoProductsInCart']}}</h3>
+		<a href="{{cfg.base_url}}/search/" style="font-family: '{{primary_font_family}}';" class="main-button">{{content.actions[lang]['getStarted']}}</a>
+	  </section>
+  
+	{%endif%}
 
     {% if layout.flash_sell %}
 		<div class="section-divider"></div>

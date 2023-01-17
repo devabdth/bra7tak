@@ -40,7 +40,7 @@ const openBannerEditDialog= async (mode, banner)=> {
 		actionBackgroundColorField.value= banner['action_background_color']
 		actionTextColorField.value= banner['action_text_color'];
 		assetContainer.innerHTML= `
-			<img src="http://127.0.0.1:3030/assets/banners/assets/${banner['id']}"/>
+			<img src="https://www.bra7tak.com/assets/banners/assets/${banner['id']}"/>
 		`;
 		if (banner['id'] === 'mainBanner' || banner['id'] === 'subBannerOne' || banner['id'] === 'subBannerTwo') {
 			document.getElementById('delete-banner').style.display= "none";

@@ -51,8 +51,8 @@ const openCategoryFormDialog= (mode, category)=> {
 		arDescField.value= category['bio']['ar'];
 
 		const iconEle= document.createElement('img'), coverEle= document.createElement('img');
-		iconEle.setAttribute('src', `http://127.0.0.1:3030/assets/categories/icons/${category['id']}`);
-		coverEle.setAttribute('src', `http://127.0.0.1:3030/assets/categories/covers/${category['id']}`);
+		iconEle.setAttribute('src', `https://www.bra7tak.com/assets/categories/icons/${category['id']}`);
+		coverEle.setAttribute('src', `https://www.bra7tak.com/assets/categories/covers/${category['id']}`);
 		iconAssetContainer.appendChild(iconEle);
 		iconAssetContainer.ondblclick= ()=> {
 			const input = document.createElement("input");

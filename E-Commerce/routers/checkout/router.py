@@ -28,7 +28,16 @@ class CheckoutRouter:
 
 			params= dict(request.values)
 			uid= session.get('CURRENT_USER_ID', None)
-			user_data= self.database.users.get_user_by_id(uid)
+			if uid is not None:
+				user_data= self.database.users.get_user_by_id(uid)
+			else:
+				params= dict(request.values)
+				cart=[]
+				for prod in params['prods'].split('|'):
+					if prod=='':
+						break
+					cart.append({'id': list(prod.split(','))[0], 'size': list(prod.split(','))[1] if len(prod.split(',')) >2 else None, 'color': list(prod.split(','))[2] if len(prod.split(',')) >2 else None})
+
 
 			body= dict(json.loads(request.data))
 			if not 'order' in body.keys():
@@ -36,8 +45,9 @@ class CheckoutRouter:
 				return self.app.response_class(status= 500)
 
 			order= body['order']
-			cart_calc= self.utils.cart_calculations(user_data.cart)
-			order_: Order= self.database.orders.order_form(
+			print(order)
+			cart_calc= self.utils.cart_calculations(user_data.cart if uid != None else cart)
+			order_: self.database.orders.order_form= self.database.orders.order_form(
 				id= "",
 				aid= None,
 				username= order['username'],
@@ -46,25 +56,24 @@ class CheckoutRouter:
 				address= order['addressLineOne'],
 				address_two= order['addressLineTwo'],
 				city_code= order['city'],
-				products= user_data.cart,
+				products= user_data.cart if uid != None else cart,
 				vat= cart_calc['TOTAL_VAT'],
 				price= cart_calc['TOTAL_PRICE'],
 				shipping_fees= cart_calc['TOTAL_SHIPPING_FEE'],
 				status= 0,
 				uid= uid if uid is not None else "",
-				placed_in= ""
+				placed_in= "",
+				police_number=0,
 			)
+			if uid is not None:
+				self.database.users.update_user_data(uid= uid, user_data= {'cart': []})
 
 			try:
-				order_id= self.database.orders.create_order(order)
+				order_id= self.database.orders.create_order(order_)
 				print(order_id)
 				return self.app.response_class(status= 201)
 			except Exception as e:
 				return self.app.response_class(status= 500)
-
-
-
-
 
 
 	def assign_checkout_form_router(self):
@@ -95,7 +104,12 @@ class CheckoutRouter:
 					utils= self.utils,
 					cart= cart
 				)
-			cart= []
+			params= dict(request.values)
+			cart=[]
+			for prod in params['prods'].split('|'):
+				if prod=='':
+					break
+				cart.append({'id': list(prod.split(','))[0], 'size': list(prod.split(','))[1] if len(prod.split(',')) >2 else None, 'color': list(prod.split(','))[2] if len(prod.split(',')) >2 else None})
 			return render_template(
 				'checkout/index.html',
 				lang= lang,

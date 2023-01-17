@@ -33,7 +33,7 @@ class Utils:
 			exp.format(price)
 		)
 
-	def cart_calculations(self, cart: list, city_code: int= 0) -> dict:
+	def cart_calculations(self, cart: list, city_code: int= None) -> dict:
 		import sys
 		sys.path.insert(0, '../')
 
@@ -71,9 +71,10 @@ class Utils:
 				products_price+= (prod['COUNT'] * prod['PRODUCT_DATA'].pricing['dozinPiecesPrice'])
 				total_vat+= (prod['COUNT'] * prod['PRODUCT_DATA'].pricing['dozinPiecesPrice']) * prod['PRODUCT_DATA'].vat
 			try:
-				total_shipping_fee+= prod['COUNT'] * prod['PRODUCT_DATA'].shipping_fees[5]
+				total_shipping_fee+= prod['COUNT'] * prod['PRODUCT_DATA'].shipping_fees[city_code or 5]
 			except KeyError:
-				total_shipping_fee+= prod['COUNT'] * prod['PRODUCT_DATA'].shipping_fees[str(city_code)]
+				total_shipping_fee+= prod['COUNT'] * prod['PRODUCT_DATA'].shipping_fees[str(city_code or 5)]
+
 
 		cart_['PRODUCTS_PRICE']= products_price
 		cart_['TOTAL_VAT']= total_vat

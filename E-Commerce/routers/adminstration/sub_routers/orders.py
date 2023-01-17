@@ -52,11 +52,13 @@ class OrdersSubRouter:
 				vat= body['fees']['vat'],
 				shipping_fees= body['fees']['shippingFees'],
 				placed_in= None,
-				aid= admin_data['aid']
+				aid= admin_data['aid'],
+				police_number= 0
 			)
 
 			try:
 				oid= self.database.orders.create_order(order)
+				print(oid)
 				if oid is not None:
 					return self.app.response_class(status= 201)
 

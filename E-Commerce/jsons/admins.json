@@ -4,6 +4,7 @@
 		"username": "metaAdmin",
 		"accessKey": "409010286128215645",
 		"name": "Meta Admin",
-		"accesses": ["0", "1", "2", "3", "4", "5", "6"], "log": {}
+		"accesses": ["0", "1", "2", "3", "4", "5", "6"], 
+		"log": {}
 	}
 }
