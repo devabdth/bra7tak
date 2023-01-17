@@ -53,6 +53,10 @@ const addToCart= async (url, productId, count, size, color)=> {
                         }
                     ]
                 }),
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin' ,
+
                 headers: { 
                     'Content-Type': 'application/json',
                     "Access-Control-Allow-Origin": "*",
@@ -86,6 +90,10 @@ const addToFavourites= async (url, productId, toastContent, lang)=> {
                         }
                     ]
                 }),
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin' ,
+
                 headers: { 
                     'Content-Type': 'application/json',
                     "Access-Control-Allow-Origin": "*",
@@ -120,6 +128,10 @@ const removeFromFavourites= async (url, productId, toastContent, lang)=> {
                         }
                     ]
                 }),
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin' ,
+
                 headers: { 
                     'Content-Type': 'application/json',
                     "Access-Control-Allow-Origin": "*",
@@ -155,6 +167,10 @@ const removeFromCart= async (url, productId, count)=> {
                         }
                     ]
                 }),
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin' ,
+
                 headers: { 
                     'Content-Type': 'application/json',
                     "Access-Control-Allow-Origin": "*",
@@ -177,6 +193,10 @@ const clearCart= async (url) => {
             `${url}/cart/clear/`,
             {
                 method: 'patch',
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin' ,
+
                 headers: { 
                     'Content-Type': 'application/json',
                     "Access-Control-Allow-Origin": "*",
