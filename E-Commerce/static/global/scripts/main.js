@@ -53,7 +53,10 @@ const addToCart= async (url, productId, count, size, color)=> {
                         }
                     ]
                 }),
-                headers: { "Content-Type": "application/json" },
+                headers: { 
+                    'Content-Type': 'application/json',
+                    "Access-Control-Allow-Origin": "*",
+                },
 
             }
         );
@@ -83,7 +86,10 @@ const addToFavourites= async (url, productId, toastContent, lang)=> {
                         }
                     ]
                 }),
-                headers: { "Content-Type": "application/json" },
+                headers: { 
+                    'Content-Type': 'application/json',
+                    "Access-Control-Allow-Origin": "*",
+                },
 
             }
         );
@@ -114,7 +120,10 @@ const removeFromFavourites= async (url, productId, toastContent, lang)=> {
                         }
                     ]
                 }),
-                headers: { "Content-Type": "application/json" },
+                headers: { 
+                    'Content-Type': 'application/json',
+                    "Access-Control-Allow-Origin": "*",
+                },
 
             }
         );
@@ -146,7 +155,10 @@ const removeFromCart= async (url, productId, count)=> {
                         }
                     ]
                 }),
-                headers: { "Content-Type": "application/json" },
+                headers: { 
+                    'Content-Type': 'application/json',
+                    "Access-Control-Allow-Origin": "*",
+                },
 
             }
         );
@@ -165,7 +177,10 @@ const clearCart= async (url) => {
             `${url}/cart/clear/`,
             {
                 method: 'patch',
-                headers: { "Content-Type": "application/json" },
+                headers: { 
+                    'Content-Type': 'application/json',
+                    "Access-Control-Allow-Origin": "*",
+                },
             }
         );
 

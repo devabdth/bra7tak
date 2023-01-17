@@ -68,7 +68,10 @@ const formValidation = async (toastContent, url, lang, customRecall) => {
 		const res = await fetch(`${url}/users/login/`, {
 			method: "patch",
 			body: JSON.stringify(payload),
-			headers: { "Content-Type": "application/json" },
+			headers: { 
+		        'Content-Type': 'application/json',
+		        "Access-Control-Allow-Origin": "*",
+       		},
 		}
 		);
 		// if the status Code == 404; return user not found;

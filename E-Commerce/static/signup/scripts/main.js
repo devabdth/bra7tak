@@ -81,7 +81,10 @@ const formValidation = async (toastContent, url, lang) => {
         const res = await fetch(`${url}/users/signup/`, {
             method: "post",
             body: JSON.stringify(payload),
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                'Content-Type': 'application/json',
+                "Access-Control-Allow-Origin": "*",
+            },
         }
         );
         // if status code == 201: return the home page;
