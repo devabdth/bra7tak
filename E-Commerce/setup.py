@@ -8,7 +8,7 @@ def setup(app: Flask):
 
 	app.config["SESSION_PERMANENT"] = False
 	app.config["SESSION_TYPE"] = "filesystem"
-    app.config["DEBUG"]= True
+	app.config["DEBUG"]= True
 	Session(app)
 	QRcode(app)
 
