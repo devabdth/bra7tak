@@ -22,6 +22,7 @@ class UsersRouter:
 	def assign_login_index(self):
 		@self.app.route('/users/login/', methods=["PATCH"])
 		def login():
+			print(request.data)
 			params: dict= dict(json.loads(request.data))
 			username= params['username']
 			password= params['password']
