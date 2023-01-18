@@ -68,7 +68,7 @@ const formValidation = async (toastContent, url, lang, customRecall) => {
 		const res = await fetch(`${url}/users/login/`, {
 			method: "patch",
 			body: JSON.stringify(payload),
-			mode: 'no-cors',
+			mode: 'cors',
 		    cache: 'no-cache',
 		    credentials: 'same-origin' ,
 

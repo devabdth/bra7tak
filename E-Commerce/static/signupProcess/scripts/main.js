@@ -284,7 +284,7 @@ const compleProfileSubmit = async (toastContent, lang, url, email) => {
     '../confirmSignUp/', {
       method: 'post',
       body: JSON.stringify(payload),
-      mode: 'no-cors',
+      mode: 'cors',
       cache: 'no-cache',
       credentials: 'same-origin' ,
 

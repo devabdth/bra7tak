@@ -53,7 +53,7 @@ const addToCart= async (url, productId, count, size, color)=> {
                         }
                     ]
                 }),
-                mode: 'no-cors',
+                mode: 'cors',
                 cache: 'no-cache',
                 credentials: 'same-origin' ,
 
@@ -90,7 +90,7 @@ const addToFavourites= async (url, productId, toastContent, lang)=> {
                         }
                     ]
                 }),
-                mode: 'no-cors',
+                mode: 'cors',
                 cache: 'no-cache',
                 credentials: 'same-origin' ,
 
@@ -128,7 +128,7 @@ const removeFromFavourites= async (url, productId, toastContent, lang)=> {
                         }
                     ]
                 }),
-                mode: 'no-cors',
+                mode: 'cors',
                 cache: 'no-cache',
                 credentials: 'same-origin' ,
 
@@ -167,7 +167,7 @@ const removeFromCart= async (url, productId, count)=> {
                         }
                     ]
                 }),
-                mode: 'no-cors',
+                mode: 'cors',
                 cache: 'no-cache',
                 credentials: 'same-origin' ,
 
@@ -193,7 +193,7 @@ const clearCart= async (url) => {
             `${url}/cart/clear/`,
             {
                 method: 'patch',
-                mode: 'no-cors',
+                mode: 'cors',
                 cache: 'no-cache',
                 credentials: 'same-origin' ,
 
