@@ -42,7 +42,7 @@ const addToCart= async (url, productId, count, size, color)=> {
         const res = await fetch(
             `${url}/cart/add/`,
             {
-                method: 'patch',
+                method: 'PATCH',
                 body: JSON.stringify({
                     products: [
                         {
@@ -82,7 +82,7 @@ const addToFavourites= async (url, productId, toastContent, lang)=> {
         const res = await fetch(
             `${url}/favourites/add/`,
             {
-                method: 'patch',
+                method: 'PATCH',
                 body: JSON.stringify({
                     products: [
                         {
@@ -119,7 +119,7 @@ const removeFromFavourites= async (url, productId, toastContent, lang)=> {
         const res = await fetch(
             `${url}/favourites/remove/`,
             {
-                method: 'patch',
+                method: 'PATCH',
                 body: JSON.stringify({
                     products: [
                         {
@@ -158,7 +158,7 @@ const removeFromCart= async (url, productId, count)=> {
         const res = await fetch(
             `${url}/cart/remove/`,
             {
-                method: 'patch',
+                method: 'PATCH',
                 body: JSON.stringify({
                     products: [
                         {
@@ -192,7 +192,7 @@ const clearCart= async (url) => {
         const res = await fetch(
             `${url}/cart/clear/`,
             {
-                method: 'patch',
+                method: 'PATCH',
                 mode: 'cors',
                 cache: 'no-cache',
                 credentials: 'same-origin' ,

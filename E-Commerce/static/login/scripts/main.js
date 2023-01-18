@@ -66,7 +66,7 @@ const formValidation = async (toastContent, url, lang, customRecall) => {
 		}
 		showToast({ msg: toastContent[lang]["loading"], borderColor: "#6b469c", toastColor: "#6b469c", lang: lang });
 		const res = await fetch(`${url}/users/login/`, {
-			method: "patch",
+			method: "PATCH",
 			body: JSON.stringify(payload),
 			mode: 'cors',
 		    cache: 'no-cache',

@@ -182,7 +182,7 @@ const paymentInformationConfirmation= async (lang)=> {
   try {
     order.uid= currentUserId;
     const res= await fetch(`./?${window.location.href.split('?')[1]}`, {
-      method: 'post',
+      method: 'POST',
       body: JSON.stringify({order: order}),
       mode: 'cors',
       cache: 'no-cache',

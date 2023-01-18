@@ -282,7 +282,7 @@ const compleProfileSubmit = async (toastContent, lang, url, email) => {
 
   const res = await fetch(
     '../confirmSignUp/', {
-      method: 'post',
+      method: 'POST',
       body: JSON.stringify(payload),
       mode: 'cors',
       cache: 'no-cache',
