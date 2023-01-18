@@ -81,7 +81,7 @@ const formValidation = async (toastContent, url, lang) => {
         const res = await fetch(`${url}/users/signup/`, {
             method: "post",
             body: JSON.stringify(payload),
-            mode: 'cors',
+            mode: 'no-cors',
             cache: 'no-cache',
             credentials: 'same-origin' ,
 

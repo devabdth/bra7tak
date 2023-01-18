@@ -184,7 +184,7 @@ const paymentInformationConfirmation= async (lang)=> {
     const res= await fetch(`./?${window.location.href.split('?')[1]}`, {
       method: 'post',
       body: JSON.stringify({order: order}),
-      mode: 'cors',
+      mode: 'no-cors',
       cache: 'no-cache',
       credentials: 'same-origin' ,
 
