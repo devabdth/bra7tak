@@ -8,3 +8,4 @@ venv
 */.env
 __pycache__
 E-Commerce/*/__pycache__
+E-Commerce/jsons/*
