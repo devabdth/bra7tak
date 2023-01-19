@@ -65,6 +65,7 @@ class SettingsSubRouter:
 
 	def assign_settings_index(self):
 		@self.app.route('/webapp/adminstration/settings/', methods=["GET"])
+		@self.app.route('/webapp/adminstration/', methods=["GET"])
 		def settings_index():
 			params= dict(request.values)
 
