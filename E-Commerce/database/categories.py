@@ -30,7 +30,7 @@ class Categories:
 		self.load()
 
 	def load(self):
-		with open(os.path.join(os.path.dirname(__file__), '../jsons/categories.json'), 'r', encoding="cp866") as f:
+		with open(os.path.abspath(os.path.join(os.path.dirname(__file__), '../jsons/categories.json')), 'r', encoding="cp866") as f:
 			self.categories_file_data = dict(json.load(f))
 		self.all_categories: list = [
 			Category(
@@ -83,7 +83,7 @@ class Categories:
 				if category["id"] == cid:
 					self.all_categories_dicts.remove(category)
 
-			with open(os.path.join(os.path.dirname(__file__), '../jsons/categories.json'), 'w') as f:
+			with open(os.path.abspath(os.path.join(os.path.dirname(__file__), '../jsons/categories.json')), 'w') as f:
 				dict_= {cat['id']: cat for cat in self.all_categories_dicts}
 				json.dump(dict_, f)
 				f.close()
@@ -115,7 +115,7 @@ class Categories:
 
 					del self.all_categories_dicts[self.all_categories_dicts.index(cat_dict)]
 					self.all_categories_dicts.append(cat_dict)
-			with open(os.path.join(os.path.dirname(__file__), '../jsons/categories.json'), 'w') as f:
+			with open(os.path.abspath(os.path.join(os.path.dirname(__file__), '../jsons/categories.json')), 'w') as f:
 				dict_= {cat['id']: cat for cat in self.all_categories_dicts}
 				json.dump(dict_, f)
 				f.close()
@@ -153,7 +153,7 @@ class Categories:
 			]
 
 			self.all_categories_dicts.append(category)
-			with open(os.path.join(os.path.dirname(__file__), '../jsons/categories.json'), 'w') as f:
+			with open(os.path.abspath(os.path.join(os.path.dirname(__file__), '../jsons/categories.json')), 'w') as f:
 				dict_= {cat['id']: cat for cat in self.all_categories_dicts}
 				json.dump(dict_, f)
 				f.close()
