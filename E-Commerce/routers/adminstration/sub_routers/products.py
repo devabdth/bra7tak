@@ -38,6 +38,7 @@ class ProductsSubRouter:
 
 			admin_data= self.database.admins.get_admin_by_id(aid)
 			products= self.database.products.get_products_by_filterization(params)
+			self.database.categories.load()
 			categories= self.database.categories.all_categories
 			return render_template(
 				'adminstration/products/index.html',
