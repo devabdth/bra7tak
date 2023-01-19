@@ -6,3 +6,5 @@ venv
 .flaskenv
 */flask_session
 */.env
+__pycache__
+E-Commerce/*/__pycache__
