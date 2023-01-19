@@ -45,6 +45,9 @@ const openCategoryFormDialog= (mode, category)=> {
 
 
 	if (mode == 0) {
+		document.getElementById('delete-category').onclick=()=> {
+			deleteCategory(category);
+		}
 		enNameField.value= category['name']['en'];
 		arNameField.value= category['name']['ar'];
 		enDescField.value= category['bio']['en'];
@@ -364,6 +367,43 @@ const confirmCreate= async(mode, category) => {
 	}, 3000);	
 }
 
+const deleteCategory= async (category)=> {
+	try {
+		const res= await fetch(
+			`./?cid=${category['id']}`, {
+				method: "DELETE"
+			}
+		);
+
+		if (res.status === 200) {
+			window.open('./', '_self');
+			return;
+		}
+		document.getElementById('delete-category').innerHTML= "Failed!"
+		document.getElementById('delete-category').onclick= ()=> {}
+		setTimeout(()=> {
+			document.getElementById('delete-category').innerHTML= "Delete";
+			document.getElementById('delete-category').onclick= ()=> {
+				deleteCategory(category);
+			}
+
+		}, 3000);
+
+	} catch (e) {
+		console.log(e);
+		document.getElementById('delete-category').innerHTML= "Failed!"
+		document.getElementById('delete-category').onclick= ()=> {}
+		setTimeout(()=> {
+			document.getElementById('delete-category').innerHTML= "Delete";
+			document.getElementById('delete-category').onclick= ()=> {
+				deleteCategory(category);
+			}
+
+		}, 3000);
+
+	}
+}
+
 const confrimEdit= async (mode, category)=> {
 	const confirmationBtn= document.getElementById('edit-category-confirmation');
 	if (formValidation(0)) {
@@ -408,7 +448,7 @@ const confrimEdit= async (mode, category)=> {
 				}, 3000);		
 			}
 
-			xhr.open('patch',`./?cid=${category['id']}`);
+			xhr.open('PATCH',`./?cid=${category['id']}`);
 			xhr.send(formData)
 
 		} catch (e) {

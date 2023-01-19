@@ -344,6 +344,10 @@ const openProductEdit= (product, mode, url)=> {
 		document.getElementById('form-submit').onclick= ()=> {
 			const res= formFieldValidation(newAssets);
 			if(res){
+				document.getElementById('form-submit').innerHTML= "Loading..."
+				document.getElementById('submit-status').innerHTML= "";
+				document.getElementById('form-submit').onclick= ()=> {}
+
 				product["name"]= {}
 				product["bio"]= {}
 				product["specs"]= {}
@@ -453,7 +457,7 @@ const submitProductEdit= (product, url, newAssetsFiles, listener)=> {
 			listener(req.status);
 			
 		}
-		req.open('patch', './');
+		req.open('PATCH', './');
 		req.send(reqData);
 		return false;
 	} catch (e) {

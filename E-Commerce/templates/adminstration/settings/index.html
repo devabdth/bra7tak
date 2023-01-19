@@ -106,8 +106,10 @@
 							{%endfor%}
 						</td>
 						<td>
-
-							<button class="shadow-button" style="color: red;" onclick="openDeleteAdminDialog({{admin | safe}});">Delete</button></td>
+							{% if admin['aid'] != "MetaAdmin" %}
+								<button class="shadow-button" style="color: red;" onclick="openDeleteAdminDialog({{admin | safe}});">Delete</button>
+							{% endif %}
+						</td>
 					</tr>
 				{% endfor %}
 			</table>

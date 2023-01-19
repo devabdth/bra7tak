@@ -24,6 +24,20 @@ class CategoriesSubRouter:
 		self.assign_categories_index()
 		self.assign_categories_update()
 		self.assign_categories_create()
+		self.assign_categories_delete()
+
+	def assign_categories_delete(self):
+		@self.app.route('/webapp/adminstration/categories/', methods=["DELETE"])
+		def categories_delete():
+			params= dict(request.values)
+			if not 'cid' in params.keys():
+				return self.app.response_class(status= 500)
+
+			res= self.database.categories.delete_category(params['cid'])
+			if res:
+				return self.app.response_class(status= 200)
+
+			return self.app.response_class(status= 500)
 
 	def assign_categories_update(self):
 		@self.app.route('/webapp/adminstration/categories/', methods=["PATCH"])

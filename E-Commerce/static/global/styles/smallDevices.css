@@ -92,6 +92,144 @@
     	display: none;
   	}
 
+
+  footer {
+    width: 100%;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--main-variant-color);
+  }
+
+  footer > #content {
+    width: 100%;
+    height: 90%;
+    display: flex;
+    padding: 0 10%;
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  footer > #content > #meta-info {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: space-between;
+    padding: 16px 8px;
+    gap: 8px;
+  }
+
+  footer > #content > #meta-info > #logo {
+    width: 128px;
+    height: 128px;
+    display: flex;
+    background-image: url(./images/logo.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  footer > #content > #meta-info > h1 {
+    font-weight: 900;
+    font-size: 2em;
+    color: var(--bg-color);
+  }
+
+  footer > #content > #meta-info > p {
+    font-weight: 100;
+    font-size: 0.75em;
+    color: var(--bg-color);
+    opacity: 0.75;
+  }
+
+  footer > #content > #meta-info > #links {
+    width: 100%;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+  }
+
+  .footer-social-media-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  #footer-tiktok-icon {
+    background-image: url(./icons/tiktok.png);
+  }
+
+  #footer-instagram-icon {
+    background-image: url(./icons/instagram.png);
+  }
+
+  #footer-facebook-icon {
+    background-image: url(./icons/facebook.png);
+  }
+
+  #footer-twitter-icon {
+    background-image: url(./icons/twitter.png);
+  }
+
+  #footer-linkedin-icon {
+    background-image: url(./icons/linkedin.png);
+  }
+
+  footer > #content > #tabs {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  footer > #content > #tabs > .tabs-column {
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    padding: 32px 16px;
+  }
+
+  footer > #content > #tabs > .tabs-column > a {
+    color: var(--bg-color);
+    opacity: 0.75;
+    font-weight: 300;
+    font-size: 1.25em;
+    transition: 500ms ease;
+    text-decoration: none;
+  }
+
+  footer > #content > #tabs > .tabs-column > a:hover {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+
+  footer > #copyright {
+    margin-top: 2.5vh;
+    width: 100%;
+    height: 10%;
+    justify-content: center;
+    align-items: center;
+    padding: 0 10%;
+    text-align: center;
+    color: var(--bg-color);
+    opacity: 0.75;
+    font-size: 0.75em;
+  }
+
+
   	#drawer {
   		width: 70%;
   		height: 100%;
