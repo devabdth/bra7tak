@@ -24,7 +24,7 @@ const login= async ()=> {
 
 	try {
 		const res= await fetch('./', {
-			method: 'patch',
+			method: 'PATCH',
 			body: JSON.stringify({
 				username: usernameField.value.trim(),
 				accessKey: authKeyField.value.trim(),

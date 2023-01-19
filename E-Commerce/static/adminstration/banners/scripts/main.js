@@ -145,7 +145,7 @@ const confirmEditBanner= async (bid, payload, newAsset, newAssetFile)=> {
 			}, 3000)
 		}	
 
-		req.open('patch',`./?bid=${bid}`);
+		req.open('PATCH',`./?bid=${bid}`);
 		req.send(reqData)
 		
 	} catch(e) {

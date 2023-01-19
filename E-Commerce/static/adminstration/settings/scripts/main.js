@@ -17,7 +17,7 @@ const openDeleteAdminDialog= async(adminData)=>{
 		try {
 			fetch(
 				`./?aid=${adminData['aid']}&key=${keyField.value.trim()}`, {
-					method: 'delete'
+					method: 'DELETE'
 				}
 			).then( res=> {
 				if (res.status == 200) {
@@ -126,7 +126,7 @@ const createAdminConfirmation= async()=> {
 	try {
 		const res= await fetch(
 			'./', {
-				method: 'post',
+				method: 'POST',
 				body: JSON.stringify(payload),
 				headers: { 'Content-Type': 'application/json'}
 			}

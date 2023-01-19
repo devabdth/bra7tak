@@ -337,7 +337,7 @@ const confirmCreate= async(mode, category) => {
 				}, 3000);		
 			}
 
-			pxhr.open('post',`./?cid=${category['id']}`);
+			pxhr.open('POST',`./?cid=${category['id']}`);
 			pxhr.send(formData)
 
 		} catch (e) {

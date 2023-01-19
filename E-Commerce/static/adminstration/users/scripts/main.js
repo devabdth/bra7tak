@@ -37,7 +37,7 @@ const deleteUser= async (uid)=> {
 		document.getElementById('delete-dialog-status-msg').innerHTML= "Loading..."
 		const res = await fetch(
 			`./?uid=${uid}`, {
-				method: "delete"
+				method: "DELETE"
 			}
 		);
 

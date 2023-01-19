@@ -148,7 +148,7 @@ const openProductEdit= (product, mode, url)=> {
 
 				const res= fetch(
 					`./?prodId=${product['id']}`, {
-						method: 'delete',
+						method: 'DELETE',
 					}
 				).then(r => {
 					if (r.status == 200)  {
@@ -429,7 +429,7 @@ const submitProductCreate= (product, url, newAssetsFiles, listener)=> {
 			listener(req.status);
 			
 		}
-		req.open('post', './');
+		req.open('POST', './');
 		req.send(reqData);
 		return false;
 	} catch (e) {

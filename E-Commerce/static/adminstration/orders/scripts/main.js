@@ -219,7 +219,7 @@ const chooseStatus = (statusText, status, lang, wtoggle, changeListener) => {
 		document.getElementById('update').onclick= ()=> {
 			try {
 				fetch(`./?oid=${currentOrderId}&status=${currentStatus-1}`, {
-					method: 'patch'
+					method: 'PATCH'
 				}).then(r => {
 					if(r.status === 200) {
 						window.open('./', '_self');
@@ -555,7 +555,7 @@ const placeOrderConfirmation= async()=> {
   	const cartCalc= cartCalculation();
   	const res= await fetch(
   		'./', {
-  			method: 'post',
+  			method: 'POST',
   			body: JSON.stringify({
   				information: {
 	  				customerName: nameField.value.trim(),
