@@ -9,6 +9,8 @@ def setup(app: Flask):
 	app.config["SESSION_PERMANENT"] = False
 	app.config["SESSION_TYPE"] = "filesystem"
 	app.config["DEBUG"]= True
+	app.config['MAX_CONTENT_LENGTH'] = 5120
+
 	Session(app)
 	QRcode(app)
 
