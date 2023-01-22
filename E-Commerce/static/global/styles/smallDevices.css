@@ -644,4 +644,25 @@
     min-width: 100%;
     max-width: 100%;
   }
+
+
+  #toast {
+    position: fixed;
+    bottom: 12px;
+    right: 24px;
+    background-color: var(--bg-color);
+    box-shadow: 0 0 30px 1px #000;
+    padding: 12px 32px;
+    border: 4px var(--main-color) solid;
+    border-radius: 12px;
+    display: none;
+    flex-direction: row;
+  }
+
+  #toast-text {
+    font-weight: 100;
+    font-size: 0.75em;
+    font-family: "Quicksand";
+    color: var(--main-color);
+  }
 }

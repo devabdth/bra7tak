@@ -237,6 +237,22 @@
     </div>
      <a href="/" id="header-title" style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['name']}}</a>
     <div id="options">
+      {% if uid %}
+      <a href="{{cfg.base_url}}/profile/" id="drawer-user-nav-item">
+      {% else %}
+        <a href="{{cfg.base_url}}/login/" id="drawer-user-nav-item">
+      {% endif %}
+          <div id="drawer-user-icon" class="drawer-nav-icon"></div>
+          <p style='font-family: "{{primary_font_family}}";'>
+            {% if uid %}
+              {{content.tabs[lang]['account']}}
+            {% else %}
+              {{content.tabs[lang]['login']}}<br /><span
+              >{{content.tabs[lang]['account']}}</span
+            >
+            {% endif %}
+          </p>
+        </a>
         {% if lang == 'en' %}
         <button onclick="changeLang('{{cfg.base_url}}', 'ar');" style="font-family: '{{primary_font_family}}'" id="lang-button">
             <div id="drawer-lang-icon" class="drawer-nav-icon"></div>

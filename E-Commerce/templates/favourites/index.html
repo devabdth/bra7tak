@@ -239,6 +239,93 @@
 		</div>
 		<div id="copyright" style="font-family: '{{primary_font_family}}'">lsdfsldjfjdfjsljdlfuwr-w-384-23rwlekrk;lwjfpjpo2-308-2kfejsldf!2j@;;ldigfp04r</div>
 	</footer>
+  <div id="drawer-overlay"></div>
+  <div id="drawer">
+    <div id="drawer-header">
+      <div id="drawer-close">x</div>
+    </div>
+     <a href="/" id="header-title" style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['name']}}</a>
+    <div id="options">
+      {% if uid %}
+      <a href="{{cfg.base_url}}/profile/" id="drawer-user-nav-item">
+      {% else %}
+        <a href="{{cfg.base_url}}/login/" id="drawer-user-nav-item">
+      {% endif %}
+          <div id="drawer-user-icon" class="drawer-nav-icon"></div>
+          <p style='font-family: "{{primary_font_family}}";'>
+            {% if uid %}
+              {{content.tabs[lang]['account']}}
+            {% else %}
+              {{content.tabs[lang]['login']}}<br /><span
+              >{{content.tabs[lang]['account']}}</span
+            >
+            {% endif %}
+          </p>
+        </a>
+        {% if lang == 'en' %}
+        <button onclick="changeLang('{{cfg.base_url}}', 'ar');" style="font-family: '{{primary_font_family}}'" id="lang-button">
+            <div id="drawer-lang-icon" class="drawer-nav-icon"></div>
+            <p style='font-family: "Cairo";'>العربية</p>
+        </button>
+      {% else %}
+        <button onclick="changeLang('{{cfg.base_url}}', 'en');" style="font-family: '{{primary_font_family}}'" id="lang-button">
+          <div id="drawer-lang-icon" class="drawer-nav-icon"></div>
+            <div id="drawer-user-icon" class="drawer-nav-icon"></div>
+            <p style='font-family: "Raleway";'>en</p>
+        </button>
+      {% endif %}
+        <a href="{{cfg.base_url}}/favourites/" id="drawer-favourites-nav-item">
+          <div id="drawer-favourites-icon" class="drawer-nav-icon"></div>
+          <p style='font-family: "{{primary_font_family}}";'>{{content.tabs[lang]['favourites']}}</p>
+          <div id="drawer-favourites-badge">
+            {% if uid %}
+              {{len(user_data.favourites)}}
+            {% else %}
+              {{0}}
+            {% endif %}
+          </div>
+        </a>
+        <a href="{{cfg.base_url}}/cart/" id="drawer-cart-nav-item">
+          <div id="drawer-cart-icon" class="drawer-nav-icon"></div>
+          <p style='font-family: "{{primary_font_family}}";'>{{content.tabs[lang]['cart']}}</p>
+          <div id="drawer-cart-badge">
+            {% if uid %}
+              {{len(user_data.cart)}}
+            {% else %}
+              {{0}}
+            {% endif %}
+          </div>
+        </a>
+    </div>
+    <h5 style="font-family: '{{primary_font_family}}';" class="drawer-section-title">{{content.tabs[lang]['categories']}}</h5>
+    <div id="categories">
+      {% for cat in database.categories.all_categories %}
+        <div class="category-card" onclick="window.open('{{cfg.base_url}}/categories/{{cat.id}}');">
+          <h3 style="font-family: '{{primary_font_family}}';">{{cat['name'][lang]}}<br><span>{{len(cat['products'])}} Products</span></h3>
+        </div>
+      {% endfor %}
+    </div>
+    <h5 style="font-family: '{{primary_font_family}}';" class="drawer-section-title">{{content.tabs[lang]['socialMedia']}}</h5>
+
+    <div id="links">
+          {% if cfg.facebook %}
+            <a href="{{cfg.facebook}}" id="drawer-facebook-icon" class="drawer-social-media-icon"></a>
+          {% endif %}
+          {% if cfg.instagram %}
+            <a href="{{cfg.instagram}}" id="drawer-instagram-icon" class="drawer-social-media-icon"></a>
+          {% endif %}
+          {% if cfg.twitter %}
+            <a href="{{cfg.twitter}}" id="drawer-twitter-icon" class="drawer-social-media-icon"></a>
+          {% endif %}
+          {% if cfg.tiktok %}
+            <a href="{{cfg.tiktok}}" id="drawer-tiktok-icon" class="drawer-social-media-icon"></a>
+          {% endif %}
+          {% if cfg.linkedin %}
+            <a href="{{cfg.linkedin}}" id="drawer-linkedin-icon" class="drawer-social-media-icon"></a>
+          {% endif %}
+          
+        </div>
+  </div>
 
 
 </body>
