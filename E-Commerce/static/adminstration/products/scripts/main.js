@@ -434,6 +434,7 @@ const submitProductCreate= (product, url, newAssetsFiles, listener)=> {
 			
 		}
 		req.open('POST', './');
+		req.setRequestHeader('Content-Type','multipart/form-data;');
 		req.send(reqData);
 		return false;
 	} catch (e) {
@@ -457,7 +458,9 @@ const submitProductEdit= (product, url, newAssetsFiles, listener)=> {
 			listener(req.status);
 			
 		}
+
 		req.open('PATCH', './');
+		req.setRequestHeader('Content-Type','multipart/form-data;');
 		req.send(reqData);
 		return false;
 	} catch (e) {
