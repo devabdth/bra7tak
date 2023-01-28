@@ -233,7 +233,7 @@ const openProductEdit= (product, mode, url)=> {
 			input.click();
 		}
 
-		document.getElementById('form-submit').onclick= ()=> {
+		let submit= ()=> {
 			const res= formFieldValidation(newAssets);
 			console.log(res);
 			if(res){
@@ -296,72 +296,16 @@ const openProductEdit= (product, mode, url)=> {
 							return;
 						} else {
 							document.getElementById('submit-status').innerHTML= "Failed, Please try again later!";
-				setTimeout(()=> {
-					document.getElementById('submit-status').innerHTML= "";
-					document.getElementById('form-submit').innerHTML= "Submit";
-					document.getElementById('form-submit').onclick= ()=> {
-			const res= formFieldValidation(newAssets);
-			console.log(res);
-			if(res){
-			
-				document.getElementById('form-submit').innerHTML= "Loading..."
-				document.getElementById('submit-status').innerHTML= "";
-				document.getElementById('form-submit').onclick= ()=> {}
+							document.getElementById('form-submit').onclick= ()=> {};
+							document.getElementById('form-submit').innerHTML= "Failed";
+							setTimeout(()=> {
+								document.getElementById('submit-status').innerHTML= "";
+								document.getElementById('form-submit').innerHTML= "Submit";
+								document.getElementById('form-submit').onclick= ()=> {
+									submit();
+								}
 
-				product['code'] = codeField.value.trim();
-				product['name']['en'] = enNameField.value.trim();
-				product['name']['ar'] = arNameField.value.trim();
-				product['bio']['en'] = enBioField.value.trim();
-				product['bio']['ar'] = arBioField.value.trim();
-				product['specs']['en'] = enSpecsField.value.trim();
-				product['specs']['ar'] = arSpecsField.value.trim();
-				product["pricing"]["currentPrice"] = Number.parseInt(peicePriceField.value.trim());
-				product["pricing"]["twoPiecesPrice"] = Number.parseInt(twoPeicesPriceField.value.trim());
-				product["pricing"]["fourPiecesPrice"] = Number.parseInt(fourPeicesPriceField.value.trim());
-				product["pricing"]["sixPiecesPrice"] = Number.parseInt(sixPeicesPriceField.value.trim());
-				product["pricing"]["dozinPiecesPrice"] = Number.parseInt(dozinPeicesPriceField.value.trim());
-				product["vat"] = Number.parseInt(vatField.value.trim());
-				product["assets"] = newAssets;
-				product["category"]= currentCategory;
-				product["subCategory"]= currentSubCategory;
-
-				for (let cityCode in product["avgDelDays"]) {
-					 product["avgDelDays"][cityCode]= Number.parseInt(document.getElementById(`${cityCode}-del-days`).value);
-				}
-
-				for (let cityCode in product["shippingFees"]) {
-					 product["shippingFees"][cityCode]= Number.parseInt(document.getElementById(`${cityCode}-shipping-fees`).value);
-				}
-
-
-				let colors= [];
-				const colorsDiv= document.getElementById('colors');
-				for (child=0; child < colorsDiv.childNodes.length; child++) {
-					console.log(colorsDiv.childNodes[child].classList.contains('active'));
-					if (colorsDiv.childNodes[child].classList.contains('active')) {
-						colors.push(colorsDiv.childNodes[child].id.split('-')[0]);
-					}
-				}
-				product["colors"]= colors;
-
-				let sizes_= [];
-				const sizesDiv= document.getElementById('sizes');
-				for (let size in sizes) {
-					if (document.getElementById(`sizes-${sizes[size].toLowerCase()}-checkbox`).checked) {
-						sizes_.push(sizes[size]);
-					}
-				}
-				product["sizes"]= sizes_;
-
-
-				const editRes= submitProductEdit(
-					product, url, newAssetsFiles, 
-					(status)=> {
-						if(status === 200) {
-							window.open('./', '_self');
-							return;
-						} else {
-							document.getElementById('submit-status').innerHTML= "Failed, Please try again later!";
+							}, 5000)
 						}
 
 					},
@@ -370,15 +314,9 @@ const openProductEdit= (product, mode, url)=> {
 			} else {
 				document.getElementById('submit-status').innerHTML= "Some Fields are missing!";
 			}
-		}
-				})
+			document.getElementById('form-submit').onclick= ()=> {
+				submit();
 			}
-						}
-
-					},
-					
-				);
-			} else {
 		}
 
 	} else if (mode === 1) {
@@ -416,7 +354,7 @@ const openProductEdit= (product, mode, url)=> {
 			input.click();
 		}
 
-		document.getElementById('form-submit').onclick= ()=> {
+		let submit= ()=> {
 			const res= formFieldValidation(newAssets);
 			if(res){
 				document.getElementById('form-submit').innerHTML= "Loading..."
@@ -479,73 +417,17 @@ const openProductEdit= (product, mode, url)=> {
 							return;
 						} else {
 							document.getElementById('submit-status').innerHTML= "Failed, Please try again later!";
+							document.getElementById('form-submit').onclick= ()=> {};
 							document.getElementById('form-submit').innerHTML= "Failed";
 							setTimeout(()=> {
 								document.getElementById('submit-status').innerHTML= "";
 								document.getElementById('form-submit').innerHTML= "Submit";
 								document.getElementById('form-submit').onclick= ()=> {
-			const res= formFieldValidation(newAssets);
-			if(res){
-				document.getElementById('form-submit').innerHTML= "Loading..."
-				document.getElementById('submit-status').innerHTML= "";
-				document.getElementById('form-submit').onclick= ()=> {}
+									submit();
+								}
 
-				product["name"]= {}
-				product["bio"]= {}
-				product["specs"]= {}
-				product["pricing"]= {}
-				product["avgDelDays"]= {}
-				product["shippingFees"]= {}
+							})
 
-				product['code'] = codeField.value.trim();
-				product['name']['en'] = enNameField.value.trim();
-				product['name']['ar'] = arNameField.value.trim();
-				product['bio']['en'] = enBioField.value.trim();
-				product['bio']['ar'] = arBioField.value.trim();
-				product['specs']['en'] = enSpecsField.value.trim();
-				product['specs']['ar'] = arSpecsField.value.trim();
-				product["pricing"]["currentPrice"] = Number.parseInt(peicePriceField.value.trim());
-				product["pricing"]["twoPiecesPrice"] = Number.parseInt(twoPeicesPriceField.value.trim());
-				product["pricing"]["fourPiecesPrice"] = Number.parseInt(fourPeicesPriceField.value.trim());
-				product["pricing"]["sixPiecesPrice"] = Number.parseInt(sixPeicesPriceField.value.trim());
-				product["pricing"]["dozinPiecesPrice"] = Number.parseInt(dozinPeicesPriceField.value.trim());
-				product["vat"] = Number.parseInt(vatField.value.trim());
-				product["assets"] = newAssets;
-				product["category"]= currentCategory
-				product["subCategory"]= currentSubCategory
-
-				for (let cityCode= 0; cityCode != 27; cityCode++) {
-					 product["avgDelDays"][cityCode]= Number.parseInt(document.getElementById(`${cityCode}-del-days`).value || '0');
-					 product["shippingFees"][cityCode]= Number.parseInt(document.getElementById(`${cityCode}-shipping-fees`).value || '0');
-				}
-
-
-				let colors= [];
-				const colorsDiv= document.getElementById('colors');
-				for (child=0; child < colorsDiv.childNodes.length; child++) {
-					console.log(colorsDiv.childNodes[child].classList.contains('active'));
-					if (colorsDiv.childNodes[child].classList.contains('active')) {
-						colors.push(colorsDiv.childNodes[child].id.split('-')[0]);
-					}
-				}
-				product["colors"]= colors;
-
-				let sizes_= [];
-				const sizesDiv= document.getElementById('sizes');
-				for (let size in sizes) {
-					if (document.getElementById(`sizes-${sizes[size].toLowerCase()}-checkbox`).checked) {
-						sizes_.push(sizes[size]);
-					}
-				}
-				product["sizes"]= sizes_;
-
-
-				submitProductCreate(product, url, newAssetsFiles, (status)=> {
-						if(status === 201) {
-							window.open('./', '_self');
-							return;
-						} else {
-							document.getElementById('submit-status').innerHTML= "Failed, Please try again later!";
 						}
 
 				});
@@ -555,19 +437,13 @@ const openProductEdit= (product, mode, url)=> {
 
 			}
 		}
-							}, 3000)
-						}
 
-				});
-
-			} else {
-				document.getElementById('submit-status').innerHTML= "Some Fields are missing!";
-
-			}
-		}
+		document.getElementById('form-submit').onclick= ()=> {
+			submit();
 			
 
 	}
+		}
 
 }
 
