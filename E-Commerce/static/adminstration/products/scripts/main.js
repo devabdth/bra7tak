@@ -462,7 +462,6 @@ const submitProductCreate= (product, url, newAssetsFiles, listener)=> {
 			
 		}
 		req.open('POST', './');
-		req.setRequestHeader('Content-Length', reqData.length);
 		req.send(reqData);
 		return false;
 	} catch (e) {
@@ -488,7 +487,6 @@ const submitProductEdit= (product, url, newAssetsFiles, listener)=> {
 		}
 
 		req.open('PATCH', './');
-		req.setRequestHeader('Content-Length', reqData.length);
 		req.send(reqData);
 		return false;
 	} catch (e) {
