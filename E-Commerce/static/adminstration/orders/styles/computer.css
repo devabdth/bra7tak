@@ -94,7 +94,7 @@
 		min-height: 50vh;
 		display: none;
 		align-items: center;
-		justify-content: center;
+		justify-content: start;
 		flex-direction: column;
 		margin-top: 5vh;
 	}
@@ -107,7 +107,7 @@
 	table.orders {
 		display: table;
 		align-items: center;
-		justify-content: center;
+		justify-content: start;
 		width: 100%;
 	}
 

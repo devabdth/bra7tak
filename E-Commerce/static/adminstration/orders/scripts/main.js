@@ -1,4 +1,11 @@
-const statuses= ["Canceled", "Stocked", "In Delivery", "Delivered"];
+const statuses= {
+	"3": "Pending",
+	"-2": "Returned",
+	"-1": "Canceled",
+	"0": "Stocked",
+	"1": "In Delivery",
+	"2": "Delivered"
+};
 
 
 const ordersFiltrationClear= ()=> {
@@ -42,29 +49,32 @@ const ordersFiltrationSubmit= ()=> {
 	const emailFieldContainer=  document.getElementById('email-field-container');
 	const emailField=  document.getElementById('email-field');
 	
-	const idFieldContainer=  document.getElementById('id-field-container');
-	const idField=  document.getElementById('id-field');
+	const policeNumberFieldContainer=  document.getElementById('police-number-field-container');
+	const policeNumberField=  document.getElementById('police-number-field');
 
 
 	if (
 		!startDateField.value.trim().length  &&
 		!endDateField.value.trim().length  &&
 		!emailField.value.trim().length  &&
-		!idField.value.trim().length  
+		!policeNumberField.value.trim().length  
 		) {
 		startDateFieldContainer.style.border= "1px red solid";
 		endDateFieldContainer.style.border= "1px red solid";
 		emailFieldContainer.style.border= "1px red solid";
-		idFieldContainer.style.border= "1px red solid";
+		policeNumberFieldContainer.style.border= "1px red solid";
 		return;
 	}
 
-	window.open(`./?start=${startDateField.value}&end=${endDateField.value}&email=${emailField.value.trim()}&id=${idField.value.trim()}`, '_self');
+	window.open(`./?start=${startDateField.value}&end=${endDateField.value}&email=${emailField.value.trim()}&policeNumber=${policeNumberField.value.trim()}`, '_self');
 	return;
 }
 
 
 const fragmentsSwitch= (mode)=> {
+	const pendingFragmentController = document.getElementById('pending-fragment-controller');
+	const pendingFragment = document.getElementById('pending-fragment');
+	
 	const returnedFragmentController = document.getElementById('returned-fragment-controller');
 	const returnedFragment = document.getElementById('returned-fragment');
 	
@@ -80,6 +90,25 @@ const fragmentsSwitch= (mode)=> {
 	const deliveredFragmentController = document.getElementById('delivered-fragment-controller');
 	const deliveredFragment = document.getElementById('delivered-fragment');
 	switch (mode) {
+		case -3:
+			pendingFragment.classList.add('active-fragment');
+			pendingFragmentController.classList.add('active-fragment-controller');
+
+			returnedFragment.classList.remove('active-fragment');
+			returnedFragmentController.classList.remove('active-fragment-controller');
+
+			canceledFragment.classList.remove('active-fragment');
+			canceledFragmentController.classList.remove('active-fragment-controller');
+			
+			stockedFragment.classList.remove('active-fragment');
+			stockedFragmentController.classList.remove('active-fragment-controller');
+			
+			inDeliveryFragment.classList.remove('active-fragment');
+			inDeliveryFragmentController.classList.remove('active-fragment-controller');
+			
+			deliveredFragment.classList.remove('active-fragment');
+			deliveredFragmentController.classList.remove('active-fragment-controller');
+			break;
 		case -2:
 			returnedFragment.classList.add('active-fragment');
 			returnedFragmentController.classList.add('active-fragment-controller');
@@ -93,27 +122,33 @@ const fragmentsSwitch= (mode)=> {
 			inDeliveryFragment.classList.remove('active-fragment');
 			inDeliveryFragmentController.classList.remove('active-fragment-controller');
 			
+			pendingFragment.classList.remove('active-fragment');
+			pendingFragmentController.classList.remove('active-fragment-controller');
+			
 			deliveredFragment.classList.remove('active-fragment');
 			deliveredFragmentController.classList.remove('active-fragment-controller');
 			break;
-
+			
 		case -1:
-			returnedFragment.classList.remove('active-fragment');
-			returnedFragmentController.classList.remove('active-fragment-controller');
+				returnedFragment.classList.remove('active-fragment');
+				returnedFragmentController.classList.remove('active-fragment-controller');
+				
+				canceledFragment.classList.add('active-fragment');
+				canceledFragmentController.classList.add('active-fragment-controller');
+				
+				stockedFragment.classList.remove('active-fragment');
+				stockedFragmentController.classList.remove('active-fragment-controller');
+				
+				inDeliveryFragment.classList.remove('active-fragment');
+				inDeliveryFragmentController.classList.remove('active-fragment-controller');
+				
+				deliveredFragment.classList.remove('active-fragment');
+				deliveredFragmentController.classList.remove('active-fragment-controller');
 
-			canceledFragment.classList.add('active-fragment');
-			canceledFragmentController.classList.add('active-fragment-controller');
-
-			stockedFragment.classList.remove('active-fragment');
-			stockedFragmentController.classList.remove('active-fragment-controller');
-			
-			inDeliveryFragment.classList.remove('active-fragment');
-			inDeliveryFragmentController.classList.remove('active-fragment-controller');
-			
-			deliveredFragment.classList.remove('active-fragment');
-			deliveredFragmentController.classList.remove('active-fragment-controller');
-			break;
-
+				pendingFragment.classList.remove('active-fragment');
+				pendingFragmentController.classList.remove('active-fragment-controller');
+				break;
+				
 		case 0:
 			returnedFragment.classList.remove('active-fragment');
 			returnedFragmentController.classList.remove('active-fragment-controller');
@@ -123,7 +158,7 @@ const fragmentsSwitch= (mode)=> {
 
 			returnedFragmentController.classList.remove('active-fragment-controller');
 			canceledFragmentController.classList.remove('active-fragment-controller');
-
+			
 			stockedFragment.classList.add('active-fragment');
 			stockedFragmentController.classList.add('active-fragment-controller');
 			
@@ -132,6 +167,9 @@ const fragmentsSwitch= (mode)=> {
 			
 			deliveredFragment.classList.remove('active-fragment');
 			deliveredFragmentController.classList.remove('active-fragment-controller');
+			
+			pendingFragment.classList.remove('active-fragment');
+			pendingFragmentController.classList.remove('active-fragment-controller');
 			break;
 		case 1:
 			returnedFragment.classList.remove('active-fragment');
@@ -148,6 +186,9 @@ const fragmentsSwitch= (mode)=> {
 			
 			deliveredFragment.classList.remove('active-fragment');
 			deliveredFragmentController.classList.remove('active-fragment-controller');
+			
+			pendingFragment.classList.remove('active-fragment');
+			pendingFragmentController.classList.remove('active-fragment-controller');
 			break;
 		case 2:
 			returnedFragment.classList.remove('active-fragment');
@@ -165,6 +206,8 @@ const fragmentsSwitch= (mode)=> {
 			deliveredFragment.classList.add('active-fragment');
 			deliveredFragmentController.classList.add('active-fragment-controller');
 			
+			pendingFragment.classList.remove('active-fragment');
+			pendingFragmentController.classList.remove('active-fragment-controller');
 			break;
 		default:
 			canceledFragment.classList.add('active-fragment');
@@ -178,6 +221,9 @@ const fragmentsSwitch= (mode)=> {
 			
 			deliveredFragment.classList.remove('active-fragment');
 			deliveredFragmentController.classList.remove('active-fragment-controller');
+			
+			pendingFragment.classList.remove('active-fragment');
+			pendingFragmentController.classList.remove('active-fragment-controller');
 			break;
 
 	}
@@ -218,7 +264,7 @@ const chooseStatus = (statusText, status, lang, wtoggle, changeListener) => {
 		document.getElementById('update').style.display= "flex";
 		document.getElementById('update').onclick= ()=> {
 			try {
-				fetch(`./?oid=${currentOrderId}&status=${currentStatus-1}`, {
+				fetch(`./?oid=${currentOrderId}&status=${currentStatus}`, {
 					method: 'PATCH'
 				}).then(r => {
 					if(r.status === 200) {
@@ -244,7 +290,7 @@ const chooseStatus = (statusText, status, lang, wtoggle, changeListener) => {
 }
 
 
-const openOrderDialog= (orderData, city)=> {
+const openOrderDialog= (url, orderData, city)=> {
 	currentOrderId= orderData["id"];
 	document.getElementById('order-id').innerHTML= orderData["id"];
 	document.getElementById('order-user-id').innerHTML= orderData["uid"];
@@ -254,17 +300,21 @@ const openOrderDialog= (orderData, city)=> {
 	document.getElementById('order-price').style.fontFamily= "Raleway";
 	document.getElementById('order-time').innerHTML= orderData["placedIn"];
 	document.getElementById('order-time').style.fontFamily= "Raleway";
-	document.getElementById('qr').style.background= `url("${window.location.href}/qr/${orderData['id']}");`
+	document.getElementById('qr').style.background= `url("${url}/webapp/adminstration/orders/qr/${orderData['id']}");`
+	document.getElementById('downlowd-recipet').onclick= ()=> {
+		window.open(`${url}/webapp/adminstration/orders/invoices/?oid=${orderData['id']}`)
+	}
 
-	if(orderData["status"] === -1 || orderData["status"] === 2) {
-		document.getElementById('order-status').innerHTML= statuses[(orderData["status"]+1)]
+	if(orderData["status"] === -1 || orderData["status"] === 2 || orderData["status"] === -2) {
+		document.getElementById('order-status').innerHTML= statuses[orderData["status"]]
 		document.getElementById('order-status').style.display= "flex";
 		document.getElementById('status-dropbtn').style.display= "none";
 	} else {
 		document.getElementById('order-status').style.display= "none";
 		document.getElementById('status-dropbtn').style.display= "flex";
-		baseStatus=(orderData["status"] +1);
-		chooseStatus(statuses[(orderData["status"] +1)], (orderData["status"] +1), 'en', false);
+		baseStatus=(orderData["status"]);
+		console.log((orderData["status"]));
+		chooseStatus(statuses[(orderData["status"])], (orderData["status"]), 'en', false);
 	}
 
 	document.getElementById('overlay').style.display= "flex";

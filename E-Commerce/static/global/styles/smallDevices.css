@@ -95,7 +95,8 @@
 
   footer {
     width: 100%;
-    height: 80vh;
+    min-height: 80vh;
+    max-height: 150vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -478,7 +479,7 @@
 
 
   .product-card {
-    width: 256px;
+    width: 192px;
     height: 288px;
     margin: 0 6px;
     position: relative;
@@ -490,7 +491,7 @@
   }
 
   .product-card > #product-asset {
-    width: 224px;
+    width: 160px;
     height: 128px;
     border-radius: 12px;
     position: absolute;
@@ -569,7 +570,7 @@
 
   #product-content > #content > p {
     font-weight: 300;
-    font-size: 0.75em;
+    font-size: 0.65em;
     color: var(--secondary-color);
     opacity: 0.5;
   }

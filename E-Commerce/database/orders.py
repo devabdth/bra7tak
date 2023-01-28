@@ -36,8 +36,8 @@ class Order:
 
 	def to_dict(self):
 		return {
-		"id": self.id,
-		"_id": self.id,
+		"id": str(self.id),
+		"_id": str(self.id),
 		"username": self.username,
 		"userEmail": self.user_email,
 		"userPhone": self.user_phone,
@@ -49,7 +49,7 @@ class Order:
 		"price": int(self.price),
 		"shippingFees": int(self.shipping_fees),
 		"status": int(self.status),
-		"uid": self.uid,
+		"uid": str(self.uid),
 		"placedIn": self.placed_in,
 		"aid": self.aid,
 		"policeNumber": self.police_number,
@@ -94,6 +94,7 @@ class Orders:
 
 	def get_all_orders(self, params):
 		return {
+			"PENDING": [self.create_order_from_dict(dict(order)) for order in list(self.orders_collection.find({'status': -3}))],
 			"RETURNED": [self.create_order_from_dict(dict(order)) for order in list(self.orders_collection.find({'status': -2}))],
 			"CANCELED": [self.create_order_from_dict(dict(order)) for order in list(self.orders_collection.find({'status': -1}))],
 			"STOCKED": [self.create_order_from_dict(dict(order)) for order in list(self.orders_collection.find({'status': 0}))],
@@ -109,8 +110,10 @@ class Orders:
 	def update_order(self, oid, params):
 		try:
 			self.orders_collection.find_one_and_update({'_id': ObjectId(oid)}, {'$set': params})
+			return True
 		except Exception as e:
-			raise e
+			print(e)
+			return False
 
 
 	def create_order(self, order: Order) -> str:
@@ -120,12 +123,14 @@ class Orders:
 				order= order.to_dict()
 
 			order["policeNumber"]= 1000000000 + (self.orders_collection.count_documents({})) + 1
-			order["placed_in"]= str(datetime.now())
+			order["placedIn"]= str(datetime.now())
 
 			if 'id' in order.keys():
 				del order['id']
 			if '_id' in order.keys():
 				del order['_id']
+
+			order["status"]= -3
 
 			order= self.orders_collection.insert_one(order)
 			return order.inserted_id

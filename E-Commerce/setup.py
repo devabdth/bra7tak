@@ -64,3 +64,6 @@ def setup(app: Flask):
 
 	from routers.adminstration.router import AdminstrationRouter
 	AdminstrationRouter(app= app).setup()
+
+	from routers.orders.router import OrdersRouter
+	OrdersRouter(app= app).setup()

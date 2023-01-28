@@ -25,6 +25,26 @@ class OrdersSubRouter:
 		self.assign_orders_post()
 		self.assign_order_qr_code()
 		self.assign_order_status_change()
+		self.assign_order_invoice()
+
+	def assign_order_invoice(self):
+		@self.app.route('/webapp/adminstration/orders/invoices/')
+		def admin_order_invoice():
+			params= dict(request.values)
+
+			oid= params['oid']
+			aid= session.get("CURRENT_ADMIN_ID", None)
+
+			if aid is None or oid is None:
+				return self.app.response_class(status= 403)
+
+			order= self.database.orders.get_order_by_id(params['oid'])
+			if order is None:
+				return self.app.response_class(status= 404)
+
+			invoice= self.utils.inv_gen(order, self.utils).generate_invoice()
+			return send_file(invoice, mimetype="application/pdf", as_attachment= True, attachment_filename="Order-{}.pdf".format(order.police_number))
+
 
 
 	def assign_orders_post(self):
@@ -94,6 +114,7 @@ class OrdersSubRouter:
 				lang= "en",
 				search_params= params,
 				cats_ids= [cat.id for cat in self.database.categories.all_categories],
+				dumps= json.dumps
 			)
 
 
@@ -118,7 +139,7 @@ class OrdersSubRouter:
 			try:
 				params= dict(request.values)
 				if ('oid' in params.keys() and 'status' in params.keys()):
-					res= self.database.orders.update_order(params['oid'], {'status': params['status']})
+					res= self.database.orders.update_order(params['oid'], {'status': int(params['status'])})
 					if res:
 						return self.app.response_class(status= 200)
 						

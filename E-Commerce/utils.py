@@ -1,4 +1,8 @@
+from invoice_gen.app import InvoiceGenerator
+
 class Utils:
+	def __init__(self):
+		self.inv_gen= InvoiceGenerator
 	def format_date(self, date, show_hour: bool= False):
 		if show_hour:
 			parts= date.split(' ')
@@ -74,6 +78,7 @@ class Utils:
 				total_shipping_fee+= prod['COUNT'] * prod['PRODUCT_DATA'].shipping_fees[city_code or 5]
 			except KeyError:
 				total_shipping_fee+= prod['COUNT'] * prod['PRODUCT_DATA'].shipping_fees[str(city_code or 5)]
+
 
 
 		cart_['PRODUCTS_PRICE']= products_price
