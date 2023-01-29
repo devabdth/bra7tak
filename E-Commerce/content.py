@@ -4,7 +4,7 @@ class Content:
         import sys
         import json
         sys.path.insert(0, '../')
-        with open(path.abspath(path.join(path.dirname(__file__), 'jsons/localizations.json')), 'r', encoding="cp866") as f:
+        with open(path.abspath(path.join(path.dirname(__file__), 'jsons/localizations.json')), 'r', encoding="utf-8") as f:
             data: dict= dict(json.load(f))
             self.global_= data['global']
             self.actions= data['actions']
