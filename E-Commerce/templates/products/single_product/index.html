@@ -177,19 +177,19 @@
       <div id="product-slide-show">
         <div
           id="current-slide"
-          style="background-image: url('{{cfg.base_url}}/assets/products/name/{{product.assets[0]}}/');"
+          style="background-image: url('{{cfg.base_url}}/assets/products/name/{{product['id']}}-{{product.assets[0]}}/');"
         ></div>
         <div id="all-slides">
           <div
             class="side-slide active-slide"
-            id="{{product.assets[0]}}"
-            style="background-image: url('{{cfg.base_url}}/assets/products/name/{{product.assets[0]}}/');"
+            id="{{product['id']}}-{{product.assets[0]}}"
+            style="background-image: url('{{cfg.base_url}}/assets/products/name/{{product['id']}}-{{product.assets[0]}}/');"
           ></div>
           {% for asset in product.assets[1:] %}
           <div
             class="side-slide"
-            id="{{asset}}"
-            style="background-image: url('{{cfg.base_url}}/assets/products/name/{{asset}}/');"
+            id="{{product['id']}}-{{asset}}"
+            style="background-image: url('{{cfg.base_url}}/assets/products/name/{{product['id']}}-{{asset}}/');"
           ></div>
           {% endfor %}
         </div>
@@ -285,7 +285,7 @@
         <a class="product-card" href="{{cfg.base_url}}/products/{{prod.id}}">
           <div
             id="product-asset"
-            style="background-image: url('{{cfg.base_url}}/assets/products/name/{{prod.assets[0]}}');"
+            style="background-image: url('{{cfg.base_url}}/assets/products/name/{{prod._id}}-{{prod.assets[0]}}');"
           ></div>
           <div id="product-content">
             <div id="content">
@@ -467,7 +467,7 @@
 
     <script>
       initializeProduct({{product.to_dict()|safe}});
-      initializeSlideShow({{product.assets | safe}}, '{{cfg.base_url}}');
+      initializeSlideShow('{{product["id"]}}', {{product.assets | safe}}, '{{cfg.base_url}}');
       window.onload=()=>{
         document.getElementById('price-tag').innerHTML= `${formatPrice({{product.pricing['currentPrice']}})}`
       }

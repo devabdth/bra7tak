@@ -143,7 +143,7 @@ class Products:
 						os.remove(path_)
 
 			for file_ in files.values():
-				file_.save(os.path.abspath(os.path.join(os.path.dirname(__file__),'../routers/assets/products/{}'.format(file_.filename))))
+				file_.save(os.path.abspath(os.path.join(os.path.dirname(__file__),'../routers/assets/products/{}-{}.{}'.format(product.inserted_id, list(files.values()).index(file_), file_.filename.split('.')[-1]))))
 
 
 			product.code= product_["code"]
@@ -171,8 +171,6 @@ class Products:
 
 	def create_product(self, product_: dict, files) -> bool:
 		try:
-			for file_ in files.values():
-				file_.save(os.path.abspath(os.path.join(os.path.dirname(__file__),'../routers/assets/products/{}'.format(file_.filename))))
 
 
 			product: Product= Product(
@@ -183,7 +181,7 @@ class Products:
 				specs= product_["specs"],
 				pricing= product_["pricing"],
 				vat= product_["vat"],
-				assets= product_["assets"],
+				assets= ["{}.{}".format(list(product_["assets"]).index(asset), list(product_["assets"])[product_["assets"].index(asset)].split('.')[-1]) for asset in product_["assets"]],
 				avg_del_days= product_["avgDelDays"],
 				shipping_fees= product_["shippingFees"],
 				category= int(product_["category"]),
@@ -193,6 +191,10 @@ class Products:
 			)
 			product= self.products_collection.insert_one(product.to_dict())
 			self.refresh_all_products()
+			if product.inserted_id is not None:
+				for file_ in files.values():
+					file_.save(os.path.abspath(os.path.join(os.path.dirname(__file__),'../routers/assets/products/{}-{}.{}'.format(product.inserted_id, list(files.values()).index(file_), file_.filename.split('.')[-1]))))
+
 
 			return product.inserted_id != None
 		except Exception as e:
