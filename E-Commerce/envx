@@ -1,3 +1,5 @@
 PORT=3030
 DB_URL="mongodb+srv://website:NUsvCmtrg4aVdheX@cluster0.hr5uyvd.mongodb.net/?retryWrites=true&w=majority"
 BASE_URL="http://127.0.0.1:3030"
+EMAIL_MODEL_EMAIL="noreply@bra7tak.com"
+EMAIL_MODEL_AUTH_KEY="03102021-Cubers-Mailing@Bra7tak.Password@Cubers"

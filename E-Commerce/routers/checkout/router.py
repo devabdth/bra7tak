@@ -70,9 +70,9 @@ class CheckoutRouter:
 
 			try:
 				order_id= self.database.orders.create_order(order_)
-				print(order_id)
 				return self.app.response_class(status= 201)
 			except Exception as e:
+				print(e)
 				return self.app.response_class(status= 500)
 
 

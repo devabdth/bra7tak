@@ -18,6 +18,8 @@ class Config:
 		self.twitter= environ['TWITTER'] if 'TWITTER' in environ else "None"
 		self.tiktok = environ['TIKTOK'] if 'TIKTOK' in environ else "None"
 
+		self.email_model_email= environ['EMAIL_MODEL_EMAIL'] if 'EMAIL_MODEL_EMAIL' in environ else ""
+		self.email_model_access_key= environ['EMAIL_MODEL_AUTH_KEY'] if 'EMAIL_MODEL_AUTH_KEY' in environ else ""
 		self.meta_description = environ['DESCRIPTION'] if 'DESCRIPTION' in environ else "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vitae mauris in tortor ornare mollis ac nec nisi. Donec in felis dui. Sed velit tellus, convallis nec congue et, vulputate sit amet sem. Aliquam lorem tellus, faucibus at eros in, facilisis tristique ipsum. Vestibulum a pretium quam. Suspendisse tristique purus ac arcu maximus, vel malesuada sapien dictum. Sed a convallis lectus."
 
 		self.supported_checkout_methods: dict= {

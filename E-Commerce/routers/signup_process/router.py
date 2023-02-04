@@ -2,6 +2,7 @@ from layout.layout import Layout
 from database.database import Database
 from content import Content
 from config import Config
+from plugins.email_plugin import EmailPlugin
 
 from flask import Flask, render_template, url_for, session, request, redirect
 
@@ -64,14 +65,16 @@ class SignUpProcessRouter:
 		@self.app.route('/sendCodeAgain/', methods=["GET"])
 		def website_send_code_again():
 			try:
-				code = "{}{}{}{}".format(
-					random.randint(0, 9),
-					random.randint(0, 9),
-					random.randint(0, 9),
-					random.randint(0, 9),
-				)
-				print(code)
+				code = str(random.randint(0, 9999))
+				recipent= session.get('CURRENT_USER_EMAIL', None) 
+				if recipent == None:
+					return self.app.response_class(status=500)
 
+				EmailPlugin().send_raw_email(
+					msg= 'Welcome to Bra7tak! Your verfication code is: {}'.format(code),
+					recipent= recipent,
+					subject="Verify your Email"
+				)
 				session["CurrentEmailConfirmationCode"] = code
 				return self.app.response_class(status=200)
 

@@ -16,6 +16,7 @@
 	<link rel="stylesheet" type="text/css" href="{{url_for('static', filename='home/styles/smallDevices.css')}}">
 
 	<script src="{{url_for('static', filename='global/scripts/main.js')}}"></script>
+  <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='global/styles/icons/favicon.ico')}}">
 </head>
 <body>
 	    <header>
@@ -178,7 +179,7 @@
 					 <a class="product-card" href="{{cfg.base_url}}/products/{{prod.id}}">
 			          <div
 			            id="product-asset"
-			            style="background-image: url('{{cfg.base_url}}/assets/products/name/{{prod.assets[0]}}');"
+			            style="background-image: url('{{cfg.base_url}}/assets/products/name/{{prod.id}}-{{prod.assets[0]}}');"
 			          ></div>
 			          <div id="product-content">
 			            <div id="content">
@@ -218,7 +219,7 @@
 				 <a class="product-card" href="{{cfg.base_url}}/products/{{prod.id}}">
 		          <div
 		            id="product-asset"
-		            style="background-image: url('{{cfg.base_url}}/assets/products/name/{{prod.assets[0]}}');"
+		            style="background-image: url('{{cfg.base_url}}/assets/products/name/{{prod.id}}-{{prod.assets[0]}}');"
 		          ></div>
 		          <div id="product-content">
 		            <div id="content">
