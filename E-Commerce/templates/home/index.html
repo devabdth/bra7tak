@@ -176,31 +176,28 @@
 			<div id="content">
 				<div id="products">
 					{% for prod in database.collections.flash_sell.products[0:8] %}
-					 <a class="product-card" href="{{cfg.base_url}}/products/{{prod.id}}">
-			          <div
-			            id="product-asset"
-			            style="background-image: url('{{cfg.base_url}}/assets/products/name/{{prod.id}}-{{prod.assets[0]}}');"
-			          ></div>
-			          <div id="product-content">
-			            <div id="content">
-			            <p style="font-family: '{{primary_font_family}}'">Category</p>
-			            <h3 style="font-family: '{{primary_font_family}}'">
-			              {{prod.name[lang]}}
-			            </h3>
-			            <p style="font-family: '{{primary_font_family}}'">{{prod.bio[lang][:15]}}...</p>
-			            <h4 style="font-family: 'Poppins'">
-			              {{utils.format_price(prod.pricing['currentPrice'], show_curr= False)}} {% if
-			              prod.pricing['perviousPrice'] %}
-			              <span>{{utils.format_price(prod.pricing['perviousPrice'], show_curr= False)}}</span>
-			              {% endif %}
-			            </h4>
-			            </div>
-			            <div id="actions">
-			              <div id="add-to-cart-action" class="added"></div>
-			              <div id="add-to-favourites-action" class="added"></div>
-			            </div>
-			          </div>
-			          </a>
+				 <a class="product-card" href="{{cfg.base_url}}/products/{{prod.id}}">
+		          <div
+		            id="product-asset"
+		            style="background-image: url('{{cfg.base_url}}/assets/products/name/{{prod.id}}-{{prod.assets[0]}}');"
+		          ></div>
+		          <div id="product-content">
+		            <div id="content">
+		            <p style="font-family: '{{primary_font_family}}'">{{database.categories.get_category_by_id(prod.category)['name'][lang]}}</p>
+		            <h3 style="font-family: '{{primary_font_family}}'">
+		              {{prod.name[lang][:15]}}...
+		            </h3>
+		            <p style="font-family: '{{primary_font_family}}'">{{prod.bio[lang][:75]}}...</p>
+		            <h4 style="font-family: 'Poppins'">
+		              {{utils.format_price(prod.pricing['currentPrice'], show_curr= True)}} {% if
+		              prod.pricing['perviousPrice'] %}
+		              <span>{{utils.format_price(prod.pricing['perviousPrice'], show_curr= True)}}</span>
+		              {% endif %}
+		            </h4>
+		            </div>
+		          </div>
+		        </a>
+
 					{% endfor%}
 				</div>
 			</div>
@@ -223,24 +220,21 @@
 		          ></div>
 		          <div id="product-content">
 		            <div id="content">
-		            <p style="font-family: '{{primary_font_family}}'">Category</p>
+		            <p style="font-family: '{{primary_font_family}}'">{{database.categories.get_category_by_id(prod.category)['name'][lang]}}</p>
 		            <h3 style="font-family: '{{primary_font_family}}'">
-		              {{prod.name[lang]}}
+		              {{prod.name[lang][:15]}}...
 		            </h3>
-		            <p style="font-family: '{{primary_font_family}}'">{{prod.bio[lang][:15]}}...</p>
+		            <p style="font-family: '{{primary_font_family}}'">{{prod.bio[lang][:75]}}...</p>
 		            <h4 style="font-family: 'Poppins'">
-		              {{utils.format_price(prod.pricing['currentPrice'], show_curr= False)}} {% if
+		              {{utils.format_price(prod.pricing['currentPrice'], show_curr= True)}} {% if
 		              prod.pricing['perviousPrice'] %}
-		              <span>{{utils.format_price(prod.pricing['perviousPrice'], show_curr= False)}}</span>
+		              <span>{{utils.format_price(prod.pricing['perviousPrice'], show_curr= True)}}</span>
 		              {% endif %}
 		            </h4>
 		            </div>
-		            <div id="actions">
-		              <div id="add-to-cart-action" class="added"></div>
-		              <div id="add-to-favourites-action" class="added"></div>
-		            </div>
 		          </div>
 		        </a>
+
 				{% endfor %}
 			</div>
 		</section>

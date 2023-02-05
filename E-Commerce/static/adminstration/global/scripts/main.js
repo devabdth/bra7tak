@@ -17,3 +17,4 @@ const logout= async (url)=> {
 
 	window.open(`${url}/webapp/adminstration/login/`, '_self');
 }
+

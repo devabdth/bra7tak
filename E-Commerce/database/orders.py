@@ -124,6 +124,8 @@ class Orders:
 
 			order["policeNumber"]= 1000000000 + (self.orders_collection.count_documents({})) + 1
 			order["placedIn"]= str(datetime.now())
+			if "uid" in list(order.key()):
+				order["uid"]= ObjectId(order["uid"])
 
 			if 'id' in order.keys():
 				del order['id']

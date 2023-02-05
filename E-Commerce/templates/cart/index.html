@@ -117,7 +117,7 @@
             <div id="products">
                 {% for product in cart['PRODUCTS'] %}
                 	<div class="product-row">
-                		<div class="product-row-img" style="background-image: url('{{cfg.base_url}}/assets/products/name/{{product["PRODUCT_DATA"].assets[0]}}');"></div>
+                		<div class="product-row-img" style="background-image: url('{{cfg.base_url}}/assets/products/name/{{product["PRODUCT_DATA"]["id"]}}-{{product["PRODUCT_DATA"].assets[0]}}');"></div>
                 		<div class="product-row-content">
                 			<div class="product-row-info">
                 				<div>
@@ -147,14 +147,6 @@
                 				<div class="product-row-entry">
                 					<div class="product-row-entry-icon" id="count"></div>
                 					<p style="font-family: 'Poppins';">{{product['COUNT']}}</p>
-                				</div>
-                				<div class="product-row-entry remove" onclick="removeFromCart('{{cfg.base_url}}', '{{product.id}}', 1);">
-                					<div class="product-row-entry-icon" id="remove-unit"></div>
-                					<p style="font-family: 'Poppins';">{{content.actions[lang]['removeUnit']}}</p>
-                				</div>
-                				<div class="product-row-entry remove" onclick="removeFromCart('{{cfg.base_url}}', '{{product.id}}', -1);">
-                					<div class="product-row-entry-icon" id="remove-all"></div>
-                					<p style="font-family: 'Poppins';">{{content.actions[lang]['removeAll']}}</p>
                 				</div>
                 			</div>
                 		</div>
@@ -199,31 +191,27 @@
 			<div id="content">
 				<div id="products">
 					{% for prod in database.collections.flash_sell.products[0:8] %}
-					 <a class="product-card" href="{{cfg.base_url}}/products/{{prod.id}}">
-			          <div
-			            id="product-asset"
-			            style="background-image: url('{{cfg.base_url}}/assets/products/name/{{prod.assets[0]}}');"
-			          ></div>
-			          <div id="product-content">
-			            <div id="content">
-			            <p style="font-family: '{{primary_font_family}}'">Category</p>
-			            <h3 style="font-family: '{{primary_font_family}}'">
-			              {{prod.name[lang]}}
-			            </h3>
-			            <p style="font-family: '{{primary_font_family}}'">{{prod.bio[lang][:25]}}...</p>
-			            <h4 style="font-family: 'Poppins'">
-			              {{prod.pricing['currentPrice']}} {% if
-			              prod.pricing['perviousPrice'] %}
-			              <span>{{prod.pricing['perviousPrice']}}</span>
-			              {% endif %}
-			            </h4>
-			            </div>
-			            <div id="actions">
-			              <div id="add-to-cart-action" class="added"></div>
-			              <div id="add-to-favourites-action" class="added"></div>
-			            </div>
-			          </div>
-			          </a>
+				 <a class="product-card" href="{{cfg.base_url}}/products/{{prod.id}}">
+		          <div
+		            id="product-asset"
+		            style="background-image: url('{{cfg.base_url}}/assets/products/name/{{prod.id}}-{{prod.assets[0]}}');"
+		          ></div>
+		          <div id="product-content">
+		            <div id="content">
+		            <p style="font-family: '{{primary_font_family}}'">{{database.categories.get_category_by_id(prod.category)['name'][lang]}}</p>
+		            <h3 style="font-family: '{{primary_font_family}}'">
+		              {{prod.name[lang][:15]}}...
+		            </h3>
+		            <p style="font-family: '{{primary_font_family}}'">{{prod.bio[lang][:75]}}...</p>
+		            <h4 style="font-family: 'Poppins'">
+		              {{utils.format_price(prod.pricing['currentPrice'], show_curr= True)}} {% if
+		              prod.pricing['perviousPrice'] %}
+		              <span>{{utils.format_price(prod.pricing['perviousPrice'], show_curr= True)}}</span>
+		              {% endif %}
+		            </h4>
+		            </div>
+		          </div>
+		        </a>
 					{% endfor%}
 				</div>
 			</div>
@@ -236,32 +224,28 @@
 		</div>
 		<div id="products">
 			{% for prod in database.products.get_products_similer_to(user_data.cart) %}
-			 <a class="product-card" href="{{cfg.base_url}}/products/{{prod.id}}">
-	          <div
-	            id="product-asset"
-	            style="background-image: url('{{cfg.base_url}}/assets/products/name/{{prod.assets[0]}}');"
-	          ></div>
-	          <div id="product-content">
-	            <div id="content">
-	            <p style="font-family: '{{primary_font_family}}'">Category</p>
-	            <h3 style="font-family: '{{primary_font_family}}'">
-	              {{prod.name[lang]}}
-	            </h3>
-	            <p style="font-family: '{{primary_font_family}}'">{{prod.bio[lang][:25]}}...</p>
-	            <h4 style="font-family: 'Poppins'">
-	              {{prod.pricing['currentPrice']}} {% if
-	              prod.pricing['perviousPrice'] %}
-	              <span>{{prod.pricing['perviousPrice']}}</span>
-	              {% endif %}
-	            </h4>
-	            </div>
-	            <div id="actions">
-	              <div id="add-to-cart-action" class="added"></div>
-	              <div id="add-to-favourites-action" class="added"></div>
-	            </div>
-	          </div>
-	        </a>
-			{% endfor %}
+			<a class="product-card" href="{{cfg.base_url}}/products/{{prod.id}}">
+				<div
+				  id="product-asset"
+				  style="background-image: url('{{cfg.base_url}}/assets/products/name/{{prod.id}}-{{prod.assets[0]}}');"
+				></div>
+				<div id="product-content">
+				  <div id="content">
+				  <p style="font-family: '{{primary_font_family}}'">{{database.categories.get_category_by_id(prod.category)['name'][lang]}}</p>
+				  <h3 style="font-family: '{{primary_font_family}}'">
+					{{prod.name[lang][:15]}}...
+				  </h3>
+				  <p style="font-family: '{{primary_font_family}}'">{{prod.bio[lang][:75]}}...</p>
+				  <h4 style="font-family: 'Poppins'">
+					{{utils.format_price(prod.pricing['currentPrice'], show_curr= True)}} {% if
+					prod.pricing['perviousPrice'] %}
+					<span>{{utils.format_price(prod.pricing['perviousPrice'], show_curr= True)}}</span>
+					{% endif %}
+				  </h4>
+				  </div>
+				</div>
+			  </a>
+		  {% endfor %}
 		</div>
 	</section>
 

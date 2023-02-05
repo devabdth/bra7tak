@@ -34,18 +34,16 @@ class CheckoutRouter:
 				params= dict(request.values)
 				cart=[]
 				for prod in params['prods'].split('|'):
-					if prod=='':
-						break
-					cart.append({'id': list(prod.split(','))[0], 'size': list(prod.split(','))[1] if len(prod.split(',')) >2 else None, 'color': list(prod.split(','))[2] if len(prod.split(',')) >2 else None})
+					if prod!='':
+						cart.append({'id': list(prod.split(','))[0], 'size': list(prod.split(','))[1] if len(prod.split(',')) >2 else None, 'color': list(prod.split(','))[2] if len(prod.split(',')) >2 else None})
+						
 
 
 			body= dict(json.loads(request.data))
 			if not 'order' in body.keys():
-				print('Order not Found!')
 				return self.app.response_class(status= 500)
 
 			order= body['order']
-			print(order)
 			cart_calc= self.utils.cart_calculations(user_data.cart if uid != None else cart)
 			order_: self.database.orders.order_form= self.database.orders.order_form(
 				id= "",
@@ -72,7 +70,6 @@ class CheckoutRouter:
 				order_id= self.database.orders.create_order(order_)
 				return self.app.response_class(status= 201)
 			except Exception as e:
-				print(e)
 				return self.app.response_class(status= 500)
 
 

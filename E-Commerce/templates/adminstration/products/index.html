@@ -86,7 +86,7 @@
 			 <div onclick="chooseCategory(`{{cat.name['en']}} - {{scat.name['en']}}`, {{prod.category}}, {{prod.sub_category}}, 'en', false); openProductEdit({{prod.to_dict() | safe}}, 0, '{{cfg.base_url}}');" class="product-card" href="{{cfg.base_url}}/products/{{prod.id}}">
 	          <div
 	            id="product-asset"
-	            style="background-image: url('{{cfg.base_url}}/assets/products/name/{{prod.assets[0]}}');"
+	            style="background-image: url('{{cfg.base_url}}/assets/products/name/{{prod.id}}-{{prod.assets[0]}}');"
 	          ></div>
 	          <div id="product-content">
 	            <div id="content">

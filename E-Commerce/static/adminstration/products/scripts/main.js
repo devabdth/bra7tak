@@ -195,7 +195,7 @@ const openProductEdit= (product, mode, url)=> {
 			const assetDiv= document.createElement('div');
 			assetDiv.className= "asset-card"
 			assetDiv.id= newAssets[assetName];
-			assetDiv.style.backgroundImage= `url('${url}/assets/products/name/${product["assets"][assetName]}')`
+			assetDiv.style.backgroundImage= `url('${url}/assets/products/name/${product["id"]}-${product["assets"][assetName]}')`
 			assetDiv.ondblclick= ()=> {
 				newAssets.splice(newAssets[assetName], 1);
 				document.getElementById('assets').removeChild(assetDiv);
@@ -221,6 +221,8 @@ const openProductEdit= (product, mode, url)=> {
 					assetDiv.setAttribute('src', reader.result);
 					assetDiv.style.objectFit= "contain";
 					assetDiv.ondblclick= ()=> {
+						newAssets.splice(file_.name, 1);
+						newAssetsFiles.splice(file_, 1);
 						document.getElementById('assets').removeChild(assetDiv);
 					}
 					newAssets.push(file_.name);
@@ -232,7 +234,7 @@ const openProductEdit= (product, mode, url)=> {
 
 			input.click();
 		}
-
+		
 		let submit= ()=> {
 			const res= formFieldValidation(newAssets);
 			console.log(res);
@@ -291,6 +293,7 @@ const openProductEdit= (product, mode, url)=> {
 				const editRes= submitProductEdit(
 					product, url, newAssetsFiles, 
 					(status)=> {
+						console.log(status)
 						if(status === 200) {
 							window.open('./', '_self');
 							return;
@@ -314,11 +317,11 @@ const openProductEdit= (product, mode, url)=> {
 			} else {
 				document.getElementById('submit-status').innerHTML= "Some Fields are missing!";
 			}
-			document.getElementById('form-submit').onclick= ()=> {
-				submit();
-			}
 		}
-
+		document.getElementById('form-submit').onclick= ()=> {
+			submit();
+		}
+		
 	} else if (mode === 1) {
 		document.getElementById('delete-product').style.display= "none";
 

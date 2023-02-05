@@ -261,13 +261,11 @@
   }
 
   .product-card > #product-asset {
-    margin-left: 2.5vw;
     width: 10vw;
     height: 20vh;
     border-radius: 12px;
     position: absolute;
-    left: 0;
-    right: 0;
+    left: 2.5vw;
     top: 12px;
     z-index: 2;
     box-shadow: 0 0 30px 1px rgba(0, 0, 0, 0.5);

@@ -56,7 +56,7 @@
         <div id="title">
           <h3>
             <span style="font-family: 'Poppins'"
-              >{{(orders["CANCELED"] | length) + (orders["STOCKED"] | length) +
+              >{{((orders["RETURNED"] | length) + orders["PENDING"] | length) + (orders["CANCELED"] | length) + (orders["STOCKED"] | length) +
               (orders["IN_DELIVERY"] | length) + (orders["DELIVERED"] |
               length)}}</span
             >
@@ -180,7 +180,7 @@
           <tr>
             <td>{{order.police_number}}</td>
             <td>{{order.id}}</td>
-            <td>{{order.uid}}</td>
+            <td>{{order.uid if order.uid != "" else order.user_email}}</td>
             <td>{{order.products | length}}</td>
             <td>{{order.price}}</td>
             <td>{{content.cities['en'][order.city_code]}}</td>
@@ -212,7 +212,7 @@
           <tr>
             <td>{{order.police_number}}</td>
             <td>{{order.id}}</td>
-            <td>{{order.uid}}</td>
+            <td>{{order.uid if order.uid != "" else order.user_email}}</td>
             <td>{{order.products | length}}</td>
             <td>{{order.price}}</td>
             <td>{{content.cities['en'][order.city_code]}}</td>
@@ -244,7 +244,7 @@
           <tr>
             <td>{{order.police_number}}</td>
             <td>{{order.id}}</td>
-            <td>{{order.uid}}</td>
+            <td>{{order.uid if order.uid != "" else order.user_email}}</td>
             <td>{{order.products | length}}</td>
             <td>{{order.price}}</td>
             <td>{{content.cities['en'][order.city_code]}}</td>
@@ -276,7 +276,7 @@
           <tr>
             <td>{{order.police_number}}</td>
             <td>{{order.id}}</td>
-            <td>{{order.uid}}</td>
+            <td>{{order.uid if order.uid != "" else order.user_email}}</td>
             <td>{{order.products | length}}</td>
             <td>{{order.price}}</td>
             <td>{{content.cities['en'][order.city_code]}}</td>
@@ -308,7 +308,7 @@
           <tr>
             <td>{{order.police_number}}</td>
             <td>{{order.id}}</td>
-            <td>{{order.uid}}</td>
+            <td>{{order.uid if order.uid != "" else order.user_email}}</td>
             <td>{{order.products | length}}</td>
             <td>{{order.price}}</td>
             <td>{{content.cities['en'][order.city_code]}}</td>
@@ -340,7 +340,7 @@
           <tr>
             <td>{{order.police_number}}</td>
             <td>{{order.id}}</td>
-            <td>{{order.uid}}</td>
+            <td>{{order.uid if order.uid != "" else order.user_email}}</td>
             <td>{{order.products | length}}</td>
             <td>{{order.price}}</td>
             <td>{{content.cities['en'][order.city_code]}}</td>

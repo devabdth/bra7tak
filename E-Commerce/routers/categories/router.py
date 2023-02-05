@@ -106,7 +106,8 @@ class CategoriesRouter:
 					layout= self.layout,
 					products= products,
 					search_params= params,
-					subcats_ids= [subcat['id'] for subcat in cat.subcats]
+					subcats_ids= [subcat['id'] for subcat in cat.subcats],
+					utils= self.utils
 				)
 
 			return render_template(
@@ -122,5 +123,6 @@ class CategoriesRouter:
 				layout= self.layout,
 				products= products,
 				search_params= params,
-				subcats_ids= [subcat['id'] for subcat in cat.subcats]
+				subcats_ids= [subcat['id'] for subcat in cat.subcats],
+				utils= self.utils
 			)

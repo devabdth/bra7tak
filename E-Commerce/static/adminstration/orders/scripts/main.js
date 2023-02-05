@@ -293,7 +293,7 @@ const chooseStatus = (statusText, status, lang, wtoggle, changeListener) => {
 const openOrderDialog= (url, orderData, city)=> {
 	currentOrderId= orderData["id"];
 	document.getElementById('order-id').innerHTML= orderData["id"];
-	document.getElementById('order-user-id').innerHTML= orderData["uid"];
+	document.getElementById('order-user-id').innerHTML= orderData["uid"].trim()==""?orderData["userEmail"]:orderData["uid"];
 	document.getElementById('order-user-address').innerHTML= orderData["address"];
 	document.getElementById('order-user-city').innerHTML= city;
 	document.getElementById('order-price').innerHTML= orderData["price"];
