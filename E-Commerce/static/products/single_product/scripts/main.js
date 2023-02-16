@@ -9,8 +9,6 @@ const initializeSlideShow = (pid, listSource, baseUrl) => {
     const currentSlide = document.getElementById('current-slide');
 
     slideShowSlides = listSource.map(item => document.getElementById(`${pid}-${item}`));
-    console.log(listSource.map(item=> `${pid}-${item}`))
-    console.log(slideShowSlides);
     slideShowSlides.map(slide => {
         slide.onclick= () => {
             if (slide.classList.contains('active-slide')) {

@@ -39,7 +39,7 @@
   <body>
       <header>
         <div id="title">
-          <div id="drawer-icon"></div>
+          <div id="drawer-icon" onclick="openDrawer();"></div>
               
           <a
             href="/"
@@ -180,13 +180,22 @@
           id="current-slide"
           style="background-image: url('{{cfg.base_url}}/assets/products/name/{{product['id']}}-{{product.assets[0]}}/');"
         ></div>
-        <div id="all-slides">
+        <div class="all-slides" id="left">
           <div
             class="side-slide active-slide"
             id="{{product['id']}}-{{product.assets[0]}}"
             style="background-image: url('{{cfg.base_url}}/assets/products/name/{{product['id']}}-{{product.assets[0]}}/');"
           ></div>
-          {% for asset in product.assets[1:] %}
+          {% for asset in product.assets[1:4] %}
+          <div
+            class="side-slide"
+            id="{{product['id']}}-{{asset}}"
+            style="background-image: url('{{cfg.base_url}}/assets/products/name/{{product['id']}}-{{asset}}/');"
+          ></div>
+          {% endfor %}
+        </div>
+        <div class="all-slides" id="right">
+          {% for asset in product.assets[4:] %}
           <div
             class="side-slide"
             id="{{product['id']}}-{{asset}}"
@@ -378,10 +387,10 @@
         lsdfsldjfjdfjsljdlfuwr-w-384-23rwlekrk;lwjfpjpo2-308-2kfejsldf!2j@;;ldigfp04r
       </div>
     </footer>
-      <div id="drawer-overlay"></div>
+      <div id="drawer-overlay" onclick="closeDrawer();"></div>
   <div id="drawer">
     <div id="drawer-header">
-      <div id="drawer-close">x</div>
+      <div id="drawer-close" onclick="closeDrawer();">x</div>
     </div>
      <a href="/" id="header-title" style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['name']}}</a>
     <div id="options">

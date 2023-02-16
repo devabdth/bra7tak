@@ -1,14 +1,3 @@
-window.onload = () => {
-    document.getElementById('drawer-icon').onclick = () => {
-        openDrawer();
-    }
-    document.getElementById('drawer-overlay').onclick = () => {
-        closeDrawer();
-    }
-    document.getElementById('drawer-close').onclick = () => {
-        closeDrawer();
-    }
-}
 
 const changeLang = async (url, newLang) => {
     console.log("Clicked");
@@ -227,11 +216,21 @@ const dryCheckout = (url, prods) => {
 }
 
 window.onload = () => {
+    document.getElementById('drawer-icon').onclick = () => {
+        openDrawer();
+    }
+    document.getElementById('drawer-overlay').onclick = () => {
+        closeDrawer();
+    }
+    document.getElementById('drawer-close').onclick = () => {
+        closeDrawer();
+    }
+
     searchBar = document.getElementById('header-search');
     searchBar.onkeydown = (e) => {
         console.log(e)
         if (e.key === 'Enter') {
-            window.open(`https://bra7tak.com/search/?token=${searchBar.value.trim()}`, '_self');
+            window.open(`http://127.0.0.1:3030/search/?token=${searchBar.value.trim()}`, '_self');
         }
     };
 }

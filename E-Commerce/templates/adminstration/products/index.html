@@ -90,7 +90,7 @@
 	          ></div>
 	          <div id="product-content">
 	            <div id="content">
-	            <p style="font-family: 'Raleway';">Category</p>
+		        <p style="font-family: 'Raleway'">{{database.categories.get_category_by_id(prod.category)['name'][lang]}}</p>
 	            <h3 style="font-family: 'Raleway';">
 	              {{prod.name[lang]}}
 	            </h3>

@@ -3,7 +3,7 @@ from database.database import Database
 from content import Content
 from config import Config
 
-from flask import Flask, render_template, url_for, session
+from flask import Flask, render_template, url_for, session, redirect 
 
 import sys
 sys.path.insert(0, '../')
@@ -28,6 +28,8 @@ class SignUpRouter:
 		@self.app.route('/enroll/', methods=["GET"])
 		@self.app.route('/newUser/', methods=["GET"])
 		def signup_index():
+			if session.get('CURRENT_USER_ID', None) != None:
+				return redirect('/profile/')
 			lang = session.get("LANG", "ar")
 			if lang == 'en':
 				primary_font_family = 'Raleway'

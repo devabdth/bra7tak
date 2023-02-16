@@ -3,7 +3,7 @@
     width: 100%;
     min-height: 100vh;
     max-height: 200vh;
-    margin-top: 15vh;
+    margin-top: 20vh;;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -28,7 +28,7 @@
 
   #entry > #content > h1 {
     font-weight: 900;
-    font-size: 3em;
+    font-size: 1.75em;
     color: var(--main-color);
     margin: 12px 0;
   }
@@ -114,29 +114,29 @@
   }
 
   #product-slide-show {
-    width: 100%;
+    width: 90%;
     height: 45vh;
     position: relative;
     display: flex;
   }
 
   #product-slide-show > #current-slide {
-    width: 85%;
+    width: 70%;
     height: 100%;
     display: flex;
     border-radius: 12px;
     background-color: var(--bg-color);
     position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
     transition: 500ms ease;
   }
 
-  #product-slide-show > #all-slides {
+  #product-slide-show > .all-slides {
     width: 20%;
     height: 100%;
     display: flex;
@@ -145,9 +145,16 @@
     flex-direction: column;
     padding: 10% 0;
     position: absolute;
-    left: 0;
     top: 0;
     bottom: 0;
+  }
+  
+  .all-slides#left {
+    left: 0;
+  }
+
+  .all-slides#right {
+    right: 0;
   }
 
   .side-slide {
@@ -230,6 +237,8 @@
     color: var(--main-color);
     font-weight: 500;
     font-size: 1em;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
   }
 
   .specs-row > #title > .specs-icon {
@@ -358,11 +367,15 @@
 
   
   #colors, #sizes {
-    display: flex !important;
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
     width: 100% !important;
     align-items: center !important;
     justify-content: start !important;
-    height: 32px !important;
+    min-height: 32px !important;
+    max-height: 128px !important;
+    height: 16vh !important;
     margin-top: 8px !important;
   }
 

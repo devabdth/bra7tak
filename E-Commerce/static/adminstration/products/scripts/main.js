@@ -1,4 +1,4 @@
-const colors= ['white', 'black', 'green', 'blue', 'skyblue', 'orange', 'brown', 'marron', 'ivory'];
+const colors= ['white', 'black', 'green', 'blue', 'skyblue', 'orange', 'brown', 'marron', 'ivory', 'lavender', 'red', 'darkred', 'mediumspringgreen', 'greenyellow',];
 const sizes= ['s', 'm', 'l', 'xl', 'xxl', 'xxxl', 'xxxxl'];
 		          "sizes-{{size}}-checkbox"
 

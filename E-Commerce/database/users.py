@@ -127,7 +127,7 @@ class Users:
 			address_line_two= dict_['addressLineTwo'],
 			gender= int(dict_['gender']),
 			city_code= int(dict_['cityCode']),
-			orders= dict_['orders'],
+			orders= [str(order) for order in dict_['orders']],
 			joined_in= dict_['joined_in'],
 		)
 

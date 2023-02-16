@@ -1,8 +1,8 @@
-@media screen and (max-width:  999px) {
+@media screen and (max-width:  1024px) {
 	#entry {
 		width: 100%;
 		height: 80vh;
-		margin-top: 15vh;
+		margin-top: 20vh;;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -136,7 +136,7 @@
 
 	.order-card {
 		width: 90%;
-		height: 30vh;
+		min-height: 30vh;
 		background-color: var(--bg-color);
 		box-shadow: 0 0 30px 1px rgba(0, 0, 0, 0.25);
 		border-radius: 12px;
@@ -144,7 +144,7 @@
 		border-width: 2px;
 		border-style: solid;
 		display: grid;
-		grid-template-columns: repeat(4, 1fr);
+		grid-template-columns: repeat(2, 1fr);
 		align-items: center;
 		justify-content: center;
 	}
@@ -155,7 +155,7 @@
 
 	.order-data{
 		width: 100%;
-		height: 40%;
+		height: 50%;
 		flex-direction: row;
 		align-items: center;
 		justify-content: space-between;
@@ -191,7 +191,7 @@
 		flex-direction: row;
 		align-items: center;
 		justify-content: center;
-		max-width: 15vw;
+		max-width: 100%;
 		font-family: 'Poppins';
 	}
 
@@ -205,12 +205,12 @@
 	}
 
 	.order-data-entry > p {
-		font-size: 1.15em;
+		font-size: 0.75em;
 		font-weight: 500;
 	}
 
 	.order-data-entry > p > span {
-		font-size: 1em;
+		font-size: 0.5em;
 		font-weight: 300;
 		opacity: 0.75;
 	}

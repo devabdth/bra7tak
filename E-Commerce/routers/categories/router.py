@@ -79,7 +79,7 @@ class CategoriesRouter:
 			cat= self.database.categories.get_category_by_id(id)
 			if cat == None:
 				return redirect('{}/404/category/'.format(self.cfg.base_url))
-			products= self.database.products.all_products
+			products= self.database.products.get_all_products_by_category(cat.id)
 			lang = session.get("LANG", "ar")
 			uid= session.get("CURRENT_USER_ID", None)
 			if lang == 'en':

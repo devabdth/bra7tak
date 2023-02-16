@@ -168,7 +168,7 @@
   }
 
   .cities-dropdown-content {
-    bottom: -60%;
+    bottom: 0%;
   }
 
   .genders-dropdown-content button, .cities-dropdown-content button {

@@ -62,7 +62,7 @@ class OrdersSubRouter:
 				username= body['information']['customerName'],
 				user_email= body['information']['customerEmail'],
 				user_phone= body['information']['customerPhone'],
-				uid= body['information']['customerEmail'],
+				uid= '',
 				address= body['information']['customerAddressLineOne'],
 				address_two= body['information']['customerAddressLineTwo'],
 				city_code= body['information']['customerCity'],

@@ -4,7 +4,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Bra7tak Admin - Orders</title>
-  <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='global/styles/icons/favicon.ico')}}">
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{{url_for('static', filename='global/styles/icons/favicon.ico')}}"
+    />
 
     <link
       rel="stylesheet"
@@ -56,7 +60,8 @@
         <div id="title">
           <h3>
             <span style="font-family: 'Poppins'"
-              >{{((orders["RETURNED"] | length) + orders["PENDING"] | length) + (orders["CANCELED"] | length) + (orders["STOCKED"] | length) +
+              >{{((orders["RETURNED"] | length) + orders["PENDING"] | length) +
+              (orders["CANCELED"] | length) + (orders["STOCKED"] | length) +
               (orders["IN_DELIVERY"] | length) + (orders["DELIVERED"] |
               length)}}</span
             >
@@ -122,14 +127,14 @@
         </div>
       </div>
       <div id="fragments-controllers">
-		<div
+        <div
           class="fragment-controller active-fragment-controller"
           id="pending-fragment-controller"
           onclick="fragmentsSwitch(-3);"
         >
           Pending Orders
         </div>
-		<div
+        <div
           class="fragment-controller"
           id="stocked-fragment-controller"
           onclick="fragmentsSwitch(0);"
@@ -166,21 +171,39 @@
         </div>
       </div>
       <div class="fragment active-fragment" id="pending-fragment">
-        <table class="orders">
+        <div id="converting-options">
+          <h4 id="converting-orders-count">0 Orders</h4>
+          <button
+            class="main-button"
+            onclick="stockMultiple();"
+            id="converting-orders-submission"
+          >
+            Stock Orders
+          </button>
+        </div>
+        <table class="orders" id="pending">
           <tr>
             <th>Police Number</th>
             <th>Order ID</th>
-            <th>UID/ Email</th>
+            <th>UID/ Email/ Phone</th>
             <th>products</th>
             <th>Total Price</th>
             <th>City</th>
             <th>Options</th>
           </tr>
           {% for order in orders["PENDING"] %}
-          <tr>
+          <tr id="{{order.id}}">
             <td>{{order.police_number}}</td>
             <td>{{order.id}}</td>
-            <td>{{order.uid if order.uid != "" else order.user_email}}</td>
+            {% if order.uid and order.uid != ''%}
+            <td>{{order.uid}}</td>
+            {% elif order.user_email and order.user_email != ''%}
+            <td>{{order.user_email}}</td>
+            {% elif order.user_phone and order.user_phone != '' %}
+            <td>{{order.user_phone}}</td>
+            {%else%}
+            <td>Not Found</td>
+            {% endif %}
             <td>{{order.products | length}}</td>
             <td>{{order.price}}</td>
             <td>{{content.cities['en'][order.city_code]}}</td>
@@ -202,7 +225,7 @@
           <tr>
             <th>Police Number</th>
             <th>Order ID</th>
-            <th>UID/ Email</th>
+            <th>UID/ Email/ Phone</th>
             <th>products</th>
             <th>Total Price</th>
             <th>City</th>
@@ -212,7 +235,15 @@
           <tr>
             <td>{{order.police_number}}</td>
             <td>{{order.id}}</td>
-            <td>{{order.uid if order.uid != "" else order.user_email}}</td>
+            {% if order.uid and order.uid != ''%}
+            <td>{{order.uid}}</td>
+            {% elif order.user_email and order.user_email != ''%}
+            <td>{{order.user_email}}</td>
+            {% elif order.user_phone and order.user_phone != '' %}
+            <td>{{order.user_phone}}</td>
+            {%else%}
+            <td>Not Found</td>
+            {% endif %}
             <td>{{order.products | length}}</td>
             <td>{{order.price}}</td>
             <td>{{content.cities['en'][order.city_code]}}</td>
@@ -234,7 +265,7 @@
           <tr>
             <th>Police Number</th>
             <th>Order ID</th>
-            <th>UID/ Email</th>
+            <th>UID/ Email/ Phone</th>
             <th>products</th>
             <th>Total Price</th>
             <th>City</th>
@@ -244,7 +275,15 @@
           <tr>
             <td>{{order.police_number}}</td>
             <td>{{order.id}}</td>
-            <td>{{order.uid if order.uid != "" else order.user_email}}</td>
+            {% if order.uid and order.uid != ''%}
+            <td>{{order.uid}}</td>
+            {% elif order.user_email and order.user_email != ''%}
+            <td>{{order.user_email}}</td>
+            {% elif order.user_phone and order.user_phone != '' %}
+            <td>{{order.user_phone}}</td>
+            {%else%}
+            <td>Not Found</td>
+            {% endif %}
             <td>{{order.products | length}}</td>
             <td>{{order.price}}</td>
             <td>{{content.cities['en'][order.city_code]}}</td>
@@ -266,7 +305,7 @@
           <tr>
             <th>Police Number</th>
             <th>Order ID</th>
-            <th>UID/ Email</th>
+            <th>UID/ Email/ Phone</th>
             <th>products</th>
             <th>Total Price</th>
             <th>City</th>
@@ -276,7 +315,15 @@
           <tr>
             <td>{{order.police_number}}</td>
             <td>{{order.id}}</td>
-            <td>{{order.uid if order.uid != "" else order.user_email}}</td>
+            {% if order.uid and order.uid != ''%}
+            <td>{{order.uid}}</td>
+            {% elif order.user_email and order.user_email != ''%}
+            <td>{{order.user_email}}</td>
+            {% elif order.user_phone and order.user_phone != '' %}
+            <td>{{order.user_phone}}</td>
+            {%else%}
+            <td>Not Found</td>
+            {% endif %}
             <td>{{order.products | length}}</td>
             <td>{{order.price}}</td>
             <td>{{content.cities['en'][order.city_code]}}</td>
@@ -298,7 +345,7 @@
           <tr>
             <th>Police Number</th>
             <th>Order ID</th>
-            <th>UID/ Email</th>
+            <th>UID/ Email/ Phone</th>
             <th>products</th>
             <th>Total Price</th>
             <th>City</th>
@@ -308,7 +355,15 @@
           <tr>
             <td>{{order.police_number}}</td>
             <td>{{order.id}}</td>
-            <td>{{order.uid if order.uid != "" else order.user_email}}</td>
+            {% if order.uid and order.uid != ''%}
+            <td>{{order.uid}}</td>
+            {% elif order.user_email and order.user_email != ''%}
+            <td>{{order.user_email}}</td>
+            {% elif order.user_phone and order.user_phone != '' %}
+            <td>{{order.user_phone}}</td>
+            {%else%}
+            <td>Not Found</td>
+            {% endif %}
             <td>{{order.products | length}}</td>
             <td>{{order.price}}</td>
             <td>{{content.cities['en'][order.city_code]}}</td>
@@ -330,7 +385,7 @@
           <tr>
             <th>Police Number</th>
             <th>Order ID</th>
-            <th>UID/ Email</th>
+            <th>UID/ Email/ Phone</th>
             <th>products</th>
             <th>Total Price</th>
             <th>City</th>
@@ -340,7 +395,15 @@
           <tr>
             <td>{{order.police_number}}</td>
             <td>{{order.id}}</td>
-            <td>{{order.uid if order.uid != "" else order.user_email}}</td>
+            {% if order.uid and order.uid != ''%}
+            <td>{{order.uid}}</td>
+            {% elif order.user_email and order.user_email != ''%}
+            <td>{{order.user_email}}</td>
+            {% elif order.user_phone and order.user_phone != '' %}
+            <td>{{order.user_phone}}</td>
+            {%else%}
+            <td>Not Found</td>
+            {% endif %}
             <td>{{order.products | length}}</td>
             <td>{{order.price}}</td>
             <td>{{content.cities['en'][order.city_code]}}</td>
@@ -398,11 +461,21 @@
             id="city-search"
             onkeyup="filter()"
           />
-		  <button onclick="chooseStatus('Returned', -2, '{{lang}}');">Returned</button>
-		  <button onclick="chooseStatus('Canceled', -1, '{{lang}}');">Canceled</button>
-		  <button onclick="chooseStatus('Stocked', 0, '{{lang}}');">Stocked</button>
-		  <button onclick="chooseStatus('In Delivery', 1, '{{lang}}');">In Delivery</button>
-		  <button onclick="chooseStatus('Delivered', 2, '{{lang}}');">Delivered</button>
+          <button onclick="chooseStatus('Returned', -2, '{{lang}}');">
+            Returned
+          </button>
+          <button onclick="chooseStatus('Canceled', -1, '{{lang}}');">
+            Canceled
+          </button>
+          <button onclick="chooseStatus('Stocked', 0, '{{lang}}');">
+            Stocked
+          </button>
+          <button onclick="chooseStatus('In Delivery', 1, '{{lang}}');">
+            In Delivery
+          </button>
+          <button onclick="chooseStatus('Delivered', 2, '{{lang}}');">
+            Delivered
+          </button>
         </div>
         <div id="options">
           <div class="shadow-button" onclick="closeOrderDialog();">Close</div>
@@ -560,8 +633,32 @@
           </button>
           {% endfor %}
         </div>
+        <div id="product-add-options">
+          <div id="form-colors">
+            <p>Pick Color</p>
+            <div id="form-colors-pick"></div>
+          </div>
+          <div id="form-sizes">
+            <p>Pick Sizes</p>
+            <div id="form-sizes-pick"></div>
+          </div>
+          <div id="options">
+            <div class="field-container">
+              <input
+                value="1"
+                id="form-product-amount"
+                placeholder="Amount"
+                type="number"
+                min="1"
+                max="15"
+              />
+            </div>
+            <button class="main-button" id="form-add-to-cart">Add</button>
+          </div>
+        </div>
         <div class="divider"></div>
       </div>
+
       <div
         style="
           display: flex;

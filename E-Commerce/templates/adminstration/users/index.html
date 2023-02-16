@@ -67,7 +67,7 @@
 						<td>{{content.cities['en'][user.city_code]}}</td>
 						<td style="font-family:'Poppins';">{{user.orders | length}}</td>
 						<td>
-							<div class="shadow-button" style="color: red" onclick="openDeleteDialog({{user.to_dict() | safe}}, '{{cfg.base_url}}')">Delete</div>
+							<div class="shadow-button" style="color: red" onclick="openDeleteDialog({{user | safe}}, '{{cfg.base_url}}')">Delete</div>
 						</td>
 					</tr>
 				{% endfor %}

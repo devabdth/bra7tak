@@ -87,8 +87,6 @@ class SignUpProcessRouter:
 		def website_confirm_code():
 			code = session.get('CurrentEmailConfirmationCode', None)
 			code_ = dict(request.values)['code']
-			print(code)
-			print(code_)
 			if str(code) == str(code_):
 				return self.app.response_class(status=200)
 			else:
@@ -103,11 +101,13 @@ class SignUpProcessRouter:
 		@self.app.route('/completeSignUp/', methods=["GET"])
 		@self.app.route('/signUpProcess/', methods=["GET"])
 		def website_signupprocess_index():
+			if session.get('CURRENT_USER_ID', None) != None:
+				return redirect('/profile/')
+
 			params = dict(request.values)
 			lang = session.get("LANG", "ar")
 			current_user_email = session.get('CURRENT_USER_EMAIL', None)
 			current_user_password = session.get('CURRENT_USER_PASSWORD', None)
-			current_user_id = session.get('currentUserId', None)
 
 			if lang == 'en':
 				primary_font_family= 'Raleway'
@@ -116,11 +116,8 @@ class SignUpProcessRouter:
 				primary_font_family= 'Cairo'
 				second_font_family= 'Cairo'
 
-			if not current_user_id is None:
-				return redirect('{}/'.format(self.cfg.base_url))
-			
-			if current_user_email is None or current_user_password is None:
-				return redirect('{}/signup/'.format(self.cfg.base_url))
+			# if current_user_email is None or current_user_password is None:
+			# 	return redirect('{}/signup/'.format(self.cfg.base_url))
 
 			return render_template(
 				'signupProcess/index.html',

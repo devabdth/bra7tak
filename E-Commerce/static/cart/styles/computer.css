@@ -147,7 +147,7 @@
 		justify-content: space-between;
 		align-items: center;
 		padding: 8px 16px;
-		margin-top: 15vh;
+		margin-top: 20vh;;
 	}
 
 	#reciept > h3 {
@@ -297,7 +297,7 @@
   	min-height: 25vh;
   	display: flex;
   	padding: 0 10%;
-  	margin-top: 15vh;
+  	margin-top: 20vh;;
   }
 
   section#fresh-prod > div {
