@@ -59,6 +59,35 @@ class Products:
         self.all_products = []
         self.refresh_all_products()
 
+        self.load_shipping_options()
+
+    def load_shipping_options(self):
+        import csv
+        with open(os.path.abspath(os.path.join(os.path.dirname(__file__), '../csvs/shippingOptions.csv')), newline='') as f:
+            reader= csv.reader(f)
+            shipping_options= {}
+
+            for line in reader:
+                if not line[0] == 'cityId':
+                    shipping_options[line[0]]= {
+                        'durations': line[1],
+                        'fees': line[2],
+                    }
+
+            self.shipping_options= shipping_options
+    def update_shipping_options(self, new_shipping_options):
+        with open(os.path.abspath(os.path.join(os.path.dirname(__file__), '../csvs/shippingOptions.csv')), newline='', mode='w') as f:
+            f.write('cityId,duration,fee\n')
+            for key in new_shipping_options:
+                print(new_shipping_options[key])
+                f.write('{},{},{}\n'.format(
+                    key,
+                    new_shipping_options[key]['durations'],
+                    new_shipping_options[key]['fees'],
+                ))
+            self.load_shipping_options()
+            return True
+
     def create_product_from_dict(self, dict_) -> Product:
         return Product(
             id=dict_['_id'],

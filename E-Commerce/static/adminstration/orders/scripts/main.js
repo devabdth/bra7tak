@@ -25,6 +25,35 @@ window.onload = () => {
 	}
 }
 
+const stockAllOrders = (allOrders) => {
+	if (allOrders.length != 0) {
+
+		for (let order of allOrders) {
+			try {
+				fetch(`./?oid=${order["_id"]}&status=0`, {
+					method: 'PATCH'
+				}).then(r => {
+					if (r.status === 200) {
+						window.open(`${url}/webapp/adminstration/orders/invoices/?oid=${order}`)
+						return;
+					}
+
+					document.getElementById('converting-all-orders-submission').innerHTML = "Failed!";
+					setTimeout(() => { document.getElementById('converting-all-orders-submission').innerHTML = "Update" }, 3000);
+				});
+			} catch (e) {
+				console.log(e);
+				document.getElementById('converting-all-orders-submission').innerHTML = "Failed!";
+				setTimeout(() => { document.getElementById('converting-all-orders-submission').innerHTML = "Update" }, 3000);
+			}
+		}
+		window.open('./', '_self');
+		return;
+	}
+	document.getElementById('converting-orders-count').innerHTML = `There is no orders to stock!`
+
+}
+
 const stockMultiple = () => {
 	if (selectedPendingOrders.length != 0) {
 

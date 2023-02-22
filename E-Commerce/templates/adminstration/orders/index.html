@@ -172,13 +172,22 @@
       </div>
       <div class="fragment active-fragment" id="pending-fragment">
         <div id="converting-options">
-          <h4 id="converting-orders-count">0 Orders</h4>
+          <h4 style="font-family: 'Poppins'" id="converting-orders-count">
+            0 Orders
+          </h4>
           <button
             class="main-button"
             onclick="stockMultiple();"
             id="converting-orders-submission"
           >
             Stock Orders
+          </button>
+          <button
+            class="shadow-button"
+            onclick="stockAllOrders(pendingOrders);"
+            id="converting-all-orders-submission"
+          >
+            Stock All
           </button>
         </div>
         <table class="orders" id="pending">
@@ -682,6 +691,10 @@
       </div>
     </div>
     <script type="text/javascript">
+      let pendingOrders= [];
+      {% for o in orders["PENDING"]%}
+        pendingOrders.push({{o.to_dict() |safe}});
+      {%endfor%}
       let productsList= [];
       {% for product in products %}
       	productsList.push({{product.to_dict() | safe}});
