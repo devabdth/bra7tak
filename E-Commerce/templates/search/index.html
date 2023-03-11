@@ -89,6 +89,11 @@
       {% endif %}
       </nav>
     </header>
+    <div id="mobile-filter-open">
+      <h4 style="font-family: '{{primary_font_family}}';"><span style="font-family: '{{second_font_family}}';">({{products | length}})</span> {{content.global_[lang]['products']}}</h4>
+      <button id="mobile-filter-open" class="main-button" onclick="openFilterPanel();">{{content.global_[lang]['filter']}}</button>
+    </div>
+
 	<section id="products">
       <div id="side-panel">
         <h3 style="font-family: '{{primary_font_family}}';">
@@ -121,7 +126,6 @@
           class="cat-checkbox"
           >{{cat.name[lang]}}
           <input type="checkbox" id="{{cat.id}}-checkbox" />
-          <span class="checkmark"></span>
         </label>
         {% endfor %}
         <div class="divider"></div>
@@ -132,14 +136,23 @@
           {{content.global_[lang]['priceMsg']}}
         </p>
         <div id="price">
-          <input name="min-price" id="min-price-field" value="0" min="1" max="30000" placeholder="{{content.global_[lang]['minPrice']}}"
+          <input name="min-price" id="min-price-field" value="{{search_params['minPrice'] or 0}}" min="1" max="30000" placeholder="{{content.global_[lang]['minPrice']}}"
           />
 		  ~
-          <input name="max-price" id="max-price-field" value="30000" min="1" max="30000" placeholder="{{content.global_[lang]['maxPrice']}}"
+          <input name="max-price" id="max-price-field" value="{{search_params['maxPrice'] or 30000}}" min="1" max="30000" placeholder="{{content.global_[lang]['maxPrice']}}"
           />
         </div>
         <div class="divider"></div>
         <div id="options">
+          <button
+          onclick="closeFilterPanel();"
+          class="shadow-button"
+          id="filter-panel-close"
+          style="font-family: '{{primary_font_family}}';"
+    >
+          {{content.actions[lang]['close']}}
+  </button>
+
 			<button
             onclick="filterClear();"
             class="shadow-button"
@@ -292,7 +305,7 @@
     <h5 style="font-family: '{{primary_font_family}}';" class="drawer-section-title">{{content.tabs[lang]['categories']}}</h5>
     <div id="categories">
       {% for cat in database.categories.all_categories %}
-        <div class="category-card" onclick="window.open('{{cfg.base_url}}/categories/{{cat.id}}');">
+        <div class="category-card" onclick="window.open('{{cfg.base_url}}/categories/{{cat.id}}', '_self');">
           <h3 style="font-family: '{{primary_font_family}}';">{{cat['name'][lang]}}<br><span>{{len(cat['products'])}} Products</span></h3>
         </div>
       {% endfor %}
@@ -318,6 +331,7 @@
           
         </div>
   </div>
+  <div id="side-panel-overlay" onclick="closeFilterPanel();"></div>
 
 </body>
 </html>

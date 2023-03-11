@@ -64,17 +64,18 @@ class Products:
     def load_shipping_options(self):
         import csv
         with open(os.path.abspath(os.path.join(os.path.dirname(__file__), '../csvs/shippingOptions.csv')), newline='') as f:
-            reader= csv.reader(f)
-            shipping_options= {}
+            reader = csv.reader(f)
+            shipping_options = {}
 
             for line in reader:
                 if not line[0] == 'cityId':
-                    shipping_options[line[0]]= {
+                    shipping_options[line[0]] = {
                         'durations': line[1],
                         'fees': line[2],
                     }
 
-            self.shipping_options= shipping_options
+            self.shipping_options = shipping_options
+
     def update_shipping_options(self, new_shipping_options):
         with open(os.path.abspath(os.path.join(os.path.dirname(__file__), '../csvs/shippingOptions.csv')), newline='', mode='w') as f:
             f.write('cityId,duration,fee\n')
@@ -94,7 +95,7 @@ class Products:
             name=dict_['name'],
             bio=dict_['bio'],
             assets=dict_['assets'],
-            category=int(dict_['category']),
+            category=dict_['category'],
             sub_category=int(dict_['subCategory']),
             code=dict_['code'],
             pricing=dict_['pricing'],
@@ -125,7 +126,7 @@ class Products:
 
     def get_all_products_by_category(self, cat_id: int):
         products = self.products_collection.find({
-            'category': int(cat_id),
+            'category': cat_id,
         })
         return [self.create_product_from_dict(dict(prod)) for prod in list(products)]
 
@@ -192,14 +193,11 @@ class Products:
             product.pricing = product_["pricing"]
             product.vat = product_["vat"]
             assets_ = list(set(list(newAssetsNames + product_["assets"])))
-            print(newAssetsNames)
-            print(product_["assets"])
-            print(assets_)
             product.assets = ["{}.{}".format(assets_.index(
                 asset_name), asset_name.split('.')[-1]) for asset_name in assets_]
             product.avg_del_days = product_["avgDelDays"]
             product.shipping_fees = product_["shippingFees"]
-            product.category = int(product_["category"])
+            product.category = product_["category"]
             product.sub_category = int(product_["subCategory"])
             product.colors = product_['colors']
             product.sizes = product_['sizes']
@@ -227,7 +225,7 @@ class Products:
                         product_["assets"].index(asset)].split('.')[-1]) for asset in product_["assets"]],
                 avg_del_days=product_["avgDelDays"],
                 shipping_fees=product_["shippingFees"],
-                category=int(product_["category"]),
+                category=product_["category"],
                 sub_category=int(product_["subCategory"]),
                 colors=product_['colors'],
                 sizes=product_['sizes']

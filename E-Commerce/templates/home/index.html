@@ -92,31 +92,31 @@
 	<section id="entry">
 		<div id="side-bar">
 			{% for cat in database.categories.all_categories[:7] %}
-				<div class="category-card" onclick="window.open('{{cfg.base_url}}/categories/{{cat.id}}');">
+				<div class="category-card" onclick="window.open('{{cfg.base_url}}/categories/{{cat.id}}', '_self');">
 					<div class="category-icon" style="background-image: url('{{cfg.base_url}}/assets/categories/icons/{{cat["id"]}}');"></div>
 					<h3 style="font-family: '{{primary_font_family}}';">{{cat['name'][lang]}}<br></h3>
 				</div>
 			{% endfor %}
-			<div class="category-card" onclick="window.open('{{cfg.base_url}}/categories/');">
+			<div class="category-card" onclick="window.open('{{cfg.base_url}}/categories/', '_self');">
 					<div class="category-icon"></div>
 					<h3 style="font-family: '{{primary_font_family}}';">{{content.actions[lang]['seeAll']}}</h3>
 				</div>
 		</div>
 		<div id="content">
-			<div id="entry-banner" style="background: linear-gradient(135deg, var(--secondary-color) 10%, {{layout.main_banner.background_color}} 100%);cursor: pointer;" onclick="window.open('{{layout.main_banner.card_action_link}}');">
+			<div id="entry-banner" style="background: linear-gradient(135deg, var(--secondary-color) 10%, {{layout.main_banner.background_color}} 100%);cursor: pointer;" onclick="window.open('{{layout.main_banner.card_action_link}}', '_self');">
 				<div id="content">
 					{% if layout.main_banner.subtitle[lang] %}
 					<p style="font-family:'{{primary_font_family}}'; color: {{layout.main_banner.subtitle_color}}">{{layout.main_banner.subtitle[lang]}}</p>
 					{% endif %}
 					<h2 style="font-family: '{{primary_font_family}}'; color: {{layout.main_banner.title_color}}">{{layout.main_banner.title[lang]}}</h2>
 					{% if layout.main_banner.action_link %}
-						<button class="main-button" onclick="window.open('{{layout.main_banner.card_action_link}}');" style="border: none; font-family: '{{primary_font_family}}'; color: {{layout.main_banner.action_text_color}}; background-color: {{layout.main_banner.action_background_color}}">{{layout.main_banner.action_text[lang]}}</button>
+						<button class="main-button" onclick="window.open('{{layout.main_banner.card_action_link}}', '_self');" style="border: none; font-family: '{{primary_font_family}}'; color: {{layout.main_banner.action_text_color}}; background-color: {{layout.main_banner.action_background_color}}">{{layout.main_banner.action_text[lang]}}</button>
 					{% endif %}
 				</div>
 				<div id="asset" style="background-image: url('{{cfg.base_url}}/assets/banners/assets/{{layout.main_banner.id}}');"></div>
 			</div>
 			<div id="banners">
-				<div id="entry-sup-banner" style="background: linear-gradient(135deg, var(--secondary-color) 10%, {{layout.sup_banner_one.background_color}} 100%);cursor: pointer;" onclick="window.open('{{layout.sup_banner_one.card_action_link}}');">
+				<div id="entry-sup-banner" style="background: linear-gradient(135deg, var(--secondary-color) 10%, {{layout.sup_banner_one.background_color}} 100%);cursor: pointer;" onclick="window.open('{{layout.sup_banner_one.card_action_link}}', '_self');">
 					<div id="content">
 						{% if layout.sup_banner_one.subtitle[lang] %}
 							<p style="font-family:'{{primary_font_family}}'; color: {{layout.sup_banner_one.subtitle_color}}">{{layout.sup_banner_one.subtitle[lang]}}</p>
@@ -136,7 +136,7 @@
 					</div>
 					<div id="asset" style="background-image: url('{{cfg.base_url}}/assets/banners/assets/{{layout.sup_banner_one.id}}');"></div>
 				</div>
-				<div id="entry-sup-banner" style="background: linear-gradient(135deg, var(--secondary-color) 10%, {{layout.sup_banner_two.background_color}} 100%);cursor: pointer;" onclick="window.open('{{layout.sup_banner_two.card_action_link}}');">
+				<div id="entry-sup-banner" style="background: linear-gradient(135deg, var(--secondary-color) 10%, {{layout.sup_banner_two.background_color}} 100%);cursor: pointer;" onclick="window.open('{{layout.sup_banner_two.card_action_link}}', '_self');">
 					<div id="content">
 						{% if layout.sup_banner_two.subtitle[lang] %}
 							<p style="font-family:'{{primary_font_family}}'; color: {{layout.sup_banner_two.subtitle_color}}">{{layout.sup_banner_two.subtitle[lang]}}</p>
@@ -342,7 +342,7 @@
 		<h5 style="font-family: '{{primary_font_family}}';" class="drawer-section-title">{{content.tabs[lang]['categories']}}</h5>
 		<div id="categories">
 			{% for cat in database.categories.all_categories %}
-				<div class="category-card" onclick="window.open('{{cfg.base_url}}/categories/{{cat.id}}');">
+				<div class="category-card" onclick="window.open('{{cfg.base_url}}/categories/{{cat.id}}', '_self');">
 					<h3 style="font-family: '{{primary_font_family}}';">{{cat['name'][lang]}}<br><span>{{len(cat['products'])}} Products</span></h3>
 				</div>
 			{% endfor %}

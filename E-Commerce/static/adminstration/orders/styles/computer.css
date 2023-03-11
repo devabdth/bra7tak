@@ -152,8 +152,10 @@
     cursor: pointer;
   }
 
-  tr.active, tr:nth-child(even).active, tr.active:hover {
-	background-color: rgba(0, 0, 0, 0.25);
+  tr.active,
+  tr:nth-child(even).active,
+  tr.active:hover {
+    background-color: rgba(0, 0, 0, 0.25);
   }
 
   #order-dialog {
@@ -164,10 +166,15 @@
     align-items: center;
     justify-content: start;
     padding: 8px 16px;
+    overflow-y: auto;
   }
 
   #order-dialog * {
     font-family: "Raleway";
+  }
+  
+  td > button {
+    z-index: 10;
   }
 
   #order-dialog #header {
@@ -197,11 +204,12 @@
     justify-content: space-between;
     flex-direction: row;
     overflow-y: scroll;
+    margin-bottom: 16px;
   }
 
   #order-dialog > #content > #info {
     width: 60%;
-    min-height: 40vh;
+    min-height: 10vh;
     align-items: start;
     justify-content: start;
     display: flex;

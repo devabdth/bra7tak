@@ -198,7 +198,7 @@
     background-color: var(--main-variant-color);
     border: 2px var(--main-color) solid;
     color: var(--bg-color);
-	text-decoration: none;
+    text-decoration: none;
   }
 
   .main-button:hover {
@@ -296,38 +296,38 @@
     right: 0;
     bottom: 0;
   }
-	
-  #product-content > #actions > div {
-	  width: 32px;
-	  height: 32px;
-	  display: flex;
-	  background-position: center;
-	  background-repeat: no-repeat;
-	  background-size: contain;
-	  cursor: pointer;
-	  background-color: transparent;
-	  transition: 500ms ease;
-	  border-radius: 4px;
-	}
 
-	#product-content > #actions > div:hover {
-		background-color: rgba(0, 0, 0, 0.15);
-	}
+  #product-content > #actions > div {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    cursor: pointer;
+    background-color: transparent;
+    transition: 500ms ease;
+    border-radius: 4px;
+  }
+
+  #product-content > #actions > div:hover {
+    background-color: rgba(0, 0, 0, 0.15);
+  }
 
   .added#add-to-cart-action {
-	background: url(./icons/add-cart.png)
+    background: url(./icons/add-cart.png);
   }
 
   .added#add-to-favourites-action {
-	background: url(./icons/remove-from-favorites.png)
+    background: url(./icons/remove-from-favorites.png);
   }
 
   .not-added#add-to-cart-action {
-  background: url(./icons/remove-from-cart.png)
+    background: url(./icons/remove-from-cart.png);
   }
 
   .not-added#add-to-favourites-action {
-  background: url(./icons/add-to-favorites.png)
+    background: url(./icons/add-to-favorites.png);
   }
 
   #product-content > #content {
@@ -505,7 +505,6 @@
     font-size: 0.75em;
   }
 
-  
   .single-line-field {
     background-color: transparent;
     border: 1px rgba(0, 0, 0, 0.5) solid;
@@ -551,7 +550,16 @@
     color: var(--main-color);
   }
 
-  #drawer, #drawer-overlay {
+  #drawer,
+  #drawer-overlay {
+    display: none;
+  }
+  #filter-panel-close {
+    display: none;
+  }
+
+  #mobile-filter-open,
+  #mobile-filter-open * {
     display: none;
   }
 }

@@ -133,7 +133,7 @@
         database.categories.get_sub_category_by_id(prod.category,
         prod.sub_category) %}
         <div
-          onclick="chooseCategory(`{{cat.name['en']}} - {{scat.name['en']}}`, {{prod.category}}, {{prod.sub_category}}, 'en', false); openProductEdit({{prod.to_dict() | safe}}, 0, '{{cfg.base_url}}');"
+          onclick="chooseCategory(`{{cat.name['en']}} - {{scat.name['en']}}`, '{{prod.category}}', {{prod.sub_category}}, 'en', false); openProductEdit({{prod.to_dict() | safe}}, 0, '{{cfg.base_url}}');"
           class="product-card"
           href="{{cfg.base_url}}/products/{{prod.id}}"
         >
@@ -228,7 +228,7 @@
             %}
             <button
               style="font-family: 'Raleway'"
-              onclick="chooseCategory(`{{category.name['en']}} - {{subcat.name['en']}}`, {{category.id}}, {{subcat.id}}, 'en');"
+              onclick="chooseCategory(`{{category.name['en']}} - {{subcat.name['en']}}`, '{{category.id}}', {{subcat.id}}, 'en');"
             >
               {{category.name['en']}} - {{subcat.name['en']}}
             </button>

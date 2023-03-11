@@ -277,7 +277,7 @@
         <a style="font-family: '{{primary_font_family}}';" href="{{cfg.base_url}}/categories//{{category.id}}" class="main-button">{{content.actions[lang]["seeMore"]}}</a>
       </div>
       {% if category.ad_banner %}
-        <div id="banner" style="background: linear-gradient(135deg, var(--secondary-color) 10%, {{layout.main_banner.background_color}} 100%);cursor: pointer;" onclick="window.open('{{layout.main_banner.card_action_link}}');">
+        <div id="banner" style="background: linear-gradient(135deg, var(--secondary-color) 10%, {{layout.main_banner.background_color}} 100%);cursor: pointer;" onclick="window.open('{{layout.main_banner.card_action_link}}', '_self');">
           <div id="content">
             {% if category.ad_banner.subtitle[lang] %}
             <p style="font-family:'{{primary_font_family}}'; color: {{category.ad_banner.subtitle_color}}">{{category.ad_banner.subtitle[lang]}}</p>
@@ -444,7 +444,7 @@
     <h5 style="font-family: '{{primary_font_family}}';" class="drawer-section-title">{{content.tabs[lang]['categories']}}</h5>
     <div id="categories">
       {% for cat in database.categories.all_categories %}
-        <div class="category-card" onclick="window.open('{{cfg.base_url}}/categories/{{cat.id}}');">
+        <div class="category-card" onclick="window.open('{{cfg.base_url}}/categories/{{cat.id}}', '_self');">
           <h3 style="font-family: '{{primary_font_family}}';">{{cat['name'][lang]}}<br><span>{{len(cat['products'])}} Products</span></h3>
         </div>
       {% endfor %}

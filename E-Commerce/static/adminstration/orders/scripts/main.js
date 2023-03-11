@@ -7,7 +7,8 @@ const statuses = {
 	"2": "Delivered"
 };
 
-let selectedPendingOrders = [];
+
+let selectedPendingOrders = [], allProducts = [];
 
 window.onload = () => {
 	const trs = document.querySelector('table.orders#pending').rows;
@@ -25,16 +26,16 @@ window.onload = () => {
 	}
 }
 
-const stockAllOrders = (allOrders) => {
+const stockAllOrders = async (allOrders) => {
 	if (allOrders.length != 0) {
 
 		for (let order of allOrders) {
 			try {
+				await window.open(`/webapp/adminstration/orders/invoices/?oid=${order["_id"]}`)
 				fetch(`./?oid=${order["_id"]}&status=0`, {
 					method: 'PATCH'
-				}).then(r => {
+				}).then(async r => {
 					if (r.status === 200) {
-						window.open(`${url}/webapp/adminstration/orders/invoices/?oid=${order}`)
 						return;
 					}
 
@@ -45,6 +46,26 @@ const stockAllOrders = (allOrders) => {
 				console.log(e);
 				document.getElementById('converting-all-orders-submission').innerHTML = "Failed!";
 				setTimeout(() => { document.getElementById('converting-all-orders-submission').innerHTML = "Update" }, 3000);
+			}
+		}
+		window.open('./', '_self');
+		return;
+	}
+	document.getElementById('converting-orders-count').innerHTML = `There is no orders to stock!`
+
+}
+
+
+const printAllOrders = async (allOrders) => {
+	if (allOrders.length != 0) {
+		for (let order of allOrders) {
+			try {
+				window.open(`/webapp/adminstration/orders/invoices/?oid=${order['id']}`);
+			} catch (e) {
+				console.log(e);
+				document.getElementById('print-all-orders-submission').innerHTML = "Failed!";
+				setTimeout(() => { document.getElementById('print-all-orders-submission').innerHTML = "Update" }, 3000);
+				document.getElementById('print-all-orders-submission').onclick = () => { printAllOrders(allOrders); }
 			}
 		}
 		window.open('./', '_self');
@@ -377,17 +398,28 @@ const openOrderDialog = (url, orderData, city) => {
 	document.getElementById('order-price').style.fontFamily = "Raleway";
 	document.getElementById('order-time').innerHTML = `Date: ${orderData["placedIn"].split(' ')[0].replaceAll('-', ' / ')} -  Time: ${orderData["placedIn"].split(' ')[1].substring(0, 8).replaceAll(':', ' : ')}`;
 	document.getElementById('order-time').style.fontFamily = 'Poppins';
-	document.getElementById('qr').style.background = `url("${url}/webapp/adminstration/orders/qr/${orderData['id']}");`
 	document.getElementById('downlowd-recipet').onclick = () => {
 		window.open(`${url}/webapp/adminstration/orders/invoices/?oid=${orderData['id']}`)
 	}
+	const productsTable = document.getElementById('products-table');
+	for (let prod of orderData["products"]) {
+		const row = document.createElement('tr');
+		const product = allProducts.filter(e => e["id"] == prod["id"]);
+		const cells = [
+			document.createElement('td'),
+			document.createElement('td'),
+			document.createElement('td'),
+		];
+		cells[0].innerHTML = product[0]['name']['en'];
+		cells[1].innerHTML = prod["size"];
+		cells[2].innerHTML = prod["color"];
+		for (let cell of cells) row.appendChild(cell);
+		productsTable.appendChild(row);
+	}
 
 	if (orderData["status"] === -1 || orderData["status"] === 2 || orderData["status"] === -2) {
-		document.getElementById('order-status').innerHTML = statuses[orderData["status"]]
-		document.getElementById('order-status').style.display = "flex";
 		document.getElementById('status-dropbtn').style.display = "none";
 	} else {
-		document.getElementById('order-status').style.display = "none";
 		document.getElementById('status-dropbtn').style.display = "flex";
 		baseStatus = (orderData["status"]);
 		console.log((orderData["status"]));
@@ -790,9 +822,35 @@ const placeOrderConfirmation = async () => {
 const closePlaceOrderDialog = () => {
 	document.getElementById('place-order-dialog').style.display = "none";
 	document.getElementById('place-order-dialog-overlay').style.display = "none";
+	document.getElementById('name-field').value= "";
+	document.getElementById('dialog-email-field').value= "";
+	document.getElementById('dialog-phone-field').value= "";
+	document.getElementById('address-line-one-field').value= "";
+	document.getElementById('address-line-two-field').value= "";
 }
 
-const openPlaceOrderDialog = () => {
-	document.getElementById('place-order-dialog').style.display = "flex";
-	document.getElementById('place-order-dialog-overlay').style.display = "flex";
+const openPlaceOrderDialog = (mode, order) => {
+	if ((mode || 0) === 0) {
+		document.getElementById('place-order-dialog').style.display = "flex";
+		document.getElementById('place-order-dialog-overlay').style.display = "flex";
+		document.getElementById('place-order-confirmation').innerHTML = "Place";
+		document.getElementById('place-order-confirmation').onclick = placeOrderConfirmation;
+	} else {
+		document.getElementById('place-order-confirmation').innerHTML = "Edit";
+		document.getElementById('place-order-confirmation').onclick = () => { EditOrderConfirmation(order["id"]) };
+		document.getElementById('name-field').value= order["username"];
+		document.getElementById('dialog-email-field').value= order["userEmail"];
+		document.getElementById('dialog-phone-field').value= order["userPhone"];
+		document.getElementById('address-line-one-field').value= order["address"];
+		document.getElementById('address-line-two-field').value= order["addressLineTwo"];
+		document.getElementById('place-order-dialog').style.display = "flex";
+		document.getElementById('place-order-dialog-overlay').style.display = "flex";
+
+	}
 }
+
+const initializeProductsData = (allProducts_) => {
+	allProducts = allProducts_;
+}
+
+const EditOrderConfirmation= ()=> {}

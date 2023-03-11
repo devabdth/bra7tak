@@ -189,6 +189,13 @@
           >
             Stock All
           </button>
+          <button
+            class="shadow-button"
+            onclick="printAllOrders(pendingOrders);"
+            id="print-all-orders-submission"
+          >
+            Print All
+          </button>
         </div>
         <table class="orders" id="pending">
           <tr>
@@ -217,6 +224,13 @@
             <td>{{order.price}}</td>
             <td>{{content.cities['en'][order.city_code]}}</td>
             <td>
+              <button
+                class="shadow-button"
+                style="text-decoration: underline"
+                onclick="openPlaceOrderDialog(1, {{dumps(order.to_dict())}})"
+              >
+                Edit
+              </button>
               <button
                 class="shadow-button"
                 style="text-decoration: underline"
@@ -257,6 +271,7 @@
             <td>{{order.price}}</td>
             <td>{{content.cities['en'][order.city_code]}}</td>
             <td>
+              
               <button
                 class="shadow-button"
                 style="text-decoration: underline"
@@ -338,6 +353,13 @@
             <td>{{content.cities['en'][order.city_code]}}</td>
             <td>
               <button
+              class="shadow-button"
+              style="text-decoration: underline"
+              onclick="openPlaceOrderDialog(1, {{dumps(order.to_dict())}})"
+            >
+              Edit
+            </button>
+              <button
                 class="shadow-button"
                 style="text-decoration: underline"
                 onclick="openOrderDialog('{{cfg.base_url | safe}}', {{dumps(order.to_dict())}}, '{{content.cities[lang][order.city_code]}}');"
@@ -377,6 +399,13 @@
             <td>{{order.price}}</td>
             <td>{{content.cities['en'][order.city_code]}}</td>
             <td>
+              <button
+              class="shadow-button"
+              style="text-decoration: underline"
+              onclick="openPlaceOrderDialog(1, {{dumps(order.to_dict())}})"
+            >
+              Edit
+            </button>
               <button
                 class="shadow-button"
                 style="text-decoration: underline"
@@ -441,21 +470,29 @@
           <div id="info">
             <label>Order ID</label>
             <p id="order-id"></p>
-            <label>User ID / Email</label>
+            <label>User Name/ID</label>
             <p id="order-user-id"></p>
             <label>Address</label>
             <p id="order-user-address"></p>
+          </div>
+          <div id="info">
             <label>City</label>
             <p id="order-user-city"></p>
             <label>Price & VAT</label>
             <p id="order-price"></p>
             <label>Time</label>
             <p id="order-time"></p>
-            <label>Status</label>
-            <p id="order-status"></p>
           </div>
-          <div id="qr"></div>
         </div>
+        <table class="products">
+          <table class="orders" id="products-table">
+            <tr>
+              <th>Product</th>
+              <th>Size</th>
+              <th>Color</th>
+            </tr>
+          </table>
+        </table>
         <button
           onclick="toggleStatusDropdown()"
           id="status-dropbtn"
@@ -691,6 +728,7 @@
       </div>
     </div>
     <script type="text/javascript">
+      initializeProductsData({{all_products | safe}});
       let pendingOrders= [];
       {% for o in orders["PENDING"]%}
         pendingOrders.push({{o.to_dict() |safe}});

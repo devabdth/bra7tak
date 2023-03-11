@@ -241,7 +241,7 @@
     <h5 style="font-family: '{{primary_font_family}}';" class="drawer-section-title">{{content.tabs[lang]['categories']}}</h5>
     <div id="categories">
       {% for cat in database.categories.all_categories %}
-        <div class="category-card" onclick="window.open('{{cfg.base_url}}/categories/{{cat.id}}');">
+        <div class="category-card" onclick="window.open('{{cfg.base_url}}/categories/{{cat.id}}', '_self');">
           <h3 style="font-family: '{{primary_font_family}}';">{{cat['name'][lang]}}<br><span>{{len(cat['products'])}} Products</span></h3>
         </div>
       {% endfor %}

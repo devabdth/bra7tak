@@ -7,11 +7,13 @@ from config import Config
 from layout.layout import Layout
 from content import Content
 from database.database import Database
+from utils import Utils
 
 
 class SearchRouter:
 	def __init__(self, app: Flask):
 		self.app= app
+		self.utils: Utils= Utils()
 		self.cfg: Config= Config()
 		self.layout: Layout= Layout()
 		self.content: Content= Content()
@@ -46,6 +48,7 @@ class SearchRouter:
 				return render_template(
 					'search/index.html',
 					user_data= user_data,
+					utils= self.utils,
 					lang= lang,
 					cfg= self.cfg,
 					content= self.content,
@@ -61,6 +64,7 @@ class SearchRouter:
 			return render_template(
 				'search/index.html',
 				lang= lang,
+				utils= self.utils,
 				cfg= self.cfg,
 				content= self.content,
 				primary_font_family= primary_font_family,

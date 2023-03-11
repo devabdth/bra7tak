@@ -142,6 +142,7 @@
     "en": {
       "apply": "Apply",
       "clear": "Clear",
+      "close": "Close",
       "search": "Search",
       "seeMore": "See More",
       "addToCart": "Add to Cart",
@@ -165,6 +166,7 @@
     "ar": {
       "apply": "تطبيق",
       "clear": "مسح",
+      "close": "إغلاق",
       "search": "بحث",
       "seeMore": "مشاهدة المزيد",
       "addToCart": "إضافة إلى سلة المشتريات",

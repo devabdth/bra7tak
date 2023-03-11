@@ -14,6 +14,10 @@ class AssetsRouter:
 		self.cfg: Config= Config()
 		self.app= app
 
+		self.supported_exts= [
+			'png', 'jpeg', 'jpg', 'gif', 'jfjf'
+		]
+
 
 	def setup(self):
 		self.assign_categories_icons()
@@ -26,27 +30,35 @@ class AssetsRouter:
 	def assign_categories_icons(self):
 		@self.app.route('/assets/categories/icons/<cat_id>', methods=["GET"])
 		def categories_icons_index(cat_id):
-			path_= os.path.abspath(os.path.join(os.path.dirname(__file__), './categories/icons/{}.png'.format(cat_id)))
-			return send_file(path_)
+			for ext in self.supported_exts:
+				path_= os.path.abspath(os.path.join(os.path.dirname(__file__), './categories/icons/{}.{}'.format(cat_id, ext)))
+				if os.path.exists(path_):
+					return send_file(path_)
 
 	def assign_banners_assets(self):
 		@self.app.route('/assets/banners/assets/<bid>', methods=["GET"])
 		def banners_assets_index(bid):
-			path_= os.path.abspath(os.path.join(os.path.dirname(__file__), './banners/{}.png'.format(bid)))
-			return send_file(path_)
+			for ext in self.supported_exts:
+				path_= os.path.abspath(os.path.join(os.path.dirname(__file__), './banners/{}.{}'.format(bid, ext)))
+				if os.path.exists(path_):
+					return send_file(path_)
 
 	def assign_categories_covers(self):
 		@self.app.route('/assets/categories/covers/<cat_id>', methods=["GET"])
 		def categories_covers_index(cat_id):
-			path_= os.path.abspath(os.path.join(os.path.dirname(__file__), './categories/covers/{}.png'.format(cat_id)))
-			return send_file(path_)
+			for ext in self.supported_exts:
+				path_= os.path.abspath(os.path.join(os.path.dirname(__file__), './categories/covers/{}.{}'.format(cat_id, ext)))
+				if os.path.exists(path_):
+					return send_file(path_)
 
 
 	def assign_collections_covers(self):
 		@self.app.route('/assets/collections/covers/<cat_id>', methods=["GET"])
 		def collections_covers_index(cat_id):
-			path_= os.path.abspath(os.path.join(os.path.dirname(__file__), './collections/covers/{}.png'.format(cat_id)))
-			return send_file(path_)
+			for ext in self.supported_exts:
+				path_= os.path.abspath(os.path.join(os.path.dirname(__file__), './collections/covers/{}.{}'.format(cat_id, ext)))
+				if os.path.exists(path_):
+					return send_file(path_)
 
 
 	def assign_product_name(self):

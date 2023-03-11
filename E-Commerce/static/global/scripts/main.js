@@ -235,6 +235,20 @@ window.onload = () => {
     };
 }
 
+const openFilterPanel = () => {
+    const filterPanel = document.querySelector('section#products div#side-panel');
+    const filterPanelOverlay = document.getElementById('side-panel-overlay');
+    filterPanel.style.top = '5%';
+    filterPanelOverlay.style.top = '0%';
+}
+
+const closeFilterPanel = () => {
+    const filterPanel = document.querySelector('section#products div#side-panel');
+    const filterPanelOverlay = document.getElementById('side-panel-overlay');
+    filterPanel.style.top = '-200%';
+    filterPanelOverlay.style.top = '-200%';
+}
+
 const toastContent = {
     "en": {
         "notValidUsername": "Please, Enter your email!",

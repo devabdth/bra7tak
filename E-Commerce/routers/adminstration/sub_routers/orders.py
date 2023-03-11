@@ -11,6 +11,7 @@ from utils import Utils
 from content import Content
 
 import json
+from json import dumps as jsonParser
 class OrdersSubRouter:
 	def __init__(self, app: Flask):
 		self.app: Flask= app
@@ -37,7 +38,7 @@ class OrdersSubRouter:
 
 			if aid is None or oid is None:
 				return self.app.response_class(status= 403)
-
+			print(params['oid'])
 			order= self.database.orders.get_order_by_id(params['oid'])
 			if order is None:
 				return self.app.response_class(status= 404)
@@ -106,6 +107,7 @@ class OrdersSubRouter:
 				cfg= self.cfg,
 				orders= orders,
 				products= products,
+				all_products= [prod.to_dict() for prod in products],
 				database= self.database,
 				content= self.content,
 				admin_data= admin_data,
