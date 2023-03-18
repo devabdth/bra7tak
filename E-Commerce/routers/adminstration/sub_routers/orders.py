@@ -57,7 +57,7 @@ class OrdersSubRouter:
                 return self.app.response_class(status=404)
 
             invoice = self.utils.inv_gen(order, self.utils).generate_invoice()
-            return send_file(invoice, mimetype="application/pdf", as_attachment=True, attachment_filename="Order-{}.pdf".format(order.police_number))
+            return send_file(invoice, mimetype="application/pdf", as_attachment=True)
 
     def assign_orders_post(self):
         @self.app.route('/webapp/adminstration/orders/', methods=["POST"])
