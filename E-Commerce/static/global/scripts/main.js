@@ -1,7 +1,7 @@
 
 const changeLang = async (url, newLang) => {
     console.log("Clicked");
-    await fetch(`${url}/config/?lang=${newLang}`);
+    await fetch(`/config/?lang=${newLang}`);
     location.reload();
 }
 
@@ -29,7 +29,7 @@ const closeDrawer = () => {
 const addToCart = async (url, productId, count, size, color) => {
     try {
         const res = await fetch(
-            `${url}/cart/add/`,
+            `/cart/add/`,
             {
                 method: 'PATCH',
                 body: JSON.stringify({
@@ -55,11 +55,11 @@ const addToCart = async (url, productId, count, size, color) => {
         );
 
         if (res.status == 200) {
-            window.open(`${url}/cart/?freshProduct=${productId}`, '_self');
+            window.open(`/cart/?freshProduct=${productId}`, '_self');
         }
 
         if (res.status == 405) {
-            window.open(`${url}/login/`, '_self');
+            window.open(`/login/`, '_self');
         }
     } catch (e) {
         console.log(e);
@@ -69,7 +69,7 @@ const addToCart = async (url, productId, count, size, color) => {
 const addToFavourites = async (url, productId, toastContent, lang) => {
     try {
         const res = await fetch(
-            `${url}/favourites/add/`,
+            `/favourites/add/`,
             {
                 method: 'PATCH',
                 body: JSON.stringify({
@@ -96,7 +96,7 @@ const addToFavourites = async (url, productId, toastContent, lang) => {
         }
 
         if (res.status == 405) {
-            window.open(`${url}/login/`, '_self');
+            window.open(`/login/`, '_self');
         }
     } catch (e) {
         console.log(e);
@@ -106,7 +106,7 @@ const addToFavourites = async (url, productId, toastContent, lang) => {
 const removeFromFavourites = async (url, productId, toastContent, lang) => {
     try {
         const res = await fetch(
-            `${url}/favourites/remove/`,
+            `/favourites/remove/`,
             {
                 method: 'PATCH',
                 body: JSON.stringify({
@@ -134,7 +134,7 @@ const removeFromFavourites = async (url, productId, toastContent, lang) => {
         }
 
         if (res.status == 405) {
-            window.open(`${url}/login/`, '_self');
+            window.open(`/login/`, '_self');
         }
     } catch (e) {
         console.log(e);
@@ -145,7 +145,7 @@ const removeFromFavourites = async (url, productId, toastContent, lang) => {
 const removeFromCart = async (url, productId, count) => {
     try {
         const res = await fetch(
-            `${url}/cart/remove/`,
+            `/cart/remove/`,
             {
                 method: 'PATCH',
                 body: JSON.stringify({
@@ -169,7 +169,7 @@ const removeFromCart = async (url, productId, count) => {
         );
 
         if (res.status == 200) {
-            window.open(`${url}/cart/`, '_self');
+            window.open(`/cart/`, '_self');
         }
     } catch (e) {
         console.log(e);
@@ -179,7 +179,7 @@ const removeFromCart = async (url, productId, count) => {
 const clearCart = async (url) => {
     try {
         const res = await fetch(
-            `${url}/cart/clear/`,
+            `/cart/clear/`,
             {
                 method: 'PATCH',
                 mode: 'cors',
@@ -194,7 +194,7 @@ const clearCart = async (url) => {
         );
 
         if (res.status == 200) {
-            window.open(`${url}/cart/`, '_self');
+            window.open(`/cart/`, '_self');
         }
     } catch (e) {
         console.log(e);
@@ -202,7 +202,7 @@ const clearCart = async (url) => {
 }
 
 const checkout = (url, prods) => {
-    window.open(`${url}/checkout/`, '_self');
+    window.open(`/checkout/`, '_self');
 }
 
 const dryCheckout = (url, prods) => {
@@ -212,7 +212,7 @@ const dryCheckout = (url, prods) => {
             params += `${prods[prod][0]},${prods[prod][2]},${prods[prod][3]}|`
         }
     }
-    window.open(`${url}/checkout/${params}`, '_self');
+    window.open(`/checkout/${params}`, '_self');
 }
 
 window.onload = () => {

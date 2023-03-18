@@ -66,7 +66,8 @@
       "orderCompletedSuccessfullyMsg": "Your order is under review right now! An Agent from Bra7tak will contact you soon!",
       "avg_del_days": "Average Delivery Days",
       "optional": "Optional",
-      "fullName": "Full Name"
+      "fullName": "Full Name",
+      "comments": "Comments"
     },
     "ar": {
       "name": "براحتك",
@@ -134,7 +135,8 @@
       "orderCompletedSuccessfullyMsg": "طلبك تحت المراجعة!سيتواصل معك وكيل من براحتك قريباً!",
       "avg_del_days": "متوسط أيام التوصيل",
       "optional": "اختياري",
-      "fullName": "الاسم بالكامل"
+      "fullName": "الاسم بالكامل",
+      "comments": "ملاحظات"
     }
   },
 

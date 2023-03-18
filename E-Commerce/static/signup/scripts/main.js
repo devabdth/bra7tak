@@ -78,7 +78,7 @@ const formValidation = async (toastContent, url, lang) => {
             password: password.value.trim()
         }
         showToast({ msg: toastContent[lang]["loading"], borderColor: "#6b469c", toastColor: "#6b469c", lang: lang });
-        const res = await fetch(`${url}/users/signup/`, {
+        const res = await fetch(`/users/signup/`, {
             method: "POST",
             body: JSON.stringify(payload),
             mode: 'cors',

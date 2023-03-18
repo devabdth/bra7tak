@@ -44,6 +44,10 @@
   }
 
   #search-options label {
+    margin-right: 16px;
+  }
+
+  #search-options label {
     font-weight: 300;
     font-size: 1em;
     font-family: "Raleway";
@@ -172,7 +176,7 @@
   #order-dialog * {
     font-family: "Raleway";
   }
-  
+
   td > button {
     z-index: 10;
   }

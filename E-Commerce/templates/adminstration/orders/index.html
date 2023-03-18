@@ -59,12 +59,7 @@
       <div id="header">
         <div id="title">
           <h3>
-            <span style="font-family: 'Poppins'"
-              >{{((orders["RETURNED"] | length) + orders["PENDING"] | length) +
-              (orders["CANCELED"] | length) + (orders["STOCKED"] | length) +
-              (orders["IN_DELIVERY"] | length) + (orders["DELIVERED"] |
-              length)}}</span
-            >
+            <span style="font-family: 'Poppins'">{{orders | length}}</span>
             Orders
           </h3>
           <button
@@ -76,28 +71,6 @@
           </button>
         </div>
         <div id="search-options">
-          <label>Start Date</label>
-          <label>End Date</label>
-          <div class="field-container" id="start-date-field-container">
-            <input
-              value="{{search_params['start']}}"
-              type="date"
-              name="Start Date"
-              id="start-date-field"
-              placeholder="2023-01-01"
-              min="2023-01-01"
-            />
-          </div>
-          <div class="field-container" id="end-date-field-container">
-            <input
-              value="{{search_params['end']}}"
-              type="date"
-              name="Start Date"
-              id="end-date-field"
-              placeholder="2023-01-01"
-              min="2023-01-01"
-            />
-          </div>
           <div class="field-container" id="email-field-container">
             <input
               value="{{search_params['phone']}}"
@@ -117,6 +90,22 @@
             />
           </div>
         </div>
+        <div id="search-options">
+          <form action="">
+            <input type="radio" id="pending" name="status" value="-3" />
+            <label for="pending">Pending</label>
+            <input type="radio" id="returned" name="status" value="-2" />
+            <label for="returned">Returned</label>
+            <input type="radio" id="canceled" name="status" value="-1" />
+            <label for="canceled">Canceled</label>
+            <input type="radio" id="stocked" name="status" value="0" />
+            <label for="stocked">Stocked</label>
+            <input type="radio" id="in-delivery" name="status" value="1" />
+            <label for="in-delivery">In Delivery</label>
+            <input type="radio" id="delivered" name="status" value="2" />
+            <label for="delivered">Delivered</label>
+          </form>
+        </div>
         <div id="options">
           <div class="shadow-button" onclick="ordersFiltrationClear();">
             Clear
@@ -126,103 +115,61 @@
           </div>
         </div>
       </div>
-      <div id="fragments-controllers">
-        <div
-          class="fragment-controller active-fragment-controller"
-          id="pending-fragment-controller"
-          onclick="fragmentsSwitch(-3);"
-        >
-          Pending Orders
-        </div>
-        <div
-          class="fragment-controller"
-          id="stocked-fragment-controller"
-          onclick="fragmentsSwitch(0);"
-        >
-          Stocked Orders
-        </div>
-        <div
-          class="fragment-controller"
-          id="in-delivery-fragment-controller"
-          onclick="fragmentsSwitch(1);"
-        >
-          In Delivery Orders
-        </div>
-        <div
-          class="fragment-controller"
-          id="delivered-fragment-controller"
-          onclick="fragmentsSwitch(2);"
-        >
-          Delivered Orders
-        </div>
-        <div
-          class="fragment-controller"
-          id="returned-fragment-controller"
-          onclick="fragmentsSwitch(-2);"
-        >
-          Returned Orders
-        </div>
-        <div
-          class="fragment-controller"
-          id="canceled-fragment-controller"
-          onclick="fragmentsSwitch(-1);"
-        >
-          Canceled Orders
-        </div>
-      </div>
       <div class="fragment active-fragment" id="pending-fragment">
         <div id="converting-options">
           <h4 style="font-family: 'Poppins'" id="converting-orders-count">
             0 Orders
           </h4>
-          <button
-            class="main-button"
-            onclick="stockMultiple();"
-            id="converting-orders-submission"
-          >
-            Stock Orders
-          </button>
+
           <button
             class="shadow-button"
-            onclick="stockAllOrders(pendingOrders);"
-            id="converting-all-orders-submission"
-          >
-            Stock All
-          </button>
-          <button
-            class="shadow-button"
-            onclick="printAllOrders(pendingOrders);"
+            onclick="stockOrders();"
             id="print-all-orders-submission"
           >
-            Print All
+            Stock
+          </button>
+          <button
+            class="shadow-button"
+            onclick="printOrders();"
+            id="print-all-orders-submission"
+          >
+            Print
+          </button>
+          <button
+            class="shadow-button"
+            onclick="selectAll();"
+            id="print-all-orders-submission"
+          >
+            Select All
           </button>
         </div>
         <table class="orders" id="pending">
           <tr>
+            <th></th>
             <th>Police Number</th>
-            <th>Order ID</th>
-            <th>UID/ Email/ Phone</th>
-            <th>products</th>
-            <th>Total Price</th>
+            <th>User Name</th>
+            <th>User Phone</th>
+            <th>Products</th>
             <th>City</th>
+            <th>Total Price</th>
+            <th>Status</th>
             <th>Options</th>
           </tr>
-          {% for order in orders["PENDING"] %}
-          <tr id="{{order.id}}">
+          {% for order in orders %}
+          <tr id="{{order.id}}" class="order{{order.status}}">
+            <td>
+              <input type="checkbox" id="{{order.id}}" />
+            </td>
             <td>{{order.police_number}}</td>
-            <td>{{order.id}}</td>
-            {% if order.uid and order.uid != ''%}
-            <td>{{order.uid}}</td>
-            {% elif order.user_email and order.user_email != ''%}
-            <td>{{order.user_email}}</td>
-            {% elif order.user_phone and order.user_phone != '' %}
+            <td>{{order.username}}</td>
             <td>{{order.user_phone}}</td>
-            {%else%}
-            <td>Not Found</td>
-            {% endif %}
-            <td>{{order.products | length}}</td>
-            <td>{{order.price}}</td>
+            <td>
+              {{tr_display(order_products= order.products, products= products) |
+              safe}}
+            </td>
             <td>{{content.cities['en'][order.city_code]}}</td>
+            <td>{{order.price}}</td>
+            <td>{{utils.status_names[order.status | string]['en']}}</td>
             <td>
               <button
                 class="shadow-button"
@@ -231,221 +178,6 @@
               >
                 Edit
               </button>
-              <button
-                class="shadow-button"
-                style="text-decoration: underline"
-                onclick="openOrderDialog('{{cfg.base_url | safe}}', {{dumps(order.to_dict())}}, '{{content.cities[lang][order.city_code]}}');"
-              >
-                View
-              </button>
-            </td>
-          </tr>
-          {% endfor %}
-        </table>
-      </div>
-      <div class="fragment" id="returned-fragment">
-        <table class="orders">
-          <tr>
-            <th>Police Number</th>
-            <th>Order ID</th>
-            <th>UID/ Email/ Phone</th>
-            <th>products</th>
-            <th>Total Price</th>
-            <th>City</th>
-            <th>Options</th>
-          </tr>
-          {% for order in orders["RETURNED"] %}
-          <tr>
-            <td>{{order.police_number}}</td>
-            <td>{{order.id}}</td>
-            {% if order.uid and order.uid != ''%}
-            <td>{{order.uid}}</td>
-            {% elif order.user_email and order.user_email != ''%}
-            <td>{{order.user_email}}</td>
-            {% elif order.user_phone and order.user_phone != '' %}
-            <td>{{order.user_phone}}</td>
-            {%else%}
-            <td>Not Found</td>
-            {% endif %}
-            <td>{{order.products | length}}</td>
-            <td>{{order.price}}</td>
-            <td>{{content.cities['en'][order.city_code]}}</td>
-            <td>
-              
-              <button
-                class="shadow-button"
-                style="text-decoration: underline"
-                onclick="openOrderDialog('{{cfg.base_url | safe}}', {{dumps(order.to_dict())}}, '{{content.cities[lang][order.city_code]}}');"
-              >
-                View
-              </button>
-            </td>
-          </tr>
-          {% endfor %}
-        </table>
-      </div>
-      <div class="fragment" id="canceled-fragment">
-        <table class="orders">
-          <tr>
-            <th>Police Number</th>
-            <th>Order ID</th>
-            <th>UID/ Email/ Phone</th>
-            <th>products</th>
-            <th>Total Price</th>
-            <th>City</th>
-            <th>Options</th>
-          </tr>
-          {% for order in orders["CANCELED"] %}
-          <tr>
-            <td>{{order.police_number}}</td>
-            <td>{{order.id}}</td>
-            {% if order.uid and order.uid != ''%}
-            <td>{{order.uid}}</td>
-            {% elif order.user_email and order.user_email != ''%}
-            <td>{{order.user_email}}</td>
-            {% elif order.user_phone and order.user_phone != '' %}
-            <td>{{order.user_phone}}</td>
-            {%else%}
-            <td>Not Found</td>
-            {% endif %}
-            <td>{{order.products | length}}</td>
-            <td>{{order.price}}</td>
-            <td>{{content.cities['en'][order.city_code]}}</td>
-            <td>
-              <button
-                class="shadow-button"
-                style="text-decoration: underline"
-                onclick="openOrderDialog('{{cfg.base_url | safe}}', {{dumps(order.to_dict())}}, '{{content.cities[lang][order.city_code]}}');"
-              >
-                View
-              </button>
-            </td>
-          </tr>
-          {% endfor %}
-        </table>
-      </div>
-      <div class="fragment" id="stocked-fragment">
-        <table class="orders">
-          <tr>
-            <th>Police Number</th>
-            <th>Order ID</th>
-            <th>UID/ Email/ Phone</th>
-            <th>products</th>
-            <th>Total Price</th>
-            <th>City</th>
-            <th>Options</th>
-          </tr>
-          {% for order in orders["STOCKED"] %}
-          <tr>
-            <td>{{order.police_number}}</td>
-            <td>{{order.id}}</td>
-            {% if order.uid and order.uid != ''%}
-            <td>{{order.uid}}</td>
-            {% elif order.user_email and order.user_email != ''%}
-            <td>{{order.user_email}}</td>
-            {% elif order.user_phone and order.user_phone != '' %}
-            <td>{{order.user_phone}}</td>
-            {%else%}
-            <td>Not Found</td>
-            {% endif %}
-            <td>{{order.products | length}}</td>
-            <td>{{order.price}}</td>
-            <td>{{content.cities['en'][order.city_code]}}</td>
-            <td>
-              <button
-              class="shadow-button"
-              style="text-decoration: underline"
-              onclick="openPlaceOrderDialog(1, {{dumps(order.to_dict())}})"
-            >
-              Edit
-            </button>
-              <button
-                class="shadow-button"
-                style="text-decoration: underline"
-                onclick="openOrderDialog('{{cfg.base_url | safe}}', {{dumps(order.to_dict())}}, '{{content.cities[lang][order.city_code]}}');"
-              >
-                View
-              </button>
-            </td>
-          </tr>
-          {% endfor %}
-        </table>
-      </div>
-      <div class="fragment" id="in-delivery-fragment">
-        <table class="orders">
-          <tr>
-            <th>Police Number</th>
-            <th>Order ID</th>
-            <th>UID/ Email/ Phone</th>
-            <th>products</th>
-            <th>Total Price</th>
-            <th>City</th>
-            <th>Options</th>
-          </tr>
-          {% for order in orders["IN_DELIVERY"] %}
-          <tr>
-            <td>{{order.police_number}}</td>
-            <td>{{order.id}}</td>
-            {% if order.uid and order.uid != ''%}
-            <td>{{order.uid}}</td>
-            {% elif order.user_email and order.user_email != ''%}
-            <td>{{order.user_email}}</td>
-            {% elif order.user_phone and order.user_phone != '' %}
-            <td>{{order.user_phone}}</td>
-            {%else%}
-            <td>Not Found</td>
-            {% endif %}
-            <td>{{order.products | length}}</td>
-            <td>{{order.price}}</td>
-            <td>{{content.cities['en'][order.city_code]}}</td>
-            <td>
-              <button
-              class="shadow-button"
-              style="text-decoration: underline"
-              onclick="openPlaceOrderDialog(1, {{dumps(order.to_dict())}})"
-            >
-              Edit
-            </button>
-              <button
-                class="shadow-button"
-                style="text-decoration: underline"
-                onclick="openOrderDialog('{{cfg.base_url | safe}}', {{dumps(order.to_dict())}}, '{{content.cities[lang][order.city_code]}}');"
-              >
-                View
-              </button>
-            </td>
-          </tr>
-          {% endfor %}
-        </table>
-      </div>
-      <div class="fragment" id="delivered-fragment">
-        <table class="orders">
-          <tr>
-            <th>Police Number</th>
-            <th>Order ID</th>
-            <th>UID/ Email/ Phone</th>
-            <th>products</th>
-            <th>Total Price</th>
-            <th>City</th>
-            <th>Options</th>
-          </tr>
-          {% for order in orders["DELIVERED"] %}
-          <tr>
-            <td>{{order.police_number}}</td>
-            <td>{{order.id}}</td>
-            {% if order.uid and order.uid != ''%}
-            <td>{{order.uid}}</td>
-            {% elif order.user_email and order.user_email != ''%}
-            <td>{{order.user_email}}</td>
-            {% elif order.user_phone and order.user_phone != '' %}
-            <td>{{order.user_phone}}</td>
-            {%else%}
-            <td>Not Found</td>
-            {% endif %}
-            <td>{{order.products | length}}</td>
-            <td>{{order.price}}</td>
-            <td>{{content.cities['en'][order.city_code]}}</td>
-            <td>
               <button
                 class="shadow-button"
                 style="text-decoration: underline"
@@ -493,6 +225,9 @@
             </tr>
           </table>
         </table>
+        <br />
+        <label style="font-weight: 900">Comments</label>
+        <p id="order-user-comment"></p>
         <button
           onclick="toggleStatusDropdown()"
           id="status-dropbtn"
@@ -729,6 +464,7 @@
     </div>
     <script type="text/javascript">
       initializeProductsData({{all_products | safe}});
+      initializeCitiesData({{content.cities['en'] | safe}});
       let pendingOrders= [];
       {% for o in orders["PENDING"]%}
         pendingOrders.push({{o.to_dict() |safe}});

@@ -160,7 +160,7 @@
             />
             <button id="decrease-amount" onclick="decreaseAmount();"></button>
           </div>
-          <button class="main-button" onclick="addToCartListener();">
+          <button class="main-button" onclick="addToCartListener('{{lang}}');">
             {{content.actions[lang]['addToCart']}}
           </button>
         </div>
@@ -168,12 +168,13 @@
           class="main-button"
           style=" background-color: var(--secondary-color); width: 100%; color: var(--bg-color);" 
           {% if user_data %}
-          onclick="orderNowListener('{{user_data.id | string}}', '{{cfg.base_url}}', '{{product.id}}')">
+          onclick="orderNowListener( '{{user_data.id | string}}', '{{cfg.base_url}}', '{{product.id}}', '{{lang}}')">
           {% else %}
           onclick="orderNowListener(undefined, '{{cfg.base_url}}', '{{product.id}}')">
           {% endif%}
           {{content.actions[lang]['orderNow']}}
         </button>
+        <p id="status-msg"></p>
       </div>
       <div id="product-slide-show">
         <div

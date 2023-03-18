@@ -132,15 +132,17 @@
     </section>
     <section class="form-section" id="shipping-information">
         <h3 style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['ShippingInformation']}}</h3>
-        <input type="address" name="address" id="address-line-one" placeholder="{{content.global_[lang]['addressOne']}}" class="single-line-field">
-        <input type="address" name="address" id="address-line-two" placeholder="{{content.global_[lang]['addressTwo']}} ({{content.global_[lang]['optional']}})" class="single-line-field">
         <button onclick="toggleCitiesDropdown()" id="cities-dropbtn" class="cities-dropbtn">{{content.actions[lang]["pickCity"]}}</button>
         <div id="cities-dropdown" class="cities-dropdown-content">
           <input type="text" placeholder="{{content.global_[lang]['search']}}..." id="city-search" onkeyup="filter()">
           {% for city in content.cities[lang].keys() %}
-            <button style="font-family: '{{primary_font_family}}';" onclick="chooseCity('{{content.cities[lang][city]}}', '{{city}}', '{{lang}}');">{{content.cities[lang][city]}}</button>
+          <button style="font-family: '{{primary_font_family}}';" onclick="chooseCity('{{content.cities[lang][city]}}', '{{city}}', '{{lang}}');">{{content.cities[lang][city]}}</button>
           {% endfor %}
         </div>
+        <input type="address" name="address" id="address-line-one" placeholder="{{content.global_[lang]['addressOne']}}" class="single-line-field">
+        <input type="address" name="address" id="address-line-two" placeholder="{{content.global_[lang]['addressTwo']}} ({{content.global_[lang]['optional']}})" class="single-line-field">
+        <h3 style="font-family: '{{primary_font_family}}';">{{content.global_[lang]['comments']}}</h3>
+        <textarea name="comments" id="comments" placeholder="{{content.global_[lang]['comments']}}" class="single-line-field" style="resize: none;" rows="20" cols="50"></textarea>
       <button class="main-button" onclick="shippingInformationConfirmation();" style="font-family: '{{primary_font_family}}';">{{content.actions[lang]['submit']}}</button>
     </section>
     <section class="form-section" id="payment-information">

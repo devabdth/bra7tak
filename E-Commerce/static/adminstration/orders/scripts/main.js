@@ -7,72 +7,205 @@ const statuses = {
 	"2": "Delivered"
 };
 
+let selectedPendingOrders = [],
+	selectedReturnedOrders = [],
+	selectedCanceledOrders = [],
+	selectedStockedOrders = [],
+	selectedDeliveredOrders = [],
+	selectedInDeliveredOrders = [],
+	allProducts = [],
+	citiesData = [];
 
-let selectedPendingOrders = [], allProducts = [];
+const updateSelectedOrdersDisplay = () => {
+	document.getElementById('converting-orders-count').innerHTML = `<span style="'font-family': 'Poppins'">${(
+		selectedPendingOrders.length + selectedReturnedOrders.length +
+		selectedCanceledOrders.length + selectedStockedOrders.length +
+		selectedDeliveredOrders.length + selectedInDeliveredOrders.length
+	)}</span> Orders`
+}
+
+const selectAll = () => {
+	let rows = Array.prototype.slice.call(document.querySelector("table.orders").rows);
+	rows.shift();
+	for (let row of rows) {
+		const orderType = row.classList[0];
+		if (orderType == `order-3`) {
+			if (!selectedPendingOrders.includes(row.querySelector('input').id)) {
+				selectedPendingOrders.push(row.querySelector('input').id)
+			}
+		}
+		if (orderType == `order-2`) {
+			if (!selectedReturnedOrders.includes(row.querySelector('input').id)) {
+				selectedReturnedOrders.push(row.querySelector('input').id)
+			}
+		}
+		if (orderType == `order-1`) {
+			if (!selectedCanceledOrders.includes(row.querySelector('input').id)) {
+				selectedCanceledOrders.push(row.querySelector('input').id)
+			}
+		}
+		if (orderType == `order0`) {
+			if (!selectedStockedOrders.includes(row.querySelector('input').id)) {
+				selectedStockedOrders.push(row.querySelector('input').id)
+			}
+		}
+		if (orderType == `order1`) {
+			if (!selectedInDeliveredOrders.includes(row.querySelector('input').id)) {
+				selectedInDeliveredOrders.push(row.querySelector('input').id)
+			}
+		}
+		if (orderType == `order2`) {
+			if (!selectedDeliveredOrders.includes(row.querySelector('input').id)) {
+				selectedDeliveredOrders.push(row.querySelector('input').id)
+			}
+		}
+		row.querySelector('input').checked = true;
+
+		updateSelectedOrdersDisplay();
+	}
+}
 
 window.onload = () => {
-	const trs = document.querySelector('table.orders#pending').rows;
-	for (let tr of trs) {
-		tr.onclick = () => {
-			if (selectedPendingOrders.includes(tr.id)) {
-				selectedPendingOrders.splice(tr.id, 1);
-				tr.classList.remove('active');
+	const pendingTrs = document.querySelectorAll('tr.order-3  input[type=checkbox]');
+	const returnedTrs = document.querySelectorAll('tr.order-2  input[type=checkbox]');
+	const canceledTrs = document.querySelectorAll('tr.order-1  input[type=checkbox]');
+	const stockedTrs = document.querySelectorAll('tr.order0  input[type=checkbox]');
+	const deliveredTrs = document.querySelectorAll('tr.order1  input[type=checkbox]');
+	const inDeliveryTrs = document.querySelectorAll('tr.order2  input[type=checkbox]');
+
+	for (let cb of pendingTrs) {
+		cb.addEventListener('change', () => {
+			if (!cb.checked) {
+				selectedPendingOrders.splice(cb.id, 1);
 			} else {
-				selectedPendingOrders.push(tr.id);
-				tr.classList.add('active');
+				selectedPendingOrders.push(cb.id);
 			}
-			document.getElementById('converting-orders-count').innerHTML = `${selectedPendingOrders.length} Products`
-		}
+			updateSelectedOrdersDisplay();
+		})
 	}
+
+	for (let cb of returnedTrs) {
+		cb.addEventListener('change', () => {
+			if (!cb.checked) {
+				selectedReturnedOrders.splice(cb.id, 1);
+			} else {
+				selectedReturnedOrders.push(cb.id);
+			}
+			updateSelectedOrdersDisplay();
+		})
+	}
+
+	for (let cb of canceledTrs) {
+		cb.addEventListener('change', () => {
+			if (!cb.checked) {
+				selectedCanceledOrders.splice(cb.id, 1);
+			} else {
+				selectedCanceledOrders.push(cb.id);
+			}
+			updateSelectedOrdersDisplay();
+		})
+	}
+
+	for (let cb of stockedTrs) {
+		cb.addEventListener('change', () => {
+			if (!cb.checked) {
+				selectedStockedOrders.splice(cb.id, 1);
+			} else {
+				selectedStockedOrders.push(cb.id);
+			}
+			updateSelectedOrdersDisplay();
+		})
+	}
+
+	for (let cb of deliveredTrs) {
+		cb.addEventListener('change', () => {
+			if (!cb.checked) {
+				selectedDeliveredOrders.splice(cb.id, 1);
+			} else {
+				selectedDeliveredOrders.push(cb.id);
+			}
+			updateSelectedOrdersDisplay();
+		})
+	}
+
+	for (let cb of inDeliveryTrs) {
+		cb.addEventListener('change', () => {
+			if (!cb.checked) {
+				selectedInDeliveredOrders.splice(cb.id, 1);
+			} else {
+				selectedInDeliveredOrders.push(cb.id);
+			}
+			updateSelectedOrdersDisplay();
+		})
+	}
+
 }
 
-const stockAllOrders = async (allOrders) => {
-	if (allOrders.length != 0) {
-
-		for (let order of allOrders) {
-			try {
-				await window.open(`/webapp/adminstration/orders/invoices/?oid=${order["_id"]}`)
-				fetch(`./?oid=${order["_id"]}&status=0`, {
-					method: 'PATCH'
-				}).then(async r => {
-					if (r.status === 200) {
-						return;
-					}
-
-					document.getElementById('converting-all-orders-submission').innerHTML = "Failed!";
-					setTimeout(() => { document.getElementById('converting-all-orders-submission').innerHTML = "Update" }, 3000);
-				});
-			} catch (e) {
-				console.log(e);
-				document.getElementById('converting-all-orders-submission').innerHTML = "Failed!";
-				setTimeout(() => { document.getElementById('converting-all-orders-submission').innerHTML = "Update" }, 3000);
-			}
-		}
-		window.open('./', '_self');
+const stockOrders = async () => {
+	if ((
+		selectedPendingOrders.length +
+		selectedReturnedOrders.length +
+		selectedCanceledOrders.length +
+		selectedStockedOrders.length +
+		selectedDeliveredOrders.length +
+		selectedInDeliveredOrders.length
+	) === 0) {
+		document.getElementById('converting-orders-count').innerHTML = `There is no selected orders!`;
 		return;
 	}
-	document.getElementById('converting-orders-count').innerHTML = `There is no orders to stock!`
+
+	const allOrders = selectedPendingOrders.concat(selectedInDeliveredOrders.concat(selectedCanceledOrders))
+	for (let order of allOrders) {
+		try {
+			fetch(`./?oid=${order}&status=0`, {
+				method: 'PATCH'
+			}).then(async r => {
+				if (r.status === 200) {
+					return;
+				}
+			});
+		} catch (e) {
+			console.log(e);
+			document.getElementById('converting-orders-count').innerHTML = "Failed!";
+			setTimeout(() => { updateSelectedOrdersDisplay(); }, 3000);
+		}
+	}
+	window.open('./', '_self');
+	return;
 
 }
 
 
-const printAllOrders = async (allOrders) => {
-	if (allOrders.length != 0) {
-		for (let order of allOrders) {
-			try {
-				window.open(`/webapp/adminstration/orders/invoices/?oid=${order['id']}`);
-			} catch (e) {
-				console.log(e);
-				document.getElementById('print-all-orders-submission').innerHTML = "Failed!";
-				setTimeout(() => { document.getElementById('print-all-orders-submission').innerHTML = "Update" }, 3000);
-				document.getElementById('print-all-orders-submission').onclick = () => { printAllOrders(allOrders); }
-			}
-		}
-		window.open('./', '_self');
+const printOrders = async () => {
+	if ((
+		selectedPendingOrders.length +
+		selectedReturnedOrders.length +
+		selectedCanceledOrders.length +
+		selectedStockedOrders.length +
+		selectedDeliveredOrders.length +
+		selectedInDeliveredOrders.length
+	) === 0) {
+		document.getElementById('converting-orders-count').innerHTML = `There is no selected orders!`;
 		return;
 	}
-	document.getElementById('converting-orders-count').innerHTML = `There is no orders to stock!`
+	for (let order of selectedPendingOrders) {
+		const res = await fetch(`/webapp/adminstration/orders/invoices/?oid=${order}`);
+		// create iframe element
+		const iframe = document.createElement('iframe');
 
+		// create object URL for your blob or file and set it as the iframe's src
+		iframe.src = window.URL.createObjectURL(await res.blob());
+		iframe.name = 'pdf';
+		iframe.hidden = true;
+
+		// call the print method in the iframe onload handler
+		iframe.onload = () => {
+			const pdfFrame = window.frames["pdf"];
+			pdfFrame.focus();
+			pdfFrame.print();
+		}
+		document.body.appendChild(iframe);
+	}
 }
 
 const stockMultiple = () => {
@@ -84,7 +217,7 @@ const stockMultiple = () => {
 					method: 'PATCH'
 				}).then(r => {
 					if (r.status === 200) {
-						window.open(`${url}/webapp/adminstration/orders/invoices/?oid=${order}`)
+						window.open(`/webapp/adminstration/orders/invoices/?oid=${order}`)
 						return;
 					}
 
@@ -107,42 +240,26 @@ const stockMultiple = () => {
 
 
 const ordersFiltrationClear = () => {
-	const startDateFieldContainer = document.getElementById('start-date-field-container');
-	const startDateField = document.getElementById('start-date-field');
-
-	const endDateFieldContainer = document.getElementById('end-date-field-container');
-	const endDateField = document.getElementById('end-date-field');
-
-	const emailFieldContainer = document.getElementById('email-field-container');
-	const emailField = document.getElementById('email-field');
-
-	const idFieldContainer = document.getElementById('police-number-field-container');
-	const idField = document.getElementById('police-number-field');
-
-
-	if (
-		!startDateField.value.trim().length &&
-		!endDateField.value.trim().length &&
-		!emailField.value.trim().length &&
-		!idField.value.trim().length
-	) {
-		startDateFieldContainer.style.border = "1px red solid";
-		endDateFieldContainer.style.border = "1px red solid";
-		emailFieldContainer.style.border = "1px red solid";
-		idFieldContainer.style.border = "1px red solid";
-		return;
-	}
-
 	window.open(window.location.href.split('?')[0], '_self')
 
 }
 
-const ordersFiltrationSubmit = () => {
-	const startDateFieldContainer = document.getElementById('start-date-field-container');
-	const startDateField = document.getElementById('start-date-field');
+const getCurrentPickedStatus = () => {
+	const pending = document.getElementById('pending');
+	const returned = document.getElementById('returned');
+	const canceled = document.getElementById('canceled');
+	const stocked = document.getElementById('stocked');
+	const inDelivery = document.getElementById('in-delivery');
+	const delivered = document.getElementById('delivered');
+	if (pending.checked) return pending.value;
+	if (returned.checked) return returned.value;
+	if (canceled.checked) return canceled.value;
+	if (stocked.checked) return stocked.value;
+	if (inDelivery.checked) return inDelivery.value;
+	if (delivered.checked) return delivered.value;
+}
 
-	const endDateFieldContainer = document.getElementById('end-date-field-container');
-	const endDateField = document.getElementById('end-date-field');
+const ordersFiltrationSubmit = () => {
 
 	const emailFieldContainer = document.getElementById('email-field-container');
 	const emailField = document.getElementById('email-field');
@@ -150,21 +267,19 @@ const ordersFiltrationSubmit = () => {
 	const policeNumberFieldContainer = document.getElementById('police-number-field-container');
 	const policeNumberField = document.getElementById('police-number-field');
 
+	const currentStatus = getCurrentPickedStatus();
 
 	if (
-		!startDateField.value.trim().length &&
-		!endDateField.value.trim().length &&
 		!emailField.value.trim().length &&
-		!policeNumberField.value.trim().length
+		!policeNumberField.value.trim().length &&
+		currentStatus === undefined
 	) {
-		startDateFieldContainer.style.border = "1px red solid";
-		endDateFieldContainer.style.border = "1px red solid";
 		emailFieldContainer.style.border = "1px red solid";
 		policeNumberFieldContainer.style.border = "1px red solid";
 		return;
 	}
 
-	window.open(`./?start=${startDateField.value}&end=${endDateField.value}&email=${emailField.value.trim()}&policeNumber=${policeNumberField.value.trim()}`, '_self');
+	window.open(`./?phone=${emailField.value.trim()}&policeNumber=${policeNumberField.value.trim()}&status=${currentStatus}`, '_self');
 	return;
 }
 
@@ -398,8 +513,24 @@ const openOrderDialog = (url, orderData, city) => {
 	document.getElementById('order-price').style.fontFamily = "Raleway";
 	document.getElementById('order-time').innerHTML = `Date: ${orderData["placedIn"].split(' ')[0].replaceAll('-', ' / ')} -  Time: ${orderData["placedIn"].split(' ')[1].substring(0, 8).replaceAll(':', ' : ')}`;
 	document.getElementById('order-time').style.fontFamily = 'Poppins';
-	document.getElementById('downlowd-recipet').onclick = () => {
-		window.open(`${url}/webapp/adminstration/orders/invoices/?oid=${orderData['id']}`)
+	document.getElementById('order-user-comment').innerHTML = orderData['comment']
+	document.getElementById('downlowd-recipet').onclick = async () => {
+		const res = await fetch(`/webapp/adminstration/orders/invoices/?oid=${orderData['id']}`);
+		// create iframe element
+		const iframe = document.createElement('iframe');
+
+		// create object URL for your blob or file and set it as the iframe's src
+		iframe.src = window.URL.createObjectURL(await res.blob());
+		iframe.name = 'pdf';
+		iframe.hidden = true;
+
+		// call the print method in the iframe onload handler
+		iframe.onload = () => {
+			const pdfFrame = window.frames["pdf"];
+			pdfFrame.focus();
+			pdfFrame.print();
+		}
+		document.body.appendChild(iframe);
 	}
 	const productsTable = document.getElementById('products-table');
 	for (let prod of orderData["products"]) {
@@ -460,14 +591,17 @@ const citiesFilter = () => {
 }
 
 
-const chooseCity = (cityText, city, lang) => {
+const chooseCity = (cityText, city, lang, wtoggle) => {
 	const btn = document.getElementById(`cities-dropbtn`);
 	currentCity = city;
 	btn.innerHTML = cityText;
 	btn.innerText = cityText;
 	btn.textContent = cityText;
 
-	toggleCitiesDropdown();
+	if (wtoggle ?? true) {
+		toggleCitiesDropdown();
+	}
+
 	updateCart();
 
 }
@@ -494,14 +628,16 @@ const gendersFilter = () => {
 }
 
 
-const chooseGender = (genderText, gender, lang) => {
+const chooseGender = (genderText, gender, lang, wtoggle) => {
 	const btn = document.getElementById(`genders-dropbtn`);
 	currentGender = gender;
 	btn.innerHTML = genderText;
 	btn.innerText = genderText;
 	btn.textContent = genderText;
 
-	toggleGendersDropdown();
+	if (wtoggle ?? true) {
+		toggleGendersDropdown();
+	}
 
 }
 
@@ -537,7 +673,9 @@ const chooseProduct = (productText, product, lang) => {
 
 	let color, size;
 	const colorsSection = document.getElementById('form-colors-pick');
+	colorsSection.innerHTML = ''
 	const sizesSection = document.getElementById('form-sizes-pick');
+	sizesSection.innerHTML = ''
 	const optionsSection = document.getElementById('product-add-options');
 	const formProductAction = document.getElementById('form-add-to-cart');
 	const formProductAmount = document.getElementById('form-product-amount');
@@ -682,9 +820,9 @@ const cartCalculation = () => {
 		cart_.totalVat[product["id"]] = (product['vat'] || 0) * cart_.totalPrice[product["id"]]
 		totalPrice = 0;
 		if (currentCity !== undefined) {
-			cart_.shippingFees[product["id"]] = (product['shippingFees'][currentCity] * count[product["id"]]) || (product['shippingFees'][5] * count[product["id"]])
+			cart_.shippingFees[product["id"]] = (product['shippingFees'][currentCity]) || (product['shippingFees'][5])
 		} else {
-			cart_.shippingFees[product["id"]] = (product['shippingFees'][5] * count[product["id"]])
+			cart_.shippingFees[product["id"]] = (product['shippingFees'][5])
 		}
 	});
 	for (let i in cart_.totalPrice) {
@@ -774,7 +912,7 @@ const placeOrderConfirmation = async () => {
 					customerName: nameField.value.trim(),
 					customerEmail: emailField.value.trim(),
 					customerPhone: phoneField.value.trim(),
-					customerGender: currentGender,
+					gender: currentGender,
 					customerAddressLineOne: addressOneField.value.trim(),
 					customerAddressLineTwo: addressTwoField.value.trim(),
 					customerCity: currentCity,
@@ -822,11 +960,11 @@ const placeOrderConfirmation = async () => {
 const closePlaceOrderDialog = () => {
 	document.getElementById('place-order-dialog').style.display = "none";
 	document.getElementById('place-order-dialog-overlay').style.display = "none";
-	document.getElementById('name-field').value= "";
-	document.getElementById('dialog-email-field').value= "";
-	document.getElementById('dialog-phone-field').value= "";
-	document.getElementById('address-line-one-field').value= "";
-	document.getElementById('address-line-two-field').value= "";
+	document.getElementById('name-field').value = "";
+	document.getElementById('dialog-email-field').value = "";
+	document.getElementById('dialog-phone-field').value = "";
+	document.getElementById('address-line-one-field').value = "";
+	document.getElementById('address-line-two-field').value = "";
 }
 
 const openPlaceOrderDialog = (mode, order) => {
@@ -837,12 +975,32 @@ const openPlaceOrderDialog = (mode, order) => {
 		document.getElementById('place-order-confirmation').onclick = placeOrderConfirmation;
 	} else {
 		document.getElementById('place-order-confirmation').innerHTML = "Edit";
-		document.getElementById('place-order-confirmation').onclick = () => { EditOrderConfirmation(order["id"]) };
-		document.getElementById('name-field').value= order["username"];
-		document.getElementById('dialog-email-field').value= order["userEmail"];
-		document.getElementById('dialog-phone-field').value= order["userPhone"];
-		document.getElementById('address-line-one-field').value= order["address"];
-		document.getElementById('address-line-two-field').value= order["addressLineTwo"];
+		document.getElementById('place-order-confirmation').onclick = () => { EditOrderConfirmation(order) };
+		document.getElementById('name-field').value = order["username"];
+		document.getElementById('dialog-email-field').value = order["userEmail"];
+		document.getElementById('dialog-phone-field').value = order["userPhone"];
+		document.getElementById('address-line-one-field').value = order["address"];
+		document.getElementById('address-line-two-field').value = order["addressLineTwo"];
+		chooseCity(citiesData[order['cityCode']], order['cityCode'], 'en', false);
+		chooseGender(order['gender'] == 0 ? 'Male' : order['gender'] == 1 ? 'Female' : 'Prefer not to Say', order['gender'], 'en', false)
+		cart = order['products']
+		for (let product of order['products']) {
+			const element = document.createElement('div');
+			const closeElement = document.createElement('div')
+			closeElement.innerHTML = "x";
+			closeElement.onclick = () => {
+				cart.splice(cart.indexOf(product), 1);
+				document.getElementById('picked-products').removeChild(element);
+				updateCart();
+			}
+			closeElement.style.cursor = "pointer";
+			element.classList.add('picked-product-row');
+			element.innerHTML = `
+				<p>${(allProducts.filter((e) => e['id'] === product['id']))[0]['name']['en']} (${product['color'] || 'No Color'})/(${product['size'] || 'No Size'})</p>`;
+			element.appendChild(closeElement);
+			document.getElementById('picked-products').appendChild(element);
+		}
+		updateCart();
 		document.getElementById('place-order-dialog').style.display = "flex";
 		document.getElementById('place-order-dialog-overlay').style.display = "flex";
 
@@ -853,4 +1011,130 @@ const initializeProductsData = (allProducts_) => {
 	allProducts = allProducts_;
 }
 
-const EditOrderConfirmation= ()=> {}
+const EditOrderConfirmation = async (order) => {
+	const nameField = document.getElementById('name-field');
+	const nameFieldContainer = document.getElementById('name-field-container');
+
+	const emailField = document.getElementById('dialog-email-field');
+	const emailFieldContainer = document.getElementById('dialog-email-field-container');
+
+	const phoneField = document.getElementById('dialog-phone-field');
+	const phoneFieldContainer = document.getElementById('dialog-phone-field-container');
+
+	const addressOneField = document.getElementById('address-line-one-field');
+	const addressOneFieldContainer = document.getElementById('address-line-one-field-container');
+
+	const addressTwoField = document.getElementById('address-line-two-field');
+	const addressTwoFieldContainer = document.getElementById('address-line-two-field-container');
+
+	const citiesBtn = document.getElementById(`cities-dropbtn`);
+	const gendersBtn = document.getElementById(`genders-dropbtn`);
+	const productsBtn = document.getElementById(`products-dropbtn`);
+
+	order['userEmail'] = emailField.value.trim()
+	if (!nameField.value) {
+		nameFieldContainer.style.border = "1px red solid";
+		return;
+	}
+	nameFieldContainer.style.border = "none";
+	order['username'] = nameField.value.trim()
+
+
+	if (!phoneField.value) {
+		phoneFieldContainer.style.border = "1px red solid";
+		return;
+	}
+	phoneFieldContainer.style.border = "none";
+	order['userPhone'] = phoneField.value.trim()
+
+	if (!currentGender) {
+		gendersBtn.style.border = "1px solid red";
+		return;
+	}
+	gendersBtn.style.border = "none";
+	order['gender'] = currentGender
+
+	if (!addressOneField.value) {
+		addressOneFieldContainer.style.border = "1px red solid";
+		return;
+	}
+	addressOneFieldContainer.style.border = "none";
+	order['address'] = addressOneField.value.trim();
+	order['addressLineTwo'] = addressTwoField.value.trim();
+
+	if (!currentCity) {
+		citiesBtn.style.border = "1px red solid";
+		return;
+	}
+	citiesBtn.style.border = "none";
+	order['cityCode'] = currentCity;
+
+	if (cart.length === 0) {
+		productsBtn.style.border = "1px red solid";
+		return;
+	}
+	productsBtn.style.border = "none";
+
+	let finalCart = [];
+	for (let prod of cart) {
+		if (prod['name']) {
+			finalCart.push({
+				id: prod['id'],
+				color: prod['color'],
+				size: prod['size'],
+			});
+		} else {
+			finalCart.push(prod);
+		}
+
+	}
+
+	order['products'] = finalCart;
+	order['price'] = cartCalculation().totalPrice;
+	order['shippingFees'] = cartCalculation().totalShippingFees;
+
+	document.getElementById('place-order-confirmation').innerHTML = "Loading...";
+	document.getElementById('place-order-confirmation').onclick = () => { }
+
+	try {
+		const res = await fetch(
+			'./data/', {
+			method: 'PATCH',
+			body: JSON.stringify(order),
+			headers: {
+				'Content-Type': 'application/json'
+			}
+		}
+		)
+
+		if (res.status === 200) {
+			window.open('./', '_self');
+			return;
+		}
+		document.getElementById('place-order-confirmation').innerHTML = "Failed";
+		document.getElementById('place-order-confirmation').onclick = () => { }
+		setTimeout(() => {
+			document.getElementById('place-order-confirmation').innerHTML = "Edit";
+			document.getElementById('place-order-confirmation').onclick = () => { EditOrderConfirmation(order); }
+
+
+		}, 3000);
+	} catch (e) {
+		console.log(e);
+		document.getElementById('place-order-confirmation').innerHTML = "Failed";
+		document.getElementById('place-order-confirmation').onclick = () => { }
+		setTimeout(() => {
+			document.getElementById('place-order-confirmation').innerHTML = "Edit";
+			document.getElementById('place-order-confirmation').onclick = () => { EditOrderConfirmation(order); }
+
+
+		}, 3000);
+
+	}
+
+}
+
+
+const initializeCitiesData = (citiesData_) => {
+	citiesData = citiesData_;
+}

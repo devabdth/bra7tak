@@ -201,7 +201,7 @@ const openProductEdit = (product, mode, url) => {
 			const assetDiv = document.createElement('div');
 			assetDiv.className = "asset-card"
 			assetDiv.id = newAssets[assetName];
-			assetDiv.style.backgroundImage = `url('${url}/assets/products/name/${product["id"]}-${product["assets"][assetName]}')`
+			assetDiv.style.backgroundImage = `url('/assets/products/name/${product["id"]}-${product["assets"][assetName]}')`
 			assetDiv.ondblclick = () => {
 				newAssets.splice(newAssets[assetName], 1);
 				document.getElementById('assets').removeChild(assetDiv);

@@ -295,7 +295,7 @@ const compleProfileSubmit = async (toastContent, lang, url, email) => {
   });
 
   if (res.status === 201) {
-    window.open(`${url}/login/?email=${email}`, '_self')
+    window.open(`/login/?email=${email}`, '_self')
   }
 
 }

@@ -14,7 +14,7 @@ class Order:
             self, id: str, address: str, address_two: str, city_code: str, products: list,
             vat: float, price: int, shipping_fees: int, status: int, uid: str,
             placed_in: str, username: str, user_email: str, user_phone: str, aid: str,
-            police_number: int
+            police_number: int, gender: int, comment: str
     ):
 
         self.id = id
@@ -31,8 +31,10 @@ class Order:
         self.status = status
         self.uid = uid
         self.placed_in = placed_in
+        self.gender= gender
         self.aid = aid or None
         self.police_number = police_number
+        self.comment= comment
 
     def to_dict(self):
         return {
@@ -50,9 +52,11 @@ class Order:
             "shippingFees": int(self.shipping_fees),
             "status": int(self.status),
             "uid": str(self.uid),
+            "gender": int(self.gender),
             "placedIn": self.placed_in,
             "aid": self.aid,
             "policeNumber": self.police_number,
+            "comment": self.comment
         }
 
 
@@ -74,6 +78,7 @@ class Orders:
             address_two=dict_['addressLineTwo'],
             city_code=dict_['cityCode'],
             products=dict_['products'],
+            gender= dict_['gender'] or 2,
             vat=dict_['vat'],
             price=dict_['price'],
             shipping_fees=dict_['shippingFees'],
@@ -82,53 +87,80 @@ class Orders:
             placed_in=dict_['placedIn'],
             aid=dict_['aid'],
             police_number=dict_['policeNumber'],
+            comment= dict_['comment']
         )
 
     def get_orders_by_uid(self, uid: str) -> list:
         orders = self.orders_collection.find({'uid': ObjectId(uid)})
         return [self.create_order_from_dict(dict(order)) for order in list(orders)]
 
+    def get_all_orders_combined(self, params):
+        if len(params.keys()) == 0:
+            return [self.create_order_from_dict(dict(order)) for order in list(self.orders_collection.find())]
+
+        filter_params = {}
+        if params['status'] != '':
+            filter_params['status'] = int(params['status'])
+        if 'phone' in params.keys():
+            filter_params['userPhone'] = {'$regex': params['phone']}
+        if params['policeNumber'] != '':
+            if int(params['policeNumber']) >= 1000000000:
+                filter_params['policeNumber'] = int(params['policeNumber'])
+            else:
+                filter_params['policeNumber'] = {
+                    '$gte': int(params['policeNumber'])}
+                
+        print(params)
+
+        return [self.create_order_from_dict(dict(order)) for order in list(self.orders_collection.find(filter_params))]
+
     def get_all_orders(self, params):
         return {
             "PENDING": [self.create_order_from_dict(dict(order)) for order in list(self.orders_collection.find({
                 'status': -3,
                 'policeNumber': int(params['policeNumber']) if
-                 'policeNumber' in params.keys() and int(params['policeNumber']) < 1000000000
+                'policeNumber' in params.keys() and int(
+                    params['policeNumber']) < 1000000000
                 else
                 {'$gte': int(params['policeNumber']) if 'policeNumber' in params.keys() else 0}}))
             ],
             "RETURNED": [self.create_order_from_dict(dict(order)) for order in list(self.orders_collection.find({
                 'status': -2,
                 'policeNumber': int(params['policeNumber']) if
-                 'policeNumber' in params.keys() and int(params['policeNumber']) < 1000000000
+                'policeNumber' in params.keys() and int(
+                    params['policeNumber']) < 1000000000
                 else
                 {'$gte': int(params['policeNumber']) if 'policeNumber' in params.keys() else 0}}))
             ],
             "CANCELED": [self.create_order_from_dict(dict(order)) for order in list(self.orders_collection.find({
                 'status': -1,
                 'policeNumber': int(params['policeNumber']) if
-                 'policeNumber' in params.keys() and int(params['policeNumber']) < 1000000000
+                'policeNumber' in params.keys() and int(
+                    params['policeNumber']) < 1000000000
                 else
                 {'$gte': int(params['policeNumber']) if 'policeNumber' in params.keys() else 0}}))
             ],
             "STOCKED": [self.create_order_from_dict(dict(order)) for order in list(self.orders_collection.find({
                 'status': 0,
                 'policeNumber': int(params['policeNumber']) if
-                 'policeNumber' in params.keys() and int(params['policeNumber']) < 1000000000
+                'policeNumber' in params.keys() and int(
+                    params['policeNumber']) < 1000000000
                 else
                 {'$gte': int(params['policeNumber']) if 'policeNumber' in params.keys() else 0}}))
             ],
             "IN_DELIVERY": [self.create_order_from_dict(dict(order)) for order in list(self.orders_collection.find({
                 'status': 1,
                 'policeNumber': int(params['policeNumber']) if
-                 'policeNumber' in params.keys() and int(params['policeNumber']) < 1000000000
+                'policeNumber' in params.keys() and int(
+                    params['policeNumber']) < 1000000000
                 else
                 {'$gte': int(params['policeNumber']) if 'policeNumber' in params.keys() else 0}}))
             ],
             "DELIVERED": [self.create_order_from_dict(dict(order)) for order in list(self.orders_collection.find({
                 'status': 2,
                 'policeNumber': int(params['policeNumber']) if
-                 'policeNumber' in params.keys() and int(params['policeNumber']) < 1000000000
+                'policeNumber' in params.keys() and int(
+                    params['policeNumber']) < 1000000000
                 else
                 {'$gte': int(params['policeNumber']) if 'policeNumber' in params.keys() else 0}}))
             ],
