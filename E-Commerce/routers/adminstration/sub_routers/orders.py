@@ -86,6 +86,7 @@ class OrdersSubRouter:
                 shipping_fees=body['fees']['shippingFees'],
                 placed_in=None,
                 aid=admin_data['aid'],
+                comment="",
                 police_number=0
             )
 
