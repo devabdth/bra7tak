@@ -141,6 +141,7 @@ class Categories:
     def create_category(self, category: dict, icon, cover) -> bool:
         try:
             category['id'] = str(secrets.token_hex(12))
+            print(category['id'])
             category['products'] = []
             category['subcats'] = [
                 {
